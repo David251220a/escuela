@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AlumnoRequest;
 use App\Models\Alergia;
+use App\Models\Alumno;
+use App\Models\AlumnoDocumento;
 use App\Models\AlumnoDocumentoConcepto;
 use App\Models\Encargado;
 use App\Models\Grado;
@@ -11,6 +14,7 @@ use App\Models\Madre;
 use App\Models\Padre;
 use App\Models\Seguro;
 use App\Models\Turno;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class AlumnoController extends Controller
@@ -38,9 +42,83 @@ class AlumnoController extends Controller
         , 'documento_concepto'));
     }
 
-    public function store(Request $request)
+    public function store(AlumnoRequest $request)
     {
-        dd($request->all());
+        $cedula = $request->cedula;
+        $validar_cedula = Alumno::where('cedula', $cedula)
+        ->where('estado_id', 1)
+        ->first();
+
+        if(!empty($validar_cedula)){
+            return redirect()->back()->with('msj', 'Ya existe alumno con este numero de cedula: '.$cedula);
+        }
+
+        $fecha_nacimiento_1 = $request->fecha_nacimiento;
+        $foto_perfil = "";
+        $date = Carbon::now();
+        $fecha_nacimiento = date("d-m-Y",strtotime($request->fecha_nacimiento));
+        $edad = date_diff(date_create($fecha_nacimiento), date_create($date));
+        if($request->file('foto_perfil')){
+            $filePath = $request->file('foto_perfil')->store('public/foto_perfil');
+            $foto_perfil = $filePath;
+        }
+
+        $alumno = Alumno::create([
+            'nombre' => $request->nombre,
+            'apellido' => $request->apellido,
+            'fecha_nacimiento' => $fecha_nacimiento_1,
+            'edad' => $edad->y,
+            'sexo' => $request->sexo,
+            'madre_id' => $request->id_madre,
+            'padre_id' => $request->id_padre,
+            'cedula' => $cedula,
+            'usuario_grabacion' => auth()->user()->id,
+            'usuario_modificacion' => auth()->user()->id,
+            'lugar_nacimiento_id' => $request->lugar_nacimiento,
+            'telefono_baja' => $request->telefono_baja,
+            'direccion' => $request->direccion,
+            'telefono' => $request->telefono,
+            'alergia_id' => $request->alergia,
+            'seguro_id' => $request->seguro,
+            'cantidad_hermanos' => $request->cantidad_hermanos,
+            'encargado_id' => $request->id_encargado,
+            'estado_id' => 1,
+            'foto_carnet' => 0,
+            'certificado_nacimiento' => 0,
+            'fotocopia_cedula' => 0,
+            'fotocopia_cedula_padres' => 0,
+            'certificado_nacimiento_copia' => 0,
+            'libreta_vacunacion' => 0,
+            'encargado_id_1' => $request->id_encargado1,
+            'grado_id' => $request->grado,
+            'turno_id' => $request->turno,
+            'encargado_id_2' => $request->id_encargado2,
+            'encargado_id_3' => $request->id_encargado3,
+            'foto' => $foto_perfil
+        ]);
+
+        $documentos = $request->documento_concepto_id;
+        $foto = $request->foto;
+
+        for ($i = 0; $i < 7; $i++) {
+
+            if(!empty($foto[$i])){
+
+                $filePath = $foto[$i]->store('public/foto_documento');
+                $foto_documento = $filePath;
+
+                AlumnoDocumento::create([
+                    'alumno_id' => $alumno->id,
+                    'concepto_id' => $i + 1,
+                    'imagen' => $foto_documento,
+                    'usuario_grabacion' => auth()->user()->id,
+                    'usuario_modificacion' => auth()->user()->id,
+                ]);
+
+            }
+        }
+
+        return redirect()->route('alumno.index')->with('message', 'Se creo con exito el alumno!.');
     }
 
     public function madre_consulta(Request $request)
@@ -259,6 +337,32 @@ class AlumnoController extends Controller
         $data['ok'] = 1;
 
         return response()->json($data);
+    }
+
+    public function crear_datos(Request $request)
+    {
+        $id_aux = $request->id_aux;
+        $data['nombre'] = $request->nombre_aux;
+        $data['estado_id'] = 1;
+        $data['usuario_grabacion'] = 1;
+        $data['usuario_modificacion'] = 1;
+
+        if($id_aux == 1){
+            $data2 = LugarNacimiento::create($data);
+            $data3 = LugarNacimiento::all();
+        }
+
+        if($id_aux == 2){
+            $data2 = Alergia::create($data);
+            $data3 = Alergia::all();
+        }
+
+        if($id_aux == 3){
+            $data2 = Seguro::create($data);
+            $data3 = Seguro::all();
+        }
+
+        return response()->json($data3);
     }
 
 }

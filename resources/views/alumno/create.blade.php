@@ -17,7 +17,7 @@
             />
 
             <p onclick="cambio()" class="text-xl font-medium leading-tight mb-2">Agregar Foto</p>
-            <input type="file" name="foto_perfil" id="foto_perfil" hidden>
+            <input type="file" name="foto_perfil" id="foto_perfil" accept="image/*" hidden>
 
         </div>
 
@@ -73,7 +73,7 @@
 
                         <div class="mb-4">
                             <label for="">Fecha Nacimiento</label>
-                            <input type="date" class="w-full rounded border-gray-400 enviar">
+                            <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" class="w-full rounded border-gray-400 enviar">
                         </div>
 
                         <div class="mb-4">
@@ -131,15 +131,6 @@
                         <div class="mb-4">
                             <label for="">Cantidad de Hermanos</label>
                             <input type="number" name="cantidad_hermanos" id="cantidad_hermanos" class="w-full rounded border-gray-400 enviar" value="0"  >
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="">Grado</label>
-                            <select name="grado" id="grado" class="w-full rounded border-gray-400 enviar">
-                                @foreach ($grado as $item)
-                                    <option value="{{ $item->id }}">{{ $item->nombre }}</option>
-                                @endforeach
-                            </select>
                         </div>
 
                         <div class="mb-4">
@@ -246,32 +237,27 @@
 
                 <div class="bg-white rounded overflow-hidden shadow mb-4">
 
-                    <div class="md:grid grid-cols-2 gap-4 px-4 py-6">
+                    <div class="md:grid grid-cols-4 gap-4 px-4 py-6">
 
-                        <div class="mx-auto mb-4">
-                            <a href="#" class="text-center text-green-500 font-bold "> Agregar</a>
-                        </div>
+                        @foreach ($documento_concepto as $concepto)
 
-                        <div class="mx-auto mb-4">
-                            <a href="#" class="text-center text-red-500 font-bold">Eliminar Ultimo</a>
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="">Concepto Documento</label>
-                            <select name="documento_concepto[]" id="documento_concepto[]" class="w-full rounded border-gray-400 enviar">
-
+                            <div class="col-span-2 mb-4">
                                 @foreach ($documento_concepto as $item)
-                                    <option value="{{ $item->id }}">{{ $item->nombre }}</option>
+
+                                    @if ($item->id == $concepto->id)
+                                        {{-- <option value="{{ $item->id }}">{{ $item->nombre }}</option> --}}
+                                        <label for="">Concepto</label>
+                                        <input type="text" name="documento_concepto" id="documento_concepto" class="w-full rounded border-gray-400 enviar" value="{{ $item->nombre }}" readonly >
+                                    @endif
+
                                 @endforeach
+                            </div>
+                            <div class="col-span-2 mb-4">
+                                <label for="">Foto Documento</label>
+                                <input type="file" name="foto[]" id="foto[]" class="w-full rounded border-gray-400 enviar" accept="image/*">
+                            </div>
 
-                            </select>
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="">Foto Documento</label>
-                            <input type="file" name="foto[]" id="foto[]" class="w-full rounded border-gray-400 enviar" accept="image/*">
-                        </div>
-
+                        @endforeach
 
                     </div>
 
@@ -449,6 +435,19 @@
 
     </div>
 
+    {{-- PARA CARGAR DEMAS DATOS : ALERGIA , LUGAR NACIMIENTO SEGURO  --}}
+    <div hidden id="datos_formulario">
+
+        <div class="bg-white rounded overflow-hidden shadow mb-4">
+
+            <div class="mb-4">
+                <label for="">Nombre</label>
+                <input type="text" name="nombre_tipo_aux" id="nombre_tipo_aux" class="w-full rounded border-gray-400 enviar">
+            </div>
+
+        </div>
+    </div>
+
     <script>
 
         const foto_perfil = document.getElementById('foto_perfil');
@@ -457,6 +456,7 @@
         var element = document.querySelectorAll('.enviar');
         document.addEventListener('keydown', (event) => {
             const keyName = event.key;
+
             if (event.keyCode == 13) {
                 event.preventDefault();
                 if(event.target.id == 'cedula_madre'){
@@ -606,6 +606,75 @@
 
                         })
                     }
+
+                }
+
+            }
+
+            if(event.keyCode == 113){
+                id_aux = 0;
+                if(event.target.id == 'lugar_nacimiento'){
+                    id_aux = 1;
+                    titulo = 'Agregar Lugar Nacimiento';
+                    select = document.getElementById('lugar_nacimiento');
+                }
+
+                if(event.target.id == 'alergia'){
+                    id_aux = 2;
+                    titulo = 'Agregar Alergia';
+                    select = document.getElementById('alergia');
+
+                }
+
+                if(event.target.id == 'seguro'){
+                    id_aux = 3;
+                    titulo = 'Agregar Seguro';
+                    select = document.getElementById('seguro');
+
+                }
+                var siguiente = document.getElementById('datos_formulario').innerHTML;
+                if(parseInt(id_aux) == 0){
+
+                }else{
+
+                    Swal.fire({
+                        title: titulo,
+                        html:
+                        siguiente,
+                        width: 600,
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Guardar',
+
+                    }).then(resultado => {
+                        if (resultado.value) {
+                            var nombre_aux = Swal.getPopup().querySelector('#nombre_tipo_aux').value;
+                            axios.post('/crear_datos',  {
+                                nombre_aux : nombre_aux,
+                                id_aux : id_aux
+                            })
+                            .then(respuesta => {
+                                for (let i = select.options.length; i >= 0; i--) {
+                                    select.remove(i);
+                                }
+
+                                for(var i=0; i < respuesta.data.length; i++){
+                                    var option = document.createElement('option');
+                                    var valor = respuesta.data[i].id;
+                                    var valor2 = respuesta.data[i].nombre;
+                                    option.value = valor;
+                                    option.text = valor2;
+                                    select.appendChild(option);
+                                }
+                            })
+                            .catch(error => {
+                                console.log(error);
+                            })
+
+                        }
+
+                    })
 
                 }
 

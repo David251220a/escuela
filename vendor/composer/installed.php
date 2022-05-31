@@ -1,11 +1,11 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => NULL,
+        'reference' => '79dc506b9fc33eb1c511d32b5d7d4e28fe873e64',
         'name' => 'laravel/laravel',
         'dev' => true,
     ),
@@ -400,6 +400,15 @@
                 0 => '*',
             ),
         ),
+        'laravel-lang/lang' => array(
+            'pretty_version' => '10.9.1',
+            'version' => '10.9.1.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../laravel-lang/lang',
+            'aliases' => array(),
+            'reference' => '07e100bbe05a876baed68b2dab12742e4f705ec8',
+            'dev_requirement' => true,
+        ),
         'laravel/fortify' => array(
             'pretty_version' => 'v1.13.0',
             'version' => '1.13.0.0',
@@ -428,12 +437,12 @@
             'dev_requirement' => false,
         ),
         'laravel/laravel' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => NULL,
+            'reference' => '79dc506b9fc33eb1c511d32b5d7d4e28fe873e64',
             'dev_requirement' => false,
         ),
         'laravel/sail' => array(

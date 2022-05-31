@@ -7,6 +7,4 @@
 
     @livewire('alumno-index')
 
-
-
 </x-app-layout>

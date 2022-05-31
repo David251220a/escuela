@@ -160,6 +160,7 @@ return new class extends Migration
             $table->integer('turno_id')->default(0);;
             $table->integer('encargado_id_2')->default(0);
             $table->integer('encargado_id_3')->default(0);
+            $table->string('foto', 255)->nullable();
             $table->timestamps();
 
             $table->foreign('madre_id')->references('id')->on('madre');

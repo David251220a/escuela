@@ -124,7 +124,7 @@
                     <li>
                         <div class="profile-details">
                             <div class="profile-content">
-                                <img src="{{ asset('user.png') }}" alt="user">
+                                <img src="{{ Storage::url('user.png') }}" alt="user">
                             </div>
                             <div class="name-job">
                                 <div class="profile_name">{{Auth::user()->name}}</div>
@@ -167,13 +167,29 @@
 
             <!-- Page Content -->
             <main class="body-content close">
+                @if ($errors->any())
+                    <div class="bg-red-100 border border-red-200 font-semibold text-red-900 text-sm rounded px-4 py-3 mb-6">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                @if(session()->has('message'))
+                    <div class="bg-green-100 border border-green-200 font-semibold text-green-900 text-sm rounded px-4 py-3 mb-6">
+                        {{ session()->get('message') }}
+                    </div>
+                @endif
+
                 {{ $slot }}
             </main>
         </div>
         @stack('modals')
 
         @livewireScripts
-        {{-- <script src="https://code.jquery.com/jquery-1.9.1.js" defer></script> --}}
+        <script src="https://code.jquery.com/jquery-1.9.1.js" defer></script>
         <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
         <script src="{{ asset('js/dashboard.js') }}"></script>
         <script src="https://unpkg.com/flowbite@1.4.1/dist/flowbite.js"></script>

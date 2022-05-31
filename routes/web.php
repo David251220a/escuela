@@ -32,4 +32,5 @@ Route::middleware([
     Route::post('/padre_crear', [AlumnoController::class, 'padre_crear'])->name('padre_crear');
     Route::post('/encargado_consulta', [AlumnoController::class, 'encargado_consulta'])->name('encargado_consulta');
     Route::post('/encargado_crear', [AlumnoController::class, 'encargado_crear'])->name('encargado_crear');
+    Route::post('/crear_datos', [AlumnoController::class, 'crear_datos'])->name('crear_datos');
 });
