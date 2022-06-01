@@ -52,6 +52,19 @@
                     </li>
 
                     <li>
+                        <a href="{{ route('matricula.index') }}">
+                            <i class='bx bx-task'></i>
+                            <span class="link_name">Matricula</span>
+                        </a>
+                        <ul class="sub-menu blank">
+                            <li>
+                                <a class="link_name" href="{{ route('matricula.index') }}">Matricula</a>
+                            </li>
+                        </ul>
+
+                    </li>
+
+                    <li>
                         <div class="icon_link">
                             <a href="#">
                                 <i class='bx bxs-collection'></i>

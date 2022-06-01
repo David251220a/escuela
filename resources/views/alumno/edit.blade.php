@@ -1,15 +1,14 @@
 <x-app-layout>
 
-    <h2 class="text-xl text-gray-500 font-semibold mb-2">Agregar Alumno</h2>
+    <h2 class="text-xl text-gray-500 font-semibold mb-2">Actualizar Alumno: {{$alumno->nombre}} {{$alumno->apellido}}</h2>
 
-    <form action="{{ route('alumno.store') }}" method="POST" enctype="multipart/form-data" novalidate>
-
+    <form action="{{ route('alumno.update', $alumno) }}" method="POST" enctype="multipart/form-data" novalidate>
+        @method('PUT')
         @csrf
 
         <div class="mb-4 mt-4 text-center">
-
             <img
-                src="{{ Storage::url('user.png') }}"
+                src="{{ Storage::url($alumno->foto) }}"
                 class="rounded-full w-32 h-32 mb-4 mx-auto"
                 style="style=height: 168px; width: 168px"
                 alt="Avatar"
@@ -58,29 +57,29 @@
 
                         <div class="mb-4">
                             <label for="">Cedula</label>
-                            <input type="text" name="cedula" id="cedula"  class="w-full rounded border-gray-400 enviar" placeholder="Cedula..."  >
+                            <input type="text" name="cedula" id="cedula"  class="w-full rounded border-gray-400 enviar" value="{{$alumno->cedula}}"  >
                         </div>
 
                         <div class="mb-4">
                             <label for="">Nombre</label>
-                            <input type="text" name="nombre" id="nombre" class="w-full rounded border-gray-400 enviar" placeholder="Nombre.."  >
+                            <input type="text" name="nombre" id="nombre" class="w-full rounded border-gray-400 enviar" value="{{$alumno->nombre}}">
                         </div>
 
                         <div class="mb-4">
                             <label for="">Apellido</label>
-                            <input type="text" name="apellido" id="apellido" class="w-full rounded border-gray-400 enviar" placeholder="Apellido..."  >
+                            <input type="text" name="apellido" id="apellido" class="w-full rounded border-gray-400 enviar" value="{{$alumno->apellido}}">
                         </div>
 
                         <div class="mb-4">
                             <label for="">Fecha Nacimiento</label>
-                            <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" class="w-full rounded border-gray-400 enviar">
+                            <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" class="w-full rounded border-gray-400 enviar" value="{{$alumno->fecha_nacimiento}}">
                         </div>
 
                         <div class="mb-4">
                             <label for="">Sexo</label>
                             <select name="sexo" id="sexo" class="w-full rounded border-gray-400 enviar">
-                                <option value="1">MASCULINO</option>
-                                <option value="2">FEMENINO</option>
+                                <option {{($alumno->sexo == 1 ? 'selected' : '')}} value="1">MASCULINO</option>
+                                <option {{($alumno->sexo == 2 ? 'selected' : '')}}  value="2">FEMENINO</option>
                             </select>
                         </div>
 
@@ -89,7 +88,7 @@
                             <select name="lugar_nacimiento" id="lugar_nacimiento" class="w-full rounded border-gray-400 enviar">
 
                                 @foreach ($lugar_nacimiento as $item)
-                                    <option value="{{ $item->id }}">{{ $item->nombre }}</option>
+                                    <option {{($alumno->lugar_nacimiento_id == $item->id ? 'selected' : '')}} value="{{ $item->id }}">{{ $item->nombre }}</option>
                                 @endforeach
 
                             </select>
@@ -97,24 +96,24 @@
 
                         <div class="mb-4">
                             <label for="">Telefono Baja</label>
-                            <input type="text" name="telefono_baja" id="telefono_baja" class="w-full rounded border-gray-400 enviar" placeholder="Telefono Baja...">
+                            <input type="text" name="telefono_baja" id="telefono_baja" class="w-full rounded border-gray-400 enviar" value="{{$alumno->telefono_baja}}">
                         </div>
 
                         <div class="mb-4">
                             <label for="">Telefono</label>
-                            <input type="text" name="telefono" id="telefono" class="w-full rounded border-gray-400 enviar" placeholder="Telefono...">
+                            <input type="text" name="telefono" id="telefono" class="w-full rounded border-gray-400 enviar" value="{{$alumno->telefono}}">
                         </div>
 
                         <div class="mb-4">
                             <label for="">Dirección</label>
-                            <input type="text" name="direccion" id="direccion" class="w-full rounded border-gray-400 enviar" placeholder="Dirección..."  >
+                            <input type="text" name="direccion" id="direccion" class="w-full rounded border-gray-400 enviar" value="{{$alumno->direccion}}">
                         </div>
 
                         <div class="mb-4">
                             <label for="">Alergia</label>
                             <select name="alergia" id="alergia" class="w-full rounded border-gray-400 enviar">
-                                @foreach ($alergia as $item)
-                                    <option value="{{ $item->id }}">{{ $item->nombre }}</option>
+                                @foreach ($alergia as $item1)
+                                    <option {{($alumno->alergia_id == $item1->id ? 'selected' : '')}} value="{{ $item1->id }}">{{ $item1->nombre }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -123,21 +122,21 @@
                             <label for="">Seguro</label>
                             <select name="seguro" id="seguro" class="w-full rounded border-gray-400 enviar">
                                 @foreach ($seguro as $item)
-                                    <option value="{{ $item->id }}">{{ $item->nombre }}</option>
+                                    <option {{($alumno->seguro_id == $item->id ? 'selected' : '')}} value="{{ $item->id }}">{{ $item->nombre }}</option>
                                 @endforeach
                             </select>
                         </div>
 
                         <div class="mb-4">
                             <label for="">Cantidad de Hermanos</label>
-                            <input type="number" name="cantidad_hermanos" id="cantidad_hermanos" class="w-full rounded border-gray-400 enviar" value="0"  >
+                            <input type="number" name="cantidad_hermanos" id="cantidad_hermanos" class="w-full rounded border-gray-400 enviar" value="{{$alumno->cantidad_hermanos}}">
                         </div>
 
                         <div class="mb-4">
                             <label for="">Grado</label>
                             <select name="grado" id="grado" class="w-full rounded border-gray-400 enviar">
                                 @foreach ($grado as $item)
-                                    <option value="{{ $item->id }}">{{ $item->nombre }}</option>
+                                    <option {{($alumno->grado_id == $item->id ? 'selected' : '')}} value="{{ $item->id }}">{{ $item->nombre }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -146,7 +145,7 @@
                             <label for="">Turno</label>
                             <select name="turno" id="turno" class="w-full rounded border-gray-400 enviar">
                                 @foreach ($turno as $item)
-                                    <option value="{{ $item->id }}">{{ $item->nombre }}</option>
+                                    <option {{($alumno->turno_id == $item->id ? 'selected' : '')}} value="{{ $item->id }}">{{ $item->nombre }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -163,68 +162,68 @@
                     <div class="md:grid grid-cols-4 gap-4 px-4 py-6">
                         <div class="mb-4">
                             <label for="">Cedula Madre</label>
-                            <input type="text" name="cedula_madre" id="cedula_madre" class="w-full rounded border-gray-400 enviar" value="0"  >
-                            <input type="hidden" name="id_madre" id="id_madre" class="w-full rounded border-gray-400 enviar" value="1">
+                            <input type="text" name="cedula_madre" id="cedula_madre" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->madre->cedula }}">
+                            <input type="hidden" name="id_madre" id="id_madre" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->madre->id }}">
                         </div>
 
                         <div class="mb-4">
                             <label for="">Nombre Madre</label>
-                            <input type="text" name="nombre_madre" id="nombre_madre" class="w-full rounded border-gray-400 enviar" value="SIN ESPECIFICAR" readonly>
+                            <input type="text" name="nombre_madre" id="nombre_madre" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->madre->nombre }}" readonly>
                         </div>
 
                         <div class="mb-4">
                             <label for="">Cedula Padre</label>
-                            <input type="text" name="cedula_padre" id="cedula_padre" class="w-full rounded border-gray-400 enviar" value="0"  >
-                            <input type="hidden" name="id_padre" id="id_padre" class="w-full rounded border-gray-400 enviar" value="1">
+                            <input type="text" name="cedula_padre" id="cedula_padre" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->padre->cedula }}">
+                            <input type="hidden" name="id_padre" id="id_padre" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->padre->id }}">
                         </div>
 
                         <div class="mb-4">
                             <label for="">Nombre Padre</label>
-                            <input type="text" name="nombre_padre" id="nombre_padre" class="w-full rounded border-gray-400 enviar" value="SIN ESPECIFICAR" readonly>
+                            <input type="text" name="nombre_padre" id="nombre_padre" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->padre->nombre }}" readonly>
                         </div>
 
                         <div class="mb-4">
                             <label for="">Cedula Encargado</label>
-                            <input type="text" name="cedula_encargado" id="cedula_encargado" class="w-full rounded border-gray-400 enviar" value="0"  >
-                            <input type="hidden" name="id_encargado" id="id_encargado" class="w-full rounded border-gray-400 enviar" value="1">
+                            <input type="text" name="cedula_encargado" id="cedula_encargado" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado->cedula }}">
+                            <input type="hidden" name="id_encargado" id="id_encargado" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado->id }}">
                         </div>
 
                         <div class="mb-4">
                             <label for="">Nombre Encargado</label>
-                            <input type="text" name="nombre_encargado" id="nombre_encargado" class="w-full rounded border-gray-400 enviar" value="SIN ESPECIFICAR" readonly>
+                            <input type="text" name="nombre_encargado" id="nombre_encargado" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado->nombre }}" readonly>
                         </div>
 
                         <div class="mb-4">
                             <label for="">Cedula Encargado 1</label>
-                            <input type="text" name="cedula_encargado1" id="cedula_encargado1" class="w-full rounded border-gray-400 enviar" value="0"  >
-                            <input type="hidden" name="id_encargado1" id="id_encargado1" class="w-full rounded border-gray-400 enviar" value="1">
+                            <input type="text" name="cedula_encargado1" id="cedula_encargado1" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado1->cedula }}">
+                            <input type="hidden" name="id_encargado1" id="id_encargado1" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado1->id }}">
                         </div>
 
                         <div class="mb-4">
                             <label for="">Nombre Encargado 1</label>
-                            <input type="text" name="nombre_encargado1" id="nombre_encargado1" class="w-full rounded border-gray-400 enviar" value="SIN ESPECIFICAR" readonly>
+                            <input type="text" name="nombre_encargado1" id="nombre_encargado1" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado1->nombre }}" readonly>
                         </div>
 
                         <div class="mb-4">
                             <label for="">Cedula Encargado 2</label>
-                            <input type="text" name="cedula_encargado2" id="cedula_encargado2" class="w-full rounded border-gray-400 enviar" value="0"  >
-                            <input type="hidden" name="id_encargado2" id="id_encargado2" class="w-full rounded border-gray-400 enviar" value="1">
+                            <input type="text" name="cedula_encargado2" id="cedula_encargado2" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado2->cedula }}">
+                            <input type="hidden" name="id_encargado2" id="id_encargado2" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado2->id }}">
                         </div>
 
                         <div class="mb-4">
                             <label for="">Nombre Encargado 2</label>
-                            <input type="text" name="nombre_encargado2" id="nombre_encargado2" class="w-full rounded border-gray-400 enviar" value="SIN ESPECIFICAR" readonly>
+                            <input type="text" name="nombre_encargado2" id="nombre_encargado2" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado2->nombre }}" readonly>
                         </div>
 
                         <div class="mb-4">
                             <label for="">Cedula Encargado 3</label>
-                            <input type="text" name="cedula_encargado3" id="cedula_encargado3" class="w-full rounded border-gray-400 enviar" value="0"  >
-                            <input type="hidden" name="id_encargado3" id="id_encargado3" class="w-full rounded border-gray-400 enviar" value="1">
+                            <input type="text" name="cedula_encargado3" id="cedula_encargado3" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado3->cedula }}">
+                            <input type="hidden" name="id_encargado3" id="id_encargado3" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado3->id }}">
                         </div>
 
                         <div class="mb-4">
                             <label for="">Nombre Encargado 3</label>
-                            <input type="text" name="nombre_encargado3" id="nombre_encargado3" class="w-full rounded border-gray-400 enviar" value="SIN ESPECIFICAR" readonly>
+                            <input type="text" name="nombre_encargado3" id="nombre_encargado3" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado3->nombre }}" readonly>
                         </div>
 
                     </div>
@@ -234,6 +233,20 @@
             </div>
 
             <div class="hidden p-1 rounded-lg" id="documento_alumno" role="tabpanel" aria-labelledby="documento_alumno-tab">
+                <div class="bg-white rounded overflow-hidden shadow mb-4">
+                    <h2 class="text-gray-500 text-center font-semibold text-xl">Documentos Presentados</h2>
+                    <div class="md:grid grid-cols-2 gap-4 px-4 py-6">
+
+                        @foreach ($alumno->documentos as $item)
+                            <div class="form-check mb-4">
+                                <input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value="" id="flexCheckChecked" checked readonly>
+                                <label class="form-check-label inline-block text-gray-800" for="flexCheckChecked">
+                                   {{$item->concepto->nombre}} - <a href="{{ Storage::url($item->imagen) }}" target="__blank"><i class='bx bx-image-alt'></i> Ver</a>
+                                </label>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
 
                 <div class="bg-white rounded overflow-hidden shadow mb-4">
 

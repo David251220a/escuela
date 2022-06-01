@@ -16,6 +16,7 @@ use App\Models\Seguro;
 use App\Models\Turno;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AlumnoController extends Controller
 {
@@ -119,6 +120,115 @@ class AlumnoController extends Controller
         }
 
         return redirect()->route('alumno.index')->with('message', 'Se creo con exito el alumno!.');
+    }
+
+    public function edit(Alumno $alumno)
+    {
+        $lugar_nacimiento = LugarNacimiento::all();
+        $seguro = Seguro::all();
+        $alergia = Alergia::all();
+        $grado = Grado::all();
+        $turno = Turno::all();
+        $documento_concepto = AlumnoDocumentoConcepto::all();
+        return view('alumno.edit',
+        compact('alumno'
+        , 'seguro'
+        , 'alergia'
+        , 'grado'
+        , 'turno'
+        , 'lugar_nacimiento'
+        , 'documento_concepto'));
+    }
+
+    public function update(Request $request, Alumno $alumno)
+    {
+        $request->validate([
+            'cedula' => 'required',
+            'nombre' => 'required',
+            'apellido' => 'required',
+            'fecha_nacimiento' => 'required',
+            'foto_perfil' => 'image|mimes:jpeg,png,jpg,gif',
+            'foto.*' => 'image|mimes:jpeg,png,jpg,gif',
+        ]);
+
+        $fecha_nacimiento_1 = $request->fecha_nacimiento;
+        $foto_perfil = "";
+        $date = Carbon::now();
+        $fecha_nacimiento = date("d-m-Y",strtotime($request->fecha_nacimiento));
+        $edad = date_diff(date_create($fecha_nacimiento), date_create($date));
+        if($request->file('foto_perfil')){
+
+            $ant_doc_f = Storage::exists($alumno->foto);
+            if($ant_doc_f){
+                Storage::delete($alumno->foto);
+            }
+            $filePath = $request->file('foto_perfil')->store('public/foto_perfil');
+            $foto_perfil = $filePath;
+        }else{
+            $foto_perfil = $alumno->foto;
+        }
+        $cedula = $request->cedula;
+
+        $alumno->update([
+            'nombre' => $request->nombre,
+            'apellido' => $request->apellido,
+            'fecha_nacimiento' => $fecha_nacimiento_1,
+            'edad' => $edad->y,
+            'sexo' => $request->sexo,
+            'madre_id' => $request->id_madre,
+            'padre_id' => $request->id_padre,
+            'cedula' => $cedula,
+            'usuario_grabacion' => $alumno->usuario_grabacion,
+            'usuario_modificacion' => auth()->user()->id,
+            'lugar_nacimiento_id' => $request->lugar_nacimiento,
+            'telefono_baja' => $request->telefono_baja,
+            'direccion' => $request->direccion,
+            'telefono' => $request->telefono,
+            'alergia_id' => $request->alergia,
+            'seguro_id' => $request->seguro,
+            'cantidad_hermanos' => $request->cantidad_hermanos,
+            'encargado_id' => $request->id_encargado,
+            'estado_id' => 1,
+            'foto_carnet' => 0,
+            'certificado_nacimiento' => 0,
+            'fotocopia_cedula' => 0,
+            'fotocopia_cedula_padres' => 0,
+            'certificado_nacimiento_copia' => 0,
+            'libreta_vacunacion' => 0,
+            'encargado_id_1' => $request->id_encargado1,
+            'grado_id' => $request->grado,
+            'turno_id' => $request->turno,
+            'encargado_id_2' => $request->id_encargado2,
+            'encargado_id_3' => $request->id_encargado3,
+            'foto' => $foto_perfil
+        ]);
+
+        $documentos = $request->documento_concepto_id;
+        $foto = $request->foto;
+
+        for ($i = 0; $i < 7; $i++) {
+
+            if(!empty($foto[$i])){
+
+                $filePath = $foto[$i]->store('public/foto_documento');
+                $foto_documento = $filePath;
+                AlumnoDocumento::updateOrCreate([
+                    'alumno_id' => $alumno->id,
+                    'concepto_id' => $i + 1,
+                ],
+                [
+                    'alumno_id' => $alumno->id,
+                    'concepto_id' => $i + 1,
+                    'imagen' => $foto_documento,
+                    'usuario_grabacion' => auth()->user()->id,
+                    'usuario_modificacion' => auth()->user()->id,
+                ]);
+
+            }
+        }
+
+        return redirect()->route('alumno.index')->with('message', 'Se actualizo con exito el alumno!.');
+
     }
 
     public function madre_consulta(Request $request)

@@ -12,4 +12,9 @@ class AlumnoDocumento extends Model
     protected $table = 'alumno_documento';
 
     protected $guarded = [];
+
+    public function concepto(){
+        return $this->belongsTo(AlumnoDocumentoConcepto::class, 'concepto_id');
+    }
+
 }
