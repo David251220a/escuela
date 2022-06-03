@@ -31,6 +31,7 @@ return new class extends Migration
             $table->decimal('monto_matricula', 12, 0)->default(0);
             $table->decimal('monto_cuota', 12, 0)->default(0);
             $table->dateTime('fecha_inicio');
+            $table->integer('cantidad_cuota')->default(0);
             $table->foreignId('usuario_alta')->references('id')->on('users');
             $table->integer('usuario_modificacion')->default(1);
             $table->timestamps();

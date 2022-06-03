@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Matricula_Cuota extends Model
+class Ciclo extends Model
 {
     use HasFactory;
 
-    protected $table = 'matricula_cuotas';
+    protected $table = 'ciclo';
 
     protected $guarded = [];
 }

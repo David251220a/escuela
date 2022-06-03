@@ -63,6 +63,7 @@ return new class extends Migration
             $table->integer('sede_id');
             $table->integer('nombre');
             $table->integer('meses');
+            $table->integer('año');
             $table->dateTime('fecha_inicio');
             $table->DateTime('fecha_fin');
             $table->unsignedInteger('estado_id');

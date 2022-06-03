@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Matricula;
 use Livewire\Component;
 
 class MatriculaIndex extends Component
@@ -14,11 +15,17 @@ class MatriculaIndex extends Component
 
         $cedula =  $this->search;
 
-        // $alumnos = Alumno::where('cedula', $cedula)
-        // ->orWhere('nombre', 'LIKE', '%'.$cedula.'%')
-        // ->orWhere('apellido', 'LIKE', '%'.$cedula.'%')
-        // ->paginate(10);
+        if(empty($cedula)){
+            $matricula = Matricula::where('matricula.estado_id',1)
+            ->join('alumno AS a', 'matricula.alumno_id', '=', 'a.id')
+            ->paginate(10);
+        }else{
+            $matricula = Matricula::where('matricula.estado_id', 1)
+            ->where('a.cedula', $cedula)
+            ->join('alumno AS a', 'matricula.alumno_id', '=', 'a.id')
+            ->paginate(10);
+        }
 
-        return view('livewire.matricula-index');
+        return view('livewire.matricula-index', compact('matricula'));
     }
 }

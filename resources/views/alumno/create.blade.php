@@ -457,7 +457,7 @@
         document.addEventListener('keydown', (event) => {
             const keyName = event.key;
 
-            if (event.keyCode == 13) {
+            if (event.key == 'Enter') {
                 event.preventDefault();
                 if(event.target.id == 'cedula_madre'){
                     cedula = document.getElementById('cedula_madre').value;
@@ -611,7 +611,7 @@
 
             }
 
-            if(event.keyCode == 113){
+            if(event.key == 'F2'){
                 id_aux = 0;
                 if(event.target.id == 'lugar_nacimiento'){
                     id_aux = 1;
