@@ -8,6 +8,8 @@ use App\Models\Ciclo;
 use App\Models\Cobro;
 use App\Models\Grado;
 use App\Models\Matricula;
+use App\Models\Matricula_Cuota;
+use App\Models\ParametroGeneral;
 use App\Models\TipoCobro;
 use App\Models\Turno;
 use Carbon\Carbon;
@@ -120,8 +122,17 @@ class MatriculaController extends Controller
 
     }
 
-    public function show(){
+    public function show(Matricula $matricula)
+    {
+        $matricula_cuota = Matricula_Cuota::where('matricula_id', $matricula->id)
+        ->where('estado_id', 1)
+        ->get();
 
+        $paramentro_general = ParametroGeneral::first();
+        $tipo_cobro = TipoCobro::where('estado_id', 1)
+        ->get();
+
+        return view('matricula.show', compact('matricula', 'matricula_cuota', 'paramentro_general', 'tipo_cobro'));
     }
 
     public function buscar_alumno(Request $request)

@@ -18,11 +18,13 @@ class MatriculaIndex extends Component
         if(empty($cedula)){
             $matricula = Matricula::where('matricula.estado_id',1)
             ->join('alumno AS a', 'matricula.alumno_id', '=', 'a.id')
+            ->select('matricula.*', 'a.cedula')
             ->paginate(10);
         }else{
             $matricula = Matricula::where('matricula.estado_id', 1)
             ->where('a.cedula', $cedula)
             ->join('alumno AS a', 'matricula.alumno_id', '=', 'a.id')
+            ->select('matricula.*', 'a.cedula')
             ->paginate(10);
         }
 

@@ -37,4 +37,8 @@ class Matricula extends Model
         return $this->hasMany(Matricula_Cuota::class, 'matricula_id');
     }
 
+    public function cobro_matricula(){
+        return $this->hasMany(CobroMatricula::class, 'matricula_id')->orderBy('id', 'ASC');
+    }
+
 }

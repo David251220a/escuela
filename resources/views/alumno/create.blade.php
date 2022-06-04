@@ -48,6 +48,7 @@
                 </li>
             </ul>
         </div>
+
         <div id="myTabContent">
 
             <div class="hidden p-1 rounded-lg" id="profile" role="tabpanel" aria-labelledby="dashboard-tab">
