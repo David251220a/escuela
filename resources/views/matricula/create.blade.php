@@ -79,7 +79,7 @@
                     <input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm
                     bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition
                     duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
-                    type="checkbox" value="{{ old('paga_matricula') }}" id="paga_matricula" name="paga_matricula" onclick="check_paga_matricula()">
+                    type="checkbox" value="0" id="paga_matricula" name="paga_matricula" onclick="check_paga_matricula()">
                     <label class="form-check-label inline-block text-gray-800 font-bold" for="flexCheckDefault">
                         Pagar Matricula
                     </label>
@@ -305,9 +305,11 @@
             if(paga_matricula == true){
                 h_matricula_cobrar.style = 'display: block';
                 h_tipo_cobro.style = 'display: block';
+                document.getElementById('paga_matricula').value = 1;
             }else{
                 h_matricula_cobrar.style = 'display: none';
                 h_tipo_cobro.style = 'display: none';
+                document.getElementById('paga_matricula').value = 0;
             }
         }
 

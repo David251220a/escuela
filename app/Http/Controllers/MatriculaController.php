@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\MatriculaRequest;
 use App\Models\Alumno;
 use App\Models\Ciclo;
+use App\Models\Cobro;
 use App\Models\Grado;
 use App\Models\Matricula;
 use App\Models\TipoCobro;
@@ -43,6 +44,8 @@ class MatriculaController extends Controller
         $alumno = Alumno::where('cedula', $cedula)
         ->first();
 
+        $fecha = Carbon::now();
+
         if(empty($alumno)){
             return redirect()->back()->with('message', 'No existe alumno con este nro. de cedula: ' .$cedula);
         }
@@ -77,6 +80,40 @@ class MatriculaController extends Controller
                 'usuario_modificacion' => auth()->user()->id,
                 'estado_id' => 1,
             ]);
+        }
+
+        if($request->paga_matricula == 1){
+            $monto_matricula_cobrar = str_replace('.', '', $request->matricula_cobrar);
+            $tipo_cobro = $request->tipo_cobro;
+
+            $cobro = Cobro::create([
+                'caja_id' => 1,
+                'sede_id' => 1,
+                'fecha_cobro' => $fecha,
+                'estado_id' => 1,
+                'cobro_concepto_id' => 1,
+                'total_cobrado' => $monto_matricula_cobrar,
+                'observacion' => 'COBRO DE MATRICULA',
+                'tipo_cobro_id' => $tipo_cobro,
+                'salida_id' => 1,
+                'recibo_id' => 1,
+                'usuario_alta' => auth()->user()->id,
+                'usuario_modificacion' => auth()->user()->id,
+            ]);
+
+            $cobro->cobro_matricula()->create([
+                'factura_sucursal' => '000',
+                'factura_general' => '000',
+                'factura_nro' => '000000',
+                'monto_total_factura' => $matricula->monto_matricula,
+                'monto_saldo_factura' => ($matricula->monto_matricula - $monto_matricula_cobrar),
+                'monto_cobrado_factura' => $monto_matricula_cobrar,
+                'matricula_id' => $matricula->id,
+                'estado_id' => 1,
+                'usuario_alta' => auth()->user()->id,
+                'usuario_modificacion' => auth()->user()->id,
+            ]);
+
         }
 
         return redirect()->route('matricula.index')->with('message', 'Se creo con exito la matricula.');
