@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('matricula_cuotas', function (Blueprint $table) {
             $table->integer('id', true);
             $table->integer('matricula_id');
+            $table->integer('cuota');
             $table->date('fecha_vencimiento');
             $table->decimal('monto_cuota_cobrar', 12, 0)->default(0);
             $table->decimal('monto_cuota_cobrado', 12, 0)->default(0);

@@ -19,9 +19,9 @@ return new class extends Migration
             $table->string('factura_sucursal', 3)->nullable(' ');
             $table->string('factura_general', 3)->nullable(' ');
             $table->string('factura_nro', 6)->nullable(' ');
-            $table->decimal('monto_total_factura', 12, 0)->default(0);
-            $table->decimal('monto_saldo_factura', 12, 0)->default(0);
-            $table->decimal('monto_cobrado_factura', 12, 0)->default(0);
+            $table->decimal('monto_total_cuota', 12, 0)->default(0);
+            $table->decimal('monto_saldo_cuota', 12, 0)->default(0);
+            $table->decimal('monto_cobrado_cuota', 12, 0)->default(0);
             $table->integer('matricula_cuota_id')->default(0);
             $table->unsignedInteger('estado_id')->default(1);
             $table->foreignId('usuario_alta')->references('id')->on('users');

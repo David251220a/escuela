@@ -42,7 +42,8 @@
 
         <div class="hidden p-1 rounded-lg" id="profile" role="tabpanel" aria-labelledby="dashboard-tab">
 
-            <form action="#" method="POST">
+            <form action="{{ route('matricula.update' , $matricula) }}" method="POST">
+                @method('PUT')
                 @csrf
 
                 <div class="flex flex-col mb-4">
@@ -54,6 +55,7 @@
 
                                     <thead class="bg-gray-50">
                                         <tr>
+                                            <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Cuota</th>
                                             <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Fecha Vencimiento</th>
                                             <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Monto Cuota</th>
                                             <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Monto Saldo</th>
@@ -63,33 +65,46 @@
                                     </thead>
 
                                     <tbody class="bg-white divide-y divide-gray-200">
-
+                                        @php
+                                            $cont = 0;
+                                        @endphp
                                         @foreach ($matricula_cuota as $item)
 
                                             @if ($item->monto_cuota_cobrado < $item->monto_cuota_cobrar)
                                                 <tr>
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
-                                                        {{ date('d-m-Y', strtotime($item->fecha_vencimiento)) }}
+                                                        {{ number_format($item->cuota, 0, ".", ".") }}
+                                                    </td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                                                        <input type="date" name="fecha_vencimiento[{{$cont}}]" id="fecha_vencimiento[{{$cont}}]"
+                                                        value="{{ $item->fecha_vencimiento }}" class=" text-center border-gray-100" readonly>
                                                     </td>
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
                                                         {{ number_format($item->monto_cuota_cobrar, 0, ".", ".") }}
-                                                        <input type="hidden" name="cuota_cobrar[{{$item->id}}]" id="cuota_cobrar[{{$item->id}}]"
+                                                        <input type="hidden" name="cuota_cobrar[{{$cont}}]" id="cuota_cobrar[{{$cont}}]"
                                                         value="{{$item->monto_cuota_cobrar}}">
                                                     </td>
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
-                                                        <input type="text" name="cuota_saldo[{{$item->id}}]" id="cuota_saldo[{{$item->id}}]"
+                                                        <input type="text" name="cuota_saldo[{{$cont}}]" id="cuota_saldo[{{$cont}}]"
                                                         value="{{ number_format($item->saldo, 0, ".", ".") }}"
                                                         class="border border-gray-100 rounded w-full text-center" readonly>
                                                     </td>
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
                                                         {{ number_format($item->monto_cuota_cobrado, 0, ".", ".") }}
+                                                        <input type="hidden" name="cuota_cobrado[{{$cont}}]" id="cuota_cobrado[{{$cont}}]"
+                                                        value="{{$item->monto_cuota_cobrado}}">
                                                     </td>
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
-                                                        <input type="checkbox" name="{{$item->id}}" id="{{$item->id}}" value="0"
+                                                        <input type="checkbox" name="{{$cont}}" id="{{$cont}}" value="0"
                                                         onclick="cal_total_pagar(this)">
-                                                        <input type="hidden" name="cuota[{{$item->id}}]" id="cuota[{{$item->id}}]" value="{{$item->id}}">
+                                                        <input type="hidden" name="cuota[]" id="cuota[]" value="{{$item->id}}">
+                                                        <input type="hidden" name="cuota_seleccionada[{{$cont}}]" id="cuota_seleccionada[{{$cont}}]"
+                                                         value="0">
                                                     </td>
                                                 </tr>
+                                                @php
+                                                    $cont = $cont + 1;
+                                                @endphp
                                             @endif
 
                                         @endforeach
@@ -107,12 +122,12 @@
 
                 @php
                     $saldo_si = 1;
+                    $total_cobrado_matricula = 0;
                 @endphp
                 @if (!empty($matricula->cobro_matricula))
                     @php
-                        $total_cobrado_matricula = 0;
                         foreach($matricula->cobro_matricula as $item){
-                            $total_cobrado_matricula = $total_cobrado_matricula + $item->monto_total_factura;
+                            $total_cobrado_matricula = $total_cobrado_matricula + $item->monto_cobrado_factura;
                         }
                         $saldo = $matricula->monto_matricula - $total_cobrado_matricula;
                         if($saldo > 0){
@@ -131,22 +146,17 @@
                         <div class="md:grid grid-cols-4 gap-4 px-4 py-6">
                             <div class="mb-2">
                                 <label for="">Monto Matricula</label>
-                                <input type="text" name="monto_matricula" id="monto_matricula" value="{{  number_format($matricula->monto_matricula, 0, ".", ".") }}"
+                                <input type="text" name="monto_matricula" id="monto_matricula"
+                                value="{{  number_format($matricula->monto_matricula - $total_cobrado_matricula, 0, ".", ".") }}"
                                 onkeyup="format(this)" onchange="format(this)"
                                 class="border-gray-500 rounded w-full text-right">
                             </div>
 
                             <div class="mb-2">
-                                <label for="">Monto Matricula</label>
-                                <input type="text" name="saldo_matricula" id="saldo_matricula" value="0"
-                                onkeyup="format(this)" onchange="format(this)"
-                                class="border-gray-500 rounded w-full text-right" readonly>
-                            </div>
-
-                            <div class="mb-2">
                                 <label for="">Total Matricula a Pagar</label>
-                                <input type="text" name="monto_matricula_pagar" id="monto_matricula_pagar" value="0" class="border-gray-500 rounded w-full text-right"
-                                onkeyup="format(this)" onchange="format(this)">
+                                <input type="text" name="matricula_cobrar" id="matricula_cobrar" value="0"
+                                onkeyup="format(this)" onchange="format(this)"
+                                class="border-gray-500 rounded w-full text-right">
                             </div>
 
                     </div>
@@ -155,7 +165,7 @@
                 <div class="mt-4">
 
                     <div class="md:grid grid-cols-4 gap-4 px-4 py-6">
-                        <div class="mb-2">
+                        <div class="mb-2" style="display: none">
                             <label for="">Aplicar Multa</label>
                             <input type="text" name="multa" id="multa" value="{{ $paramentro_general->monto_multa }}"
                             onkeyup="format(this)" onchange="format(this)"
@@ -170,7 +180,7 @@
                         <div class="mb-2">
                             <label for="">Total a Pagar</label>
                             <input type="text" name="total_pagar" id="total_pagar" value="0" class="border-gray-500 rounded w-full text-right"
-                            onkeyup="format(this)" onchange="format(this)">
+                            onkeyup="format(this)" onchange="format(this)" required>
                         </div>
 
                         <div class="mb-4">
@@ -205,7 +215,56 @@
                     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                         <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
 
-                            2
+                            <table class="min-w-full divide-y divide-gray-200 rounded overflow-hidden shadow">
+
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Cuota</th>
+                                        <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Fecha Vencimiento</th>
+                                        <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Fecha Cobrado</th>
+                                        <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Monto Cuota</th>
+                                        <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Monto Saldo</th>
+                                        <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Monto Cobrado</th>
+                                        <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center"></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody class="bg-white divide-y divide-gray-200">
+
+                                    @foreach ($matricula_cuota as $item)
+
+                                        @if ($item->monto_cuota_cobrado > 0)
+                                            <tr>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                                                    {{ number_format($item->cuota, 0, ".", ".") }}
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                                                    {{ date('d-m-Y', strtotime($item->fecha_vencimiento)) }}
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                                                    {{ date('d-m-Y h:i', strtotime($item->cobro_cuota->cobros->fecha_cobro)) }}
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                                                    {{ number_format($item->monto_cuota_cobrar, 0, ".", ".") }}
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                                                    {{ number_format($item->saldo, 0, ".", ".") }}
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                                                    {{ number_format($item->monto_cuota_cobrado, 0, ".", ".") }}
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                                                    <a href="{{ route('imprimir_cobro_cuota', ['id'=>$item->id]) }}"><i class='bx bxs-printer'></i></a>
+                                                </td>
+                                            </tr>
+                                        @endif
+
+                                    @endforeach
+
+                                </tbody>
+
+
+                            </table>
 
                         </div>
 
@@ -219,6 +278,10 @@
 
     </div>
 
+    <input type="hidden" name="dias_gracia" id="dias_gracia" value="{{ $paramentro_general->cantidad_dias_gracia }}">
+
+    <script src="{{ asset('js/moment.js') }}"></script>
+    <script src="{{ asset('js/moment_locale.js') }}"></script>
     <script src="{{ asset('js/cobro_matricula.js') }}"></script>
 
 </x-app-layout>

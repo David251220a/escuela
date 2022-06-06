@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class CobroMatriculaCuota extends Model
 {
     use HasFactory;
+
+    protected $table = 'cobro_matricula_cuota';
+
+    protected $guarded = [];
+
+    public function cobros(){
+        return $this->belongsTo(Cobro::class, 'cobro_id');
+    }
+
 }

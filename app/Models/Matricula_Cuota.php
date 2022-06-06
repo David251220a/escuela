@@ -12,4 +12,9 @@ class Matricula_Cuota extends Model
     protected $table = 'matricula_cuotas';
 
     protected $guarded = [];
+
+    public function cobro_cuota(){
+        return $this->belongsTo(CobroMatriculaCuota::class, 'id', 'matricula_cuota_id')->orderBy('cobro_id', 'ASC');
+    }
+
 }

@@ -17,4 +17,8 @@ class Cobro extends Model
         return $this->hasMany(CobroMatricula::class, 'cobro_id');
     }
 
+    public function cobro_matricula_cuota(){
+        return $this->hasMany(CobroMatriculaCuota::class, 'cobro_id');
+    }
+
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AlumnoController;
 use App\Http\Controllers\InicioController;
 use App\Http\Controllers\MatriculaController;
+use App\Http\Controllers\PDFController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,4 +38,6 @@ Route::middleware([
     Route::post('/encargado_crear', [AlumnoController::class, 'encargado_crear'])->name('encargado_crear');
     Route::post('/crear_datos', [AlumnoController::class, 'crear_datos'])->name('crear_datos');
     Route::post('/buscar_alumno', [MatriculaController::class, 'buscar_alumno'])->name('matricula.buscar_alumno');
+    Route::get('/matricula/comprobante/{id}', [PDFController::class, 'imprimir_cobro_cuota'])->name('imprimir_cobro_cuota');
+
 });

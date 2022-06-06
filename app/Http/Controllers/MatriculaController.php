@@ -146,4 +146,142 @@ class MatriculaController extends Controller
 
     }
 
+    public function update(Request  $request, Matricula $matricula)
+    {
+        $cuota_selecionada = $request->cuota_seleccionada;
+        $fecha = Carbon::now();
+        $total_pagar = str_replace('.', '', $request->total_pagar);
+        $total_cobrar = str_replace('.', '', $request->total_cobrar);
+        $matricula_cobrar = str_replace('.', '', $request->matricula_cobrar);
+        $monto_matricula = str_replace('.', '', $request->monto_matricula);
+
+        if($matricula_cobrar > 0){
+
+            if($matricula_cobrar > $monto_matricula){
+                return redirect()->route('matricula.show', $matricula)
+                ->withInput()
+                ->withErrors('El Total Matricula a Pagar no puede ser mayor al monto matricula!.');
+            }
+
+            $cobro = Cobro::create([
+                'caja_id' => 1,
+                'sede_id' => 1,
+                'fecha_cobro' => $fecha,
+                'estado_id' => 1,
+                'cobro_concepto_id' => 1,
+                'total_cobrado' => $matricula_cobrar,
+                'observacion' => 'COBRO DE MATRICULA',
+                'tipo_cobro_id' => $request->tipo_cobro,
+                'salida_id' => 1,
+                'recibo_id' => 1,
+                'usuario_alta' => auth()->user()->id,
+                'usuario_modificacion' => auth()->user()->id,
+            ]);
+
+            $cobro->cobro_matricula()->create([
+                'factura_sucursal' => '000',
+                'factura_general' => '000',
+                'factura_nro' => '000000',
+                'monto_total_factura' => $matricula->monto_matricula,
+                'monto_saldo_factura' => ($matricula->monto_matricula - $matricula_cobrar),
+                'monto_cobrado_factura' => $matricula_cobrar,
+                'matricula_id' => $matricula->id,
+                'estado_id' => 1,
+                'usuario_alta' => auth()->user()->id,
+                'usuario_modificacion' => auth()->user()->id,
+            ]);
+
+        }else{
+            if($total_pagar > $total_cobrar){
+                return redirect()->route('matricula.show', $matricula)
+                ->withInput()
+                ->withErrors('El Total a Pagar no puede ser mayor a lo cobrado!.');
+            }
+
+            if($total_cobrar == 0){
+                return redirect()->route('matricula.show', $matricula)
+                ->withInput()
+                ->withErrors('Debe seleccionar una cuota!!.');
+            }
+
+            $cobro = Cobro::create([
+                'caja_id' => 1,
+                'sede_id' => 1,
+                'fecha_cobro' => $fecha,
+                'estado_id' => 1,
+                'cobro_concepto_id' => 2,
+                'total_cobrado' => $total_pagar,
+                'observacion' => 'COBRO DE MATRICULA - CUOTA',
+                'tipo_cobro_id' => $request->tipo_cobro,
+                'salida_id' => 1,
+                'recibo_id' => 1,
+                'usuario_alta' => auth()->user()->id,
+                'usuario_modificacion' => auth()->user()->id,
+            ]);
+
+            for ($i=0; $i < count($cuota_selecionada); $i++) {
+                if($cuota_selecionada[$i] == 1){
+                    $multa = str_replace('.', '', $request->multa);
+                    $monto_cuota = $request->cuota_cobrar[$i];
+                    $monto_cuota_saldo = str_replace('.', '', $request->cuota_saldo[$i]);
+                    $monto_cuota_cobrado = str_replace('.', '', $request->cuota_cobrado[$i]);
+                    $monto_cuota_real = (($monto_cuota - $monto_cuota_cobrado) + $multa);
+                    $matricula_cuota_id = $request->cuota[$i];
+                    if($total_pagar >= $monto_cuota_real){
+                        $monto_total_pagar = $monto_cuota_real;
+                    }else{
+                        $monto_total_pagar = $total_pagar;
+                    }
+                    if($total_pagar > 0){
+                        $cobro->cobro_matricula_cuota()->create([
+                            'factura_sucursal' => '000',
+                            'factura_general' => '000',
+                            'factura_nro' => '000000',
+                            'monto_total_cuota' => $monto_cuota_real,
+                            'monto_saldo_cuota' => $monto_cuota_real - $monto_total_pagar,
+                            'monto_cobrado_cuota' => $monto_total_pagar,
+                            'matricula_cuota_id' => $matricula_cuota_id,
+                            'estado_id' => 1,
+                            'usuario_alta' => auth()->user()->id,
+                            'usuario_modificacion' => auth()->user()->id,
+                        ]);
+
+
+                        $matricula_cuota = Matricula_Cuota::where('id', $matricula_cuota_id)
+                        ->first();
+
+                        $max_cuota = Matricula_Cuota::where('matricula_id', $matricula->id)
+                        ->max('cuota');
+
+                        if($max_cuota == $matricula_cuota->cuota){
+                            $estado_id = 9;
+                        }else{
+                            $estado_id = 1;
+                        }
+
+                        $matricula_cuota->update([
+                            'monto_cuota_cobrado' => $matricula_cuota->monto_cuota_cobrado +$monto_total_pagar,
+                            'monto_cobrado' => $matricula_cuota->monto_cuota_cobrado +$monto_total_pagar,
+                            'saldo' => $monto_cuota_real - $monto_total_pagar,
+                            'usuario_modificacion' => auth()->user()->id,
+                            'updated_at' => $fecha,
+                            'estado_id' => $estado_id
+                        ]);
+
+                    }
+
+
+                    if($total_pagar >= ($total_pagar -$monto_cuota_real)){
+                        $total_pagar = $total_pagar - $monto_cuota_real;
+                    }else{
+                        $total_pagar = 0;
+                    }
+                }
+            }
+        }
+
+        return redirect()->route('matricula.show', $matricula)->with('message', 'Cobro Realizado con exito!!.');
+
+    }
+
 }
