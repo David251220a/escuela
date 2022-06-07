@@ -21,4 +21,8 @@ class Cobro extends Model
         return $this->hasMany(CobroMatriculaCuota::class, 'cobro_id');
     }
 
+    public function tipo_cobro(){
+        return $this->belongsTo(CobroConcepto::class, 'cobro_concepto_id');
+    }
+
 }

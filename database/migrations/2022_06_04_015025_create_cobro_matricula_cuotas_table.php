@@ -23,6 +23,7 @@ return new class extends Migration
             $table->decimal('monto_saldo_cuota', 12, 0)->default(0);
             $table->decimal('monto_cobrado_cuota', 12, 0)->default(0);
             $table->integer('matricula_cuota_id')->default(0);
+            $table->integer('matricula_id')->default(0);
             $table->unsignedInteger('estado_id')->default(1);
             $table->foreignId('usuario_alta')->references('id')->on('users');
             $table->integer('usuario_modificacion')->default(1);

@@ -17,4 +17,8 @@ class Matricula_Cuota extends Model
         return $this->belongsTo(CobroMatriculaCuota::class, 'id', 'matricula_cuota_id')->orderBy('cobro_id', 'ASC');
     }
 
+    public function matricula(){
+        return $this->belongsTo(Matricula::class, 'matricula_id');
+    }
+
 }

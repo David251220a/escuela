@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AlumnoController;
 use App\Http\Controllers\InicioController;
+use App\Http\Controllers\LimpiarController;
 use App\Http\Controllers\MatriculaController;
 use App\Http\Controllers\PDFController;
 use Illuminate\Support\Facades\Route;
@@ -21,11 +22,19 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
+Route::get('/limpiar', [LimpiarController::class, 'index'])->name('limpiar');
+Route::get('/link', function () {
+    $target = '/home/kb57mc21mbm4/escuela/storage/app/public';
+    $shortcut = '/home/kb57mc21mbm4/escuela/public/storage';
+    symlink($target, $shortcut);
+});
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified'
 ])->group(function () {
+    Route::get('/cobros', [MatriculaController::class, 'cobros'])->name('cobros');
     Route::get('/', [InicioController::class, 'index'])->name('dashboard');
     Route::resource('/alumnos', AlumnoController::class)->names('alumno');
     Route::resource('/matriculas', MatriculaController::class)->names('matricula');

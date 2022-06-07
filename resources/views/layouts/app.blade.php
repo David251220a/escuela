@@ -87,54 +87,6 @@
                     </li>
 
                     <li>
-                        <div class="icon_link">
-                            <a href="#">
-                                <i class='bx bxs-collection'></i>
-                                <span class="link_name">Post</span>
-                            </a>
-                            <i class='bx bx-chevrons-down arrow'></i>
-                        </div>
-                        <ul class="sub-menu">
-                            <li>
-                                <a class="link_name" href="#">PHP</a>
-                            </li>
-                            <li>
-                                <a class="" href="#">CSS</a>
-                            </li>
-                            <li>
-                                <a class="" href="#">HTML</a>
-                            </li>
-
-                        </ul>
-                    </li>
-
-                    <li>
-                        <a href="#">
-                            <i class='bx bx-grid-alt'></i>
-                            <span class="link_name">Analisis</span>
-                        </a>
-                        <ul class="sub-menu blank">
-                            <li>
-                                <a class="link_name" href="#">Analisis</a>
-                            </li>
-                        </ul>
-
-                    </li>
-
-                    <li>
-                        <a href="#">
-                            <i class='bx bx-grid-alt'></i>
-                            <span class="link_name">JS</span>
-                        </a>
-                        <ul class="sub-menu blank">
-                            <li>
-                                <a class="link_name" href="#">JS</a>
-                            </li>
-                        </ul>
-
-                    </li>
-
-                    <li>
                         <div class="profile-details">
                             <div class="profile-content">
                                 <img src="{{ Storage::url('user.png') }}" alt="user">

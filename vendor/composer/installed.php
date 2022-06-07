@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '0f28d9936e822664ba1af6b7873744c5de5f6846',
+        'reference' => '0f97ea25d874d2aa31f9d064ab62b34af248d34d',
         'name' => 'laravel/laravel',
         'dev' => true,
     ),
@@ -460,7 +460,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '0f28d9936e822664ba1af6b7873744c5de5f6846',
+            'reference' => '0f97ea25d874d2aa31f9d064ab62b34af248d34d',
             'dev_requirement' => false,
         ),
         'laravel/sail' => array(
@@ -542,6 +542,15 @@
             'install_path' => __DIR__ . '/../livewire/livewire',
             'aliases' => array(),
             'reference' => '9ea6237760f627b3b6a05d15137880780ac843b5',
+            'dev_requirement' => false,
+        ),
+        'luecano/numero-a-letras' => array(
+            'pretty_version' => 'v3.0.0',
+            'version' => '3.0.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../luecano/numero-a-letras',
+            'aliases' => array(),
+            'reference' => 'bab51e3e81545e38d6a11efccb3e6d568765ba7c',
             'dev_requirement' => false,
         ),
         'mobiledetect/mobiledetectlib' => array(

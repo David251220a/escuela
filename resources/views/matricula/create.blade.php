@@ -2,7 +2,7 @@
 
     <h2 class="text-xl text-gray-500 font-semibold mb-2">Nueva Matricula</h2>
 
-    <form action=" {{ route('matricula.store') }} " method="POST">
+    <form action=" {{ route('matricula.store') }} " method="POST" onsubmit="return checkSubmit();">
 
         @csrf
 
@@ -157,6 +157,17 @@
     <script src="{{ asset('js/moment_locale.js') }}"></script>
 
     <script>
+        enviando = false; //Obligaremos a entrar el if en el primer submit
+
+        function checkSubmit() {
+            if (!enviando) {
+                enviando= true;
+                return true;
+            } else {
+                return false;
+            }
+        }
+
         var element = document.querySelectorAll('.enviar');
         document.addEventListener('keydown', (event) => {
             if (event.key == 'Enter') {
@@ -284,10 +295,10 @@
             var cont = 0;
             for (let i = 0; i < cantidad_cuota; i++) {
 
-                lastmonthlastdate = moment(fecha_inicio).endOf('month').format('DD-MM-YYYY');
+                lastmonthlastdate = moment(fecha_inicio).startOf('month').add(4, 'days').format('DD-MM-YYYY');
                 cont++;
                 document.getElementById("generacion_cuota_body").insertRow(-1).innerHTML = '<tr>\
-                                                                                            <td class"text-center"><input type="text" class="text-center w-full border-gray-100" value="'+cont+'" readonly> </td>\
+                                                                                            <td class"text-center"><input type="text" class="text-center w-full border-gray-100" name="cant_cuota[]" value="'+cont+'" readonly> </td>\
                                                                                             <td class"text-center"><input type="text" class="text-center w-full border-gray-100" name="fecha_cuota[]" value="'+lastmonthlastdate+'" readonly> </td>\
                                                                                             <td class"text-center"><input type="text" class="text-center w-full border-gray-100" value="'+monto_cuota+'" readonly></td>\
                                                                                             <td class"text-center"><input type="text" class="text-center w-full border-gray-100" value="0" readonly></td>\

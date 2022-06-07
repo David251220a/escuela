@@ -42,6 +42,7 @@ class MatriculaController extends Controller
         $cedula = str_replace('.', '', $request->cedula);
         $monto_matricula = str_replace('.', '', $request->matricula);
         $monto_cuota = str_replace('.', '', $request->monto_cuota);
+        $cuota = $request->cant_cuota;
         $date = Carbon::now();
         $alumno = Alumno::where('cedula', $cedula)
         ->first();
@@ -70,6 +71,7 @@ class MatriculaController extends Controller
         for ($i=0; $i < $request->cantidad_cuota; $i++) {
 
             $matricula->cuotas()->create([
+                'cuota' => $cuota[$i],
                 'fecha_vencimiento' => date_format(date_create($request->fecha_cuota[$i]), "Y-m-d"),
                 'monto_cuota_cobrar' => $monto_cuota,
                 'monto_cuota_cobrado' => 0,
@@ -241,6 +243,7 @@ class MatriculaController extends Controller
                             'monto_saldo_cuota' => $monto_cuota_real - $monto_total_pagar,
                             'monto_cobrado_cuota' => $monto_total_pagar,
                             'matricula_cuota_id' => $matricula_cuota_id,
+                            'matricula_id' => $matricula->id,
                             'estado_id' => 1,
                             'usuario_alta' => auth()->user()->id,
                             'usuario_modificacion' => auth()->user()->id,
@@ -282,6 +285,42 @@ class MatriculaController extends Controller
 
         return redirect()->route('matricula.show', $matricula)->with('message', 'Cobro Realizado con exito!!.');
 
+    }
+
+    public function cobros(Request $request)
+    {
+
+        // dd($request->fecha);
+        $cobro = Cobro::all();
+        $fecha ='';
+        $nro = 0;
+        // if(empty($request->por_numero)){
+        //     $cobro = Cobro::all();
+        //     $nro = 0;
+        // }elseif($request->por_numero == 'on'){
+            $cobro = Cobro::whereIn('id', [38,39,40])
+            ->get();
+
+            $fecha = $request->fecha;
+        // }
+
+        // if(empty($request->por_fecha)){
+        //     $cobro = Cobro::all();
+        //     $fecha ='';
+        // }elseif($request->por_fecha == 1){
+        //     $cobro = Cobro::where('fecha_cobro', $request->nro)
+        //     ->get();
+        //     $fecha = $request->fecha;
+        // }
+
+        // if(empty($request->todos)){
+        //     $cobro = Cobro::all();
+        // }elseif($request->todos == 1){
+        //     $cobro = Cobro::all();
+        // }
+
+
+        return view('matricula.cobros', compact('cobro', 'nro', 'fecha'));
     }
 
 }
