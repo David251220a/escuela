@@ -53,4 +53,8 @@ class Alumno extends Model
         return $this->hasMany(AlumnoDocumento::class, 'alumno_id');
     }
 
+    public function turno(){
+        return $this->belongsTo(Turno::class, 'turno_id');
+    }
+
 }

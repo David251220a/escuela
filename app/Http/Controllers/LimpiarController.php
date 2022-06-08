@@ -13,7 +13,6 @@ class LimpiarController extends Controller
         \Artisan::call('config:cache');
         \Artisan::call('cache:clear');
         \Artisan::call('route:clear');
-        \Artisan::call('clear-compiled');
 
     }
 }

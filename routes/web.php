@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AlumnoController;
+use App\Http\Controllers\ConsultaController;
 use App\Http\Controllers\InicioController;
 use App\Http\Controllers\LimpiarController;
 use App\Http\Controllers\MatriculaController;
@@ -22,10 +23,10 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::get('/limpiar', [LimpiarController::class, 'index'])->name('limpiar');
+Route::get('/limpiar', [LimpiarController::class, 'limpiar'])->name('limpiar');
 Route::get('/link', function () {
-    $target = '/home/kb57mc21mbm4/escuela/storage/app/public';
-    $shortcut = '/home/kb57mc21mbm4/escuela/public/storage';
+    $target = '/home/kb57mc21mbm4/prestamosdev/storage/app/public';
+    $shortcut = '/home/kb57mc21mbm4/prestamosdev/public/storage';
     symlink($target, $shortcut);
 });
 
@@ -39,6 +40,8 @@ Route::middleware([
     Route::resource('/alumnos', AlumnoController::class)->names('alumno');
     Route::resource('/matriculas', MatriculaController::class)->names('matricula');
 
+    Route::get('/consultas', [ConsultaController::class, 'index'])->name('consulta.index');
+
     Route::post('/madre_consulta', [AlumnoController::class, 'madre_consulta'])->name('madre_consulta');
     Route::post('/madre_crear', [AlumnoController::class, 'madre_crear'])->name('madre_crear');
     Route::post('/padre_consulta', [AlumnoController::class, 'padre_consulta'])->name('padre_consulta');
@@ -48,5 +51,6 @@ Route::middleware([
     Route::post('/crear_datos', [AlumnoController::class, 'crear_datos'])->name('crear_datos');
     Route::post('/buscar_alumno', [MatriculaController::class, 'buscar_alumno'])->name('matricula.buscar_alumno');
     Route::get('/matricula/comprobante/{id}', [PDFController::class, 'imprimir_cobro_cuota'])->name('imprimir_cobro_cuota');
+    Route::get('/consulta/grado/{search_grado}/turno/{search_turno}', [PDFController::class, 'alumno_grado_turno'])->name('pdf.alumno_grado_turno');
 
 });

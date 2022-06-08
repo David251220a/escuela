@@ -1,9 +1,46 @@
-<div class="mt-4">
+<x-app-layout>
 
-    <h2 class="font-bold text-2xl">Listado de Alumnos</h2>
-    <div class="mt-4 mb-4">
-        <input type="text" wire:model="search" class="w-full border-gray-300 rounded">
+    <div class="mb-4">
+        <h2 class="text-2xl text-gray-500 font-semibold mb-2 text-center">Consulta Grado - Turno</h2>
     </div>
+
+    <form action="{{ route('consulta.index') }}" method="GET">
+
+        <div class="mb-4 border-b border-gray-200">
+
+            <div class="md:grid grid-cols-4 gap-4 px-4 py-6">
+
+                <div class="mb-4">
+                    <label for="">Grado</label>
+                    <select name="grado" id="grado" class="w-full rounded border-gray-400 enviar">
+                        @foreach ($grado as $item)
+                            <option {{ ($search_grado == $item->id ? 'selected' : '' ) }} value="{{ $item->id }}">{{ $item->nombre }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label for="">Turno</label>
+                    <select name="turno" id="turno" class="w-full rounded border-gray-400 enviar">
+                        @foreach ($turno as $item)
+                            <option {{ ($search_turno == $item->id ? 'selected' : '' ) }} value="{{ $item->id }}">{{ $item->nombre }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <button type="submit" class="bg-green-500 rounded px-4 py-2 text-center text-white text-base font-bold mt-5">Filtrar</button>
+                    <a href="{{ route('pdf.alumno_grado_turno', [$search_grado, $search_turno] )}}"
+                    class="ml-2 border border-green-500 rounded text-center font-bold px-4 py-2 text-green-700" target="__blank">
+                        <i class='bx bxs-file-pdf'></i>
+                        PDF
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+    </form>
 
     <div class="flex flex-col mb-4">
         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -19,13 +56,12 @@
                                 <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Estado</th>
                                 <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Grado</th>
                                 <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Turno</th>
-                                <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-right"></th>
                             </tr>
                         </thead>
 
                         <tbody class="bg-white divide-y divide-gray-200">
 
-                            @foreach ($alumnos as $item)
+                            @foreach ($alumno as $item)
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{{ number_format($item->cedula, 0, ".", ".") }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{{ $item->nombre }} {{ $item->apellido }}</td>
@@ -37,11 +73,6 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{{ $item->grado->nombre }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{{ $item->turno->nombre }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">
-                                        <a href="#" class="whitespace-nowrap text-sm mr-2"><i class='bx bx-user-pin'></i></a>
-                                        <a href="{{ route('alumno.edit', $item) }}" class="whitespace-nowrap text-sm mr-2"><i class='bx bx-edit-alt'></i></a>
-                                        <a href="{{ route('matricula.cobro', $item->id) }}" class="whitespace-nowrap text-sm mr-2"><i class='bx bx-coin-stack'></i></a>
-                                    </td>
                                 </tr>
                             @endforeach
 
@@ -54,10 +85,4 @@
         </div>
     </div>
 
-    <div class="">
-        {{$alumnos->links()}}
-    </div>
-
-
-
-</div>
+</x-app-layout>

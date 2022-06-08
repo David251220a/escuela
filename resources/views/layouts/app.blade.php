@@ -67,17 +67,17 @@
                     <li>
                         <div class="icon_link">
                             <a href="#">
-                                <i class='bx bxs-collection'></i>
-                                <span class="link_name">Categoria</span>
+                                <i class='bx bx-book-reader'></i>
+                                <span class="link_name">Consultas</span>
                             </a>
                             <i class='bx bx-chevrons-down arrow'></i>
                         </div>
                         <ul class="sub-menu">
                             <li>
-                                <a class="link_name" href="#">Web Desing</a>
+                                <a class="link_name font-bold text-sm" href="#">Consultas</a>
                             </li>
                             <li>
-                                <a class="" href="#">Web Desing 1</a>
+                                <a class="" href="{{ route('consulta.index') }}">Grado - Turno</a>
                             </li>
                             <li>
                                 <a class="" href="#">Web Desing 2</a>
