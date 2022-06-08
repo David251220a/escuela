@@ -47,10 +47,23 @@ class MatriculaController extends Controller
         $alumno = Alumno::where('cedula', $cedula)
         ->first();
 
+        $existe = Matricula::where('alumno_id', $alumno->id)
+        ->where('estado_id', 1)
+        ->where('ciclo_id', $request->ciclo)
+        ->first();
+
+        if(!empty($existe)){
+            return redirect()->route('matricula.create')
+            ->withInput()
+            ->withErrors('Ya existe matriculacion para este alumno en este ciclo.');
+        }
+
         $fecha = Carbon::now();
 
         if(empty($alumno)){
-            return redirect()->back()->with('message', 'No existe alumno con este nro. de cedula: ' .$cedula);
+            return redirect()->route('matricula.create')
+            ->withInput()
+            ->withErrors('No existe alumno con este nro. de cedula: ' .$cedula);
         }
 
         $matricula = Matricula::create([
@@ -287,40 +300,35 @@ class MatriculaController extends Controller
 
     }
 
-    public function cobros(Request $request)
+    public function cobros(Request $request, $id)
     {
+        $fecha = Carbon::now();
+        $fecha = date('Y', strtotime($fecha));
 
-        // dd($request->fecha);
-        $cobro = Cobro::all();
-        $fecha ='';
-        $nro = 0;
-        // if(empty($request->por_numero)){
-        //     $cobro = Cobro::all();
-        //     $nro = 0;
-        // }elseif($request->por_numero == 'on'){
-            $cobro = Cobro::whereIn('id', [38,39,40])
-            ->get();
+        $ciclo = Ciclo::where('año', $fecha)
+        ->first();
 
-            $fecha = $request->fecha;
-        // }
+        $matricula = Matricula::where('alumno_id', $id)
+        ->where('estado_id', 1)
+        ->where('ciclo_id', $ciclo->id)
+        ->first();
 
-        // if(empty($request->por_fecha)){
-        //     $cobro = Cobro::all();
-        //     $fecha ='';
-        // }elseif($request->por_fecha == 1){
-        //     $cobro = Cobro::where('fecha_cobro', $request->nro)
-        //     ->get();
-        //     $fecha = $request->fecha;
-        // }
+        if(empty($matricula)){
+            return redirect()->route('alumno.index')
+            ->withInput()
+            ->withErrors('Todavia no se ha matroculado al alumno en este ciclo: ' .$fecha);
+        }
 
-        // if(empty($request->todos)){
-        //     $cobro = Cobro::all();
-        // }elseif($request->todos == 1){
-        //     $cobro = Cobro::all();
-        // }
+        $matricula_cuota = Matricula_Cuota::where('matricula_id', $matricula->id)
+        ->where('estado_id', 1)
+        ->get();
+
+        $paramentro_general = ParametroGeneral::first();
+        $tipo_cobro = TipoCobro::where('estado_id', 1)
+        ->get();
 
 
-        return view('matricula.cobros', compact('cobro', 'nro', 'fecha'));
+        return view('matricula.cobros', compact('matricula', 'matricula_cuota', 'paramentro_general', 'tipo_cobro'));
     }
 
 }

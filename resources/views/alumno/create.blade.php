@@ -2,7 +2,7 @@
 
     <h2 class="text-xl text-gray-500 font-semibold mb-2">Agregar Alumno</h2>
 
-    <form action="{{ route('alumno.store') }}" method="POST" enctype="multipart/form-data" novalidate>
+    <form action="{{ route('alumno.store') }}" method="POST" enctype="multipart/form-data" novalidate onsubmit="return checkSubmit();">
 
         @csrf
 
@@ -59,17 +59,20 @@
 
                         <div class="mb-4">
                             <label for="">Cedula</label>
-                            <input type="text" name="cedula" id="cedula"  class="w-full rounded border-gray-400 enviar" placeholder="Cedula..."  >
+                            <input type="text" name="cedula" id="cedula"
+                            class="w-full rounded border-gray-400 enviar text-right" placeholder="Cedula..." onkeyup="format(this)" onchange="format(this)">
                         </div>
 
                         <div class="mb-4">
                             <label for="">Nombre</label>
-                            <input type="text" name="nombre" id="nombre" class="w-full rounded border-gray-400 enviar" placeholder="Nombre.."  >
+                            <input type="text" name="nombre" id="nombre" class="w-full rounded border-gray-400 enviar" placeholder="Nombre.."
+                            onkeyup="mayuscula(this)" onchange="mayuscula(this)">
                         </div>
 
                         <div class="mb-4">
                             <label for="">Apellido</label>
-                            <input type="text" name="apellido" id="apellido" class="w-full rounded border-gray-400 enviar" placeholder="Apellido..."  >
+                            <input type="text" name="apellido" id="apellido" class="w-full rounded border-gray-400 enviar" placeholder="Apellido..."
+                            onkeyup="mayuscula(this)" onchange="mayuscula(this)">
                         </div>
 
                         <div class="mb-4">
@@ -108,7 +111,8 @@
 
                         <div class="mb-4">
                             <label for="">Dirección</label>
-                            <input type="text" name="direccion" id="direccion" class="w-full rounded border-gray-400 enviar" placeholder="Dirección..."  >
+                            <input type="text" name="direccion" id="direccion" class="w-full rounded border-gray-400 enviar" placeholder="Dirección..."
+                            onkeyup="mayuscula(this)" onchange="mayuscula(this)">
                         </div>
 
                         <div class="mb-4">
@@ -118,6 +122,9 @@
                                     <option value="{{ $item->id }}">{{ $item->nombre }}</option>
                                 @endforeach
                             </select>
+                            <span>
+                                <p class="text-red-500 text-left text-sm font-semibold">Presione F2 para agregar mas opciones</p>
+                            </span>
                         </div>
 
                         <div class="mb-4">
@@ -127,6 +134,9 @@
                                     <option value="{{ $item->id }}">{{ $item->nombre }}</option>
                                 @endforeach
                             </select>
+                            <span>
+                                <p class="text-red-500 text-left text-sm font-semibold">Presione F2 para agregar mas opciones</p>
+                            </span>
                         </div>
 
                         <div class="mb-4">
@@ -164,8 +174,13 @@
                     <div class="md:grid grid-cols-4 gap-4 px-4 py-6">
                         <div class="mb-4">
                             <label for="">Cedula Madre</label>
-                            <input type="text" name="cedula_madre" id="cedula_madre" class="w-full rounded border-gray-400 enviar" value="0"  >
-                            <input type="hidden" name="id_madre" id="id_madre" class="w-full rounded border-gray-400 enviar" value="1">
+                            <input type="text" name="cedula_madre" id="cedula_madre" class="w-full rounded border-gray-400 enviar text-right" value="0"
+                            onkeyup="format(this)" onchange="format(this)">
+                            <span>
+                                <p class="text-red-500 text-left text-sm font-semibold">Presione ENTER para verificar cedula madre</p>
+                            </span>
+                            <input type="hidden" name="id_madre" id="id_madre" class="w-full rounded border-gray-400 enviar"
+                            value="1">
                         </div>
 
                         <div class="mb-4">
@@ -175,7 +190,11 @@
 
                         <div class="mb-4">
                             <label for="">Cedula Padre</label>
-                            <input type="text" name="cedula_padre" id="cedula_padre" class="w-full rounded border-gray-400 enviar" value="0"  >
+                            <input type="text" name="cedula_padre" id="cedula_padre" class="w-full rounded border-gray-400 enviar text-right" value="0"
+                            onkeyup="format(this)" onchange="format(this)">
+                            <span>
+                                <p class="text-red-500 text-left text-sm font-semibold">Presione ENTER para verificar cedula padre</p>
+                            </span>
                             <input type="hidden" name="id_padre" id="id_padre" class="w-full rounded border-gray-400 enviar" value="1">
                         </div>
 
@@ -186,7 +205,11 @@
 
                         <div class="mb-4">
                             <label for="">Cedula Encargado</label>
-                            <input type="text" name="cedula_encargado" id="cedula_encargado" class="w-full rounded border-gray-400 enviar" value="0"  >
+                            <input type="text" name="cedula_encargado" id="cedula_encargado" class="w-full rounded border-gray-400 enviar text-right" value="0"
+                            onkeyup="format(this)" onchange="format(this)">
+                            <span>
+                                <p class="text-red-500 text-left text-sm font-semibold">Presione ENTER para verificar cedula encargado</p>
+                            </span>
                             <input type="hidden" name="id_encargado" id="id_encargado" class="w-full rounded border-gray-400 enviar" value="1">
                         </div>
 
@@ -197,7 +220,11 @@
 
                         <div class="mb-4">
                             <label for="">Cedula Encargado 1</label>
-                            <input type="text" name="cedula_encargado1" id="cedula_encargado1" class="w-full rounded border-gray-400 enviar" value="0"  >
+                            <input type="text" name="cedula_encargado1" id="cedula_encargado1" class="w-full rounded border-gray-400 enviar text-right" value="0"
+                            onkeyup="format(this)" onchange="format(this)">
+                            <span>
+                                <p class="text-red-500 text-left text-sm font-semibold">Presione ENTER para verificar cedula encargado</p>
+                            </span>
                             <input type="hidden" name="id_encargado1" id="id_encargado1" class="w-full rounded border-gray-400 enviar" value="1">
                         </div>
 
@@ -208,7 +235,11 @@
 
                         <div class="mb-4">
                             <label for="">Cedula Encargado 2</label>
-                            <input type="text" name="cedula_encargado2" id="cedula_encargado2" class="w-full rounded border-gray-400 enviar" value="0"  >
+                            <input type="text" name="cedula_encargado2" id="cedula_encargado2" class="w-full rounded border-gray-400 enviar text-right" value="0"
+                            onkeyup="format(this)" onchange="format(this)">
+                            <span>
+                                <p class="text-red-500 text-left text-sm font-semibold">Presione ENTER para verificar cedula encargado</p>
+                            </span>
                             <input type="hidden" name="id_encargado2" id="id_encargado2" class="w-full rounded border-gray-400 enviar" value="1">
                         </div>
 
@@ -219,7 +250,11 @@
 
                         <div class="mb-4">
                             <label for="">Cedula Encargado 3</label>
-                            <input type="text" name="cedula_encargado3" id="cedula_encargado3" class="w-full rounded border-gray-400 enviar" value="0"  >
+                            <input type="text" name="cedula_encargado3" id="cedula_encargado3" class="w-full rounded border-gray-400 enviar text-right" value="0"
+                            onkeyup="format(this)" onchange="format(this)">
+                            <span>
+                                <p class="text-red-500 text-left text-sm font-semibold">Presione ENTER para verificar cedula encargado</p>
+                            </span>
                             <input type="hidden" name="id_encargado3" id="id_encargado3" class="w-full rounded border-gray-400 enviar" value="1">
                         </div>
 
@@ -267,7 +302,7 @@
                         class="inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded
                         shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700
                         active:shadow-lg transition duration-150 ease-in-out"
-                         value="">Guardar</button>
+                         value="" id="btn_procesar">Guardar</button>
                     </div>
 
                 </div>
@@ -289,17 +324,20 @@
 
                 <div class="mb-4">
                     <label for="">Cedula</label>
-                    <input type="text" name="cedula_madre_aux" id="cedula_madre_aux" class="w-full rounded border-gray-400 enviar">
+                    <input type="text" name="cedula_madre_aux" id="cedula_madre_aux" class="w-full rounded border-gray-400 enviar text-right"
+                    onkeyup="format(this)" onchange="format(this)">
                 </div>
 
                 <div class="mb-4">
                     <label for="">Nombre</label>
-                    <input type="text" name="nombre_madre_aux" id="nombre_madre_aux" class="w-full rounded border-gray-400 enviar">
+                    <input type="text" name="nombre_madre_aux" id="nombre_madre_aux" class="w-full rounded border-gray-400 enviar"
+                    onkeyup="mayuscula(this)" onchange="mayuscula(this)">
                 </div>
 
                 <div class="mb-4">
                     <label for="">Apellido</label>
-                    <input type="text" name="apellido_madre_aux" id="apellido_madre_aux" class="w-full rounded border-gray-400 enviar">
+                    <input type="text" name="apellido_madre_aux" id="apellido_madre_aux" class="w-full rounded border-gray-400 enviar"
+                    onkeyup="mayuscula(this)" onchange="mayuscula(this)">
                 </div>
 
                 <div class="mb-4">
@@ -314,17 +352,20 @@
 
                 <div class="mb-4">
                     <label for="">Direccion</label>
-                    <input type="text" name="direccion_madre_aux" id="direccion_madre_aux" class="w-full rounded border-gray-400 enviar">
+                    <input type="text" name="direccion_madre_aux" id="direccion_madre_aux" class="w-full rounded border-gray-400 enviar"
+                    onkeyup="mayuscula(this)" onchange="mayuscula(this)">
                 </div>
 
                 <div class="mb-4">
                     <label for="">Lugar de Trabajo</label>
-                    <input type="text" name="trabajo_madre_aux" id="trabajo_madre_aux" class="w-full rounded border-gray-400 enviar">
+                    <input type="text" name="trabajo_madre_aux" id="trabajo_madre_aux" class="w-full rounded border-gray-400 enviar"
+                    onkeyup="mayuscula(this)" onchange="mayuscula(this)">
                 </div>
 
                 <div class="mb-4">
                     <label for="">Dias de Trabajo</label>
-                    <input type="text" name="dias_trabajo_madre_aux" id="dias_trabajo_madre_aux" class="w-full rounded border-gray-400 enviar">
+                    <input type="text" name="dias_trabajo_madre_aux" id="dias_trabajo_madre_aux" class="w-full rounded border-gray-400 enviar"
+                    onkeyup="mayuscula(this)" onchange="mayuscula(this)">
                 </div>
 
                 <div class="mb-4">
@@ -347,17 +388,20 @@
 
                 <div class="mb-4">
                     <label for="">Cedula</label>
-                    <input type="text" name="cedula_padre_aux" id="cedula_padre_aux" class="w-full rounded border-gray-400 enviar">
+                    <input type="text" name="cedula_padre_aux" id="cedula_padre_aux" class="w-full rounded border-gray-400 enviar text-right"
+                    onkeyup="format(this)" onchange="format(this)">
                 </div>
 
                 <div class="mb-4">
                     <label for="">Nombre</label>
-                    <input type="text" name="nombre_padre_aux" id="nombre_padre_aux" class="w-full rounded border-gray-400 enviar">
+                    <input type="text" name="nombre_padre_aux" id="nombre_padre_aux" class="w-full rounded border-gray-400 enviar"
+                    onkeyup="mayuscula(this)" onchange="mayuscula(this)">
                 </div>
 
                 <div class="mb-4">
                     <label for="">Apellido</label>
-                    <input type="text" name="apellido_padre_aux" id="apellido_padre_aux" class="w-full rounded border-gray-400 enviar">
+                    <input type="text" name="apellido_padre_aux" id="apellido_padre_aux" class="w-full rounded border-gray-400 enviar"
+                    onkeyup="mayuscula(this)" onchange="mayuscula(this)">
                 </div>
 
                 <div class="mb-4">
@@ -372,17 +416,20 @@
 
                 <div class="mb-4">
                     <label for="">Direccion</label>
-                    <input type="text" name="direccion_padre_aux" id="direccion_padre_aux" class="w-full rounded border-gray-400 enviar">
+                    <input type="text" name="direccion_padre_aux" id="direccion_padre_aux" class="w-full rounded border-gray-400 enviar"
+                    onkeyup="mayuscula(this)" onchange="mayuscula(this)">
                 </div>
 
                 <div class="mb-4">
                     <label for="">Lugar de Trabajo</label>
-                    <input type="text" name="trabajo_padre_aux" id="trabajo_padre_aux" class="w-full rounded border-gray-400 enviar">
+                    <input type="text" name="trabajo_padre_aux" id="trabajo_padre_aux" class="w-full rounded border-gray-400 enviar"
+                    onkeyup="mayuscula(this)" onchange="mayuscula(this)">
                 </div>
 
                 <div class="mb-4">
                     <label for="">Dias de Trabajo</label>
-                    <input type="text" name="dias_trabajo_padre_aux" id="dias_trabajo_padre_aux" class="w-full rounded border-gray-400 enviar">
+                    <input type="text" name="dias_trabajo_padre_aux" id="dias_trabajo_padre_aux" class="w-full rounded border-gray-400 enviar"
+                    onkeyup="mayuscula(this)" onchange="mayuscula(this)">
                 </div>
 
                 <div class="mb-4">
@@ -410,7 +457,8 @@
 
                 <div class="mb-4">
                     <label for="">Nombre</label>
-                    <input type="text" name="encargado_nombre_aux" id="encargado_nombre_aux" class="w-full rounded border-gray-400 enviar">
+                    <input type="text" name="encargado_nombre_aux" id="encargado_nombre_aux" class="w-full rounded border-gray-400 enviar"
+                    onkeyup="mayuscula(this)" onchange="mayuscula(this)">
                 </div>
 
                 <div class="mb-4">
@@ -443,504 +491,12 @@
 
             <div class="mb-4">
                 <label for="">Nombre</label>
-                <input type="text" name="nombre_tipo_aux" id="nombre_tipo_aux" class="w-full rounded border-gray-400 enviar">
+                <input type="text" name="nombre_tipo_aux" id="nombre_tipo_aux" class="w-full rounded border-gray-400 enviar"
+                onkeyup="mayuscula(this)" onchange="mayuscula(this)">
             </div>
 
         </div>
     </div>
 
-    <script>
-
-        const foto_perfil = document.getElementById('foto_perfil');
-        foto_perfil.addEventListener('change', mostrarImagen, false);
-
-        var element = document.querySelectorAll('.enviar');
-        document.addEventListener('keydown', (event) => {
-            const keyName = event.key;
-
-            if (event.key == 'Enter') {
-                event.preventDefault();
-                if(event.target.id == 'cedula_madre'){
-                    cedula = document.getElementById('cedula_madre').value;
-                    if(cedula == 0){
-                        document.getElementById('id_madre').value = 1;
-                        document.getElementById('nombre_madre').value = 'SIN ESPECIFICAR';
-                    }else{
-                        axios.post('/madre_consulta',  {
-                            cedula : cedula
-                        })
-                        .then(respuesta => {
-                            if(JSON.stringify(respuesta.data)=='{}'){
-                                crear_madre();
-                            }else{
-                                document.getElementById('id_madre').value = respuesta.data.id;
-                                document.getElementById('nombre_madre').value = respuesta.data.nombre + ' '+ respuesta.data.apellido;
-                            }
-                        })
-                        .catch(error => {
-                            console.log(error);
-
-                        })
-                    }
-
-                }
-
-                if(event.target.id == 'cedula_padre'){
-                    cedula = document.getElementById('cedula_padre').value;
-                    if(cedula == 0){
-                        document.getElementById('id_padre').value = 1;
-                        document.getElementById('nombre_padre').value = 'SIN ESPECIFICAR';
-                    }else{
-                        axios.post('/padre_consulta',  {
-                            cedula : cedula
-                        })
-                        .then(respuesta => {
-                            if(JSON.stringify(respuesta.data)=='{}'){
-                                crear_padre();
-                            }else{
-                                document.getElementById('id_padre').value = respuesta.data.id;
-                                document.getElementById('nombre_padre').value = respuesta.data.nombre + ' '+ respuesta.data.apellido;
-                            }
-                        })
-                        .catch(error => {
-                            console.log(error);
-
-                        })
-                    }
-
-                }
-
-                if(event.target.id == 'cedula_encargado'){
-                    cedula = document.getElementById('cedula_encargado').value;
-                    if(cedula == 0){
-                        document.getElementById('id_encargado').value = 1;
-                        document.getElementById('nombre_encargado').value = 'SIN ESPECIFICAR';
-                    }else{
-                        axios.post('/encargado_consulta',  {
-                            cedula : cedula
-                        })
-                        .then(respuesta => {
-                            if(JSON.stringify(respuesta.data)=='{}'){
-                                crear_encargado(1);
-                            }else{
-                                document.getElementById('id_encargado').value = respuesta.data.id;
-                                document.getElementById('nombre_encargado').value = respuesta.data.nombre;
-                            }
-                        })
-                        .catch(error => {
-                            console.log(error);
-
-                        })
-                    }
-
-                }
-
-                if(event.target.id == 'cedula_encargado1'){
-                    cedula = document.getElementById('cedula_encargado1').value;
-                    if(cedula == 0){
-                        document.getElementById('id_encargado1').value = 1;
-                        document.getElementById('nombre_encargado1').value = 'SIN ESPECIFICAR';
-                    }else{
-                        axios.post('/encargado_consulta',  {
-                            cedula : cedula
-                        })
-                        .then(respuesta => {
-                            if(JSON.stringify(respuesta.data)=='{}'){
-                                crear_encargado(2);
-                            }else{
-                                document.getElementById('id_encargado1').value = respuesta.data.id;
-                                document.getElementById('nombre_encargado1').value = respuesta.data.nombre;
-                            }
-                        })
-                        .catch(error => {
-                            console.log(error);
-
-                        })
-                    }
-
-                }
-
-                if(event.target.id == 'cedula_encargado2'){
-                    cedula = document.getElementById('cedula_encargado2').value;
-                    if(cedula == 0){
-                        document.getElementById('id_encargado2').value = 1;
-                        document.getElementById('nombre_encargado2').value = 'SIN ESPECIFICAR';
-                    }else{
-                        axios.post('/encargado_consulta',  {
-                            cedula : cedula
-                        })
-                        .then(respuesta => {
-                            if(JSON.stringify(respuesta.data)=='{}'){
-                                crear_encargado(3);
-                            }else{
-                                document.getElementById('id_encargado2').value = respuesta.data.id;
-                                document.getElementById('nombre_encargado2').value = respuesta.data.nombre;
-                            }
-                        })
-                        .catch(error => {
-                            console.log(error);
-
-                        })
-                    }
-
-                }
-
-                if(event.target.id == 'cedula_encargado3'){
-                    cedula = document.getElementById('cedula_encargado3').value;
-                    if(cedula == 0){
-                        document.getElementById('id_encargado3').value = 1;
-                        document.getElementById('nombre_encargado3').value = 'SIN ESPECIFICAR';
-                    }else{
-                        axios.post('/encargado_consulta',  {
-                            cedula : cedula
-                        })
-                        .then(respuesta => {
-                            if(JSON.stringify(respuesta.data)=='{}'){
-                                crear_encargado(4);
-                            }else{
-                                document.getElementById('id_encargado3').value = respuesta.data.id;
-                                document.getElementById('nombre_encargado3').value = respuesta.data.nombre;
-                            }
-                        })
-                        .catch(error => {
-                            console.log(error);
-
-                        })
-                    }
-
-                }
-
-            }
-
-            if(event.key == 'F2'){
-                id_aux = 0;
-                if(event.target.id == 'lugar_nacimiento'){
-                    id_aux = 1;
-                    titulo = 'Agregar Lugar Nacimiento';
-                    select = document.getElementById('lugar_nacimiento');
-                }
-
-                if(event.target.id == 'alergia'){
-                    id_aux = 2;
-                    titulo = 'Agregar Alergia';
-                    select = document.getElementById('alergia');
-
-                }
-
-                if(event.target.id == 'seguro'){
-                    id_aux = 3;
-                    titulo = 'Agregar Seguro';
-                    select = document.getElementById('seguro');
-
-                }
-                var siguiente = document.getElementById('datos_formulario').innerHTML;
-                if(parseInt(id_aux) == 0){
-
-                }else{
-
-                    Swal.fire({
-                        title: titulo,
-                        html:
-                        siguiente,
-                        width: 600,
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Guardar',
-
-                    }).then(resultado => {
-                        if (resultado.value) {
-                            var nombre_aux = Swal.getPopup().querySelector('#nombre_tipo_aux').value;
-                            axios.post('/crear_datos',  {
-                                nombre_aux : nombre_aux,
-                                id_aux : id_aux
-                            })
-                            .then(respuesta => {
-                                for (let i = select.options.length; i >= 0; i--) {
-                                    select.remove(i);
-                                }
-
-                                for(var i=0; i < respuesta.data.length; i++){
-                                    var option = document.createElement('option');
-                                    var valor = respuesta.data[i].id;
-                                    var valor2 = respuesta.data[i].nombre;
-                                    option.value = valor;
-                                    option.text = valor2;
-                                    select.appendChild(option);
-                                }
-                            })
-                            .catch(error => {
-                                console.log(error);
-                            })
-
-                        }
-
-                    })
-
-                }
-
-            }
-        });
-
-        function mostrarImagen(event) {
-            var formData = new FormData();
-            var imagefile = document.querySelector('#foto_perfil');
-            formData.append("foto_perfil", imagefile.files[0]);
-
-            var doc_v = event.target.files[0];
-
-            var file = event.target.files[0];
-            var reader = new FileReader();
-            reader.onload = function(event) {
-                var img = document.getElementById('avatar');
-                img.src= event.target.result;
-            }
-            reader.readAsDataURL(file);
-
-        }
-
-
-        function cambio(){
-            $('#foto_perfil').click();
-        }
-
-        function crear_madre(){
-
-            Swal.fire({
-                title: 'Desea crear datos para la Madre?',
-                text: "No existe coincidencia con este numero de cedula!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Si'
-            }).then(resultado => {
-                if (resultado.value) {
-                    var siguiente = document.getElementById('madre_formulario').innerHTML;
-                    Swal.fire({
-                        title: '<u>Datos de la Madre</u>',
-                        html:
-                        siguiente,
-                        width: 800,
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Guardar',
-
-                        }).then(resultado => {
-                            if (resultado.value) {
-                                var cedula_madre = Swal.getPopup().querySelector('#cedula_madre_aux').value;
-                                var nombre_madre = Swal.getPopup().querySelector('#nombre_madre_aux').value;
-                                var apellido_madre = Swal.getPopup().querySelector('#apellido_madre_aux').value;
-                                var telefono_particular = Swal.getPopup().querySelector('#telefono_particular_madre_aux').value;
-                                var telefono = Swal.getPopup().querySelector('#telefono_madre_aux').value;
-                                var direccion = Swal.getPopup().querySelector('#direccion_madre_aux').value;
-                                var lugar_trabajo = Swal.getPopup().querySelector('#trabajo_madre_aux').value;
-                                var dias_trabajo = Swal.getPopup().querySelector('#dias_trabajo_madre_aux').value;
-                                var telefono_trabajo = Swal.getPopup().querySelector('#telefono_trabajo_madre_aux').value;
-
-                                axios.post('/madre_crear',  {
-                                    cedula_madre : cedula_madre,
-                                    nombre_madre : nombre_madre,
-                                    apellido_madre : apellido_madre,
-                                    telefono_particular : telefono_particular,
-                                    telefono : telefono,
-                                    direccion : direccion,
-                                    lugar_trabajo : lugar_trabajo,
-                                    dias_trabajo : dias_trabajo,
-                                    telefono_trabajo : telefono_trabajo,
-                                })
-                                .then(respuesta => {
-                                    if(respuesta.data.ok == 1){
-                                        document.getElementById('id_madre').value = respuesta.data.id;
-                                        document.getElementById('cedula_madre').value = respuesta.data.cedula;
-                                        document.getElementById('nombre_madre').value = respuesta.data.nombre +' '+respuesta.data.apellido;
-                                        Swal.fire(
-                                            'Datos de la Madre',
-                                            respuesta.data.mensaje,
-                                            'success'
-                                        )
-                                    }else{
-                                        Swal.fire({
-                                            icon: 'error',
-                                            title: 'Oops...',
-                                            text: respuesta.data.mensaje,
-                                        })
-                                    }
-
-                                })
-                                .catch(error => {
-                                    console.log(error);
-                                })
-                            }
-
-                        })
-                    }
-                })
-        }
-
-        function crear_padre(){
-
-            Swal.fire({
-                title: 'Desea crear datos para el padre?',
-                text: "No existe coincidencia con este numero de cedula!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Si'
-            }).then(resultado => {
-                if (resultado.value) {
-                    var siguiente = document.getElementById('padre_formulario').innerHTML;
-                    Swal.fire({
-                        title: '<u>Datos del Padre</u>',
-                        html:
-                        siguiente,
-                        width: 800,
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Guardar',
-
-                        }).then(resultado => {
-                            if (resultado.value) {
-                                var cedula_madre = Swal.getPopup().querySelector('#cedula_padre_aux').value;
-                                var nombre_madre = Swal.getPopup().querySelector('#nombre_padre_aux').value;
-                                var apellido_madre = Swal.getPopup().querySelector('#apellido_padre_aux').value;
-                                var telefono_particular = Swal.getPopup().querySelector('#telefono_particular_padre_aux').value;
-                                var telefono = Swal.getPopup().querySelector('#telefono_padre_aux').value;
-                                var direccion = Swal.getPopup().querySelector('#direccion_padre_aux').value;
-                                var lugar_trabajo = Swal.getPopup().querySelector('#trabajo_padre_aux').value;
-                                var dias_trabajo = Swal.getPopup().querySelector('#dias_trabajo_padre_aux').value;
-                                var telefono_trabajo = Swal.getPopup().querySelector('#telefono_trabajo_padre_aux').value;
-
-                                axios.post('/padre_crear',  {
-                                    cedula_madre : cedula_madre,
-                                    nombre_madre : nombre_madre,
-                                    apellido_madre : apellido_madre,
-                                    telefono_particular : telefono_particular,
-                                    telefono : telefono,
-                                    direccion : direccion,
-                                    lugar_trabajo : lugar_trabajo,
-                                    dias_trabajo : dias_trabajo,
-                                    telefono_trabajo : telefono_trabajo,
-                                })
-                                .then(respuesta => {
-                                    if(respuesta.data.ok == 1){
-                                        document.getElementById('id_padre').value = respuesta.data.id;
-                                        document.getElementById('cedula_padre').value = respuesta.data.cedula;
-                                        document.getElementById('nombre_padre').value = respuesta.data.nombre +' '+respuesta.data.apellido;
-                                        Swal.fire(
-                                            'Datos del Padre',
-                                            respuesta.data.mensaje,
-                                            'success'
-                                        )
-                                    }else{
-                                        Swal.fire({
-                                            icon: 'error',
-                                            title: 'Oops...',
-                                            text: respuesta.data.mensaje,
-                                        })
-                                    }
-
-                                })
-                                .catch(error => {
-                                    console.log(error);
-                                })
-                            }
-
-                        })
-                    }
-                })
-        }
-
-        function crear_encargado(encar){
-
-            Swal.fire({
-                title: 'Desea crear datos para el encargado?',
-                text: "No existe coincidencia con este numero de cedula!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Si'
-            }).then(resultado => {
-                if (resultado.value) {
-                    var siguiente = document.getElementById('encargado_formulario').innerHTML;
-                    Swal.fire({
-                        title: '<u>Datos del Encargado</u>',
-                        html:
-                        siguiente,
-                        width: 800,
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Guardar',
-
-                        }).then(resultado => {
-                            if (resultado.value) {
-                                var cedula_madre = Swal.getPopup().querySelector('#cedula_encargado_aux').value;
-                                var nombre_madre = Swal.getPopup().querySelector('#encargado_nombre_aux').value;
-                                var parentezo = Swal.getPopup().querySelector('#encargado_parentezco').value;
-                                var telefono = Swal.getPopup().querySelector('#telefono_encargado_aux').value;
-
-                                axios.post('/encargado_crear',  {
-                                    cedula_madre : cedula_madre,
-                                    nombre_madre : nombre_madre,
-                                    parentezo : parentezo,
-                                    telefono : telefono,
-                                })
-                                .then(respuesta => {
-                                    if(respuesta.data.ok == 1){
-
-                                        if(encar == 1){
-                                            document.getElementById('id_encargado').value = respuesta.data.id;
-                                            document.getElementById('cedula_encargado').value = respuesta.data.cedula;
-                                            document.getElementById('nombre_encargado').value = respuesta.data.nombre;
-                                        }
-
-                                        if(encar == 2){
-                                            document.getElementById('id_encargado1').value = respuesta.data.id;
-                                            document.getElementById('cedula_encargado1').value = respuesta.data.cedula;
-                                            document.getElementById('nombre_encargado1').value = respuesta.data.nombre;
-                                        }
-
-                                        if(encar == 3){
-                                            document.getElementById('id_encargado2').value = respuesta.data.id;
-                                            document.getElementById('cedula_encargado2').value = respuesta.data.cedula;
-                                            document.getElementById('nombre_encargado2').value = respuesta.data.nombre;
-                                        }
-
-                                        if(encar == 4){
-                                            document.getElementById('id_encargado3').value = respuesta.data.id;
-                                            document.getElementById('cedula_encargado3').value = respuesta.data.cedula;
-                                            document.getElementById('nombre_encargado3').value = respuesta.data.nombre;
-                                        }
-
-                                        Swal.fire(
-                                            'Datos del Encargado',
-                                            respuesta.data.mensaje,
-                                            'success'
-                                        )
-                                    }else{
-                                        Swal.fire({
-                                            icon: 'error',
-                                            title: 'Oops...',
-                                            text: respuesta.data.mensaje,
-                                        })
-                                    }
-
-                                })
-                                .catch(error => {
-                                    console.log(error);
-                                })
-                            }
-
-                    })
-                }
-            })
-        }
-
-
-    </script>
+    <script src="{{ asset('js/crear_alumno.js') }}"></script>
 </x-app-layout>

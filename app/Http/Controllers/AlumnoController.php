@@ -45,7 +45,7 @@ class AlumnoController extends Controller
 
     public function store(AlumnoRequest $request)
     {
-        $cedula = $request->cedula;
+        $cedula = str_replace('.', '' ,$request->cedula);
         $validar_cedula = Alumno::where('cedula', $cedula)
         ->where('estado_id', 1)
         ->first();
@@ -160,7 +160,7 @@ class AlumnoController extends Controller
 
             $ant_doc_f = Storage::exists($alumno->foto);
             if($ant_doc_f){
-                Storage::delete($alumno->foto);
+                // Storage::delete($alumno->foto);
             }
             $filePath = $request->file('foto_perfil')->store('public/foto_perfil');
             $foto_perfil = $filePath;
@@ -233,7 +233,9 @@ class AlumnoController extends Controller
 
     public function madre_consulta(Request $request)
     {
-        $madre = Madre::where('cedula', $request->cedula)
+        $cedula = str_replace('.', '', $request->cedula);
+
+        $madre = Madre::where('cedula', $cedula)
         ->where('estado_id', 1)
         ->first();
 
@@ -242,25 +244,26 @@ class AlumnoController extends Controller
 
     public function madre_crear(Request $request)
     {
+        $cedula = str_replace('.', '', $request->cedula_madre);
 
-        if(empty($request->cedula_madre)){
+        if(empty($cedula)){
             $data['mensaje'] = 'La cedula de la madre no puede estar vacio.';
             $data['ok'] = 0;
             return response()->json($data);
         }
 
 
-        if($request->cedula_madre == 0){
+        if($cedula == 0){
             $data['mensaje'] = 'El numero de cedula no puede ser 0';
             $data['ok'] = 0;
             return response()->json($data);
         }else{
-            $validar_cedula = Madre::where('cedula', $request->cedula_madre)
+            $validar_cedula = Madre::where('cedula', $cedula)
             ->where('estado_id', 1)
             ->first();
 
             if(!empty($validar_cedula->cedula)){
-                $data['mensaje'] = 'Ya existe una persona con este numero de cedula: ' .$request->cedula_madre .' - ' .$validar_cedula->nombre .$validar_cedula->apellido;
+                $data['mensaje'] = 'Ya existe una persona con este numero de cedula: ' .$cedula .' - ' .$validar_cedula->nombre .$validar_cedula->apellido;
                 $data['ok'] = 0;
                 return response()->json($data);
             }
@@ -286,7 +289,7 @@ class AlumnoController extends Controller
         $madre = Madre::create([
             'nombre' => $request->nombre_madre,
             'apellido' => $request->apellido_madre,
-            'cedula' => $request->cedula_madre,
+            'cedula' => $cedula,
             'telefono_particular' => $request->telefono_particular,
             'telefono_wapp' => $request->telefono,
             'lugar_trabajo' => $request->lugar_trabajo,
@@ -313,7 +316,9 @@ class AlumnoController extends Controller
 
     public function padre_consulta(Request $request)
     {
-        $padre = Padre::where('cedula', $request->cedula)
+        $cedula = str_replace('.', '', $request->cedula);
+
+        $padre = Padre::where('cedula', $cedula)
         ->where('estado_id', 1)
         ->first();
 
@@ -322,24 +327,26 @@ class AlumnoController extends Controller
 
     public function padre_crear(Request $request)
     {
-        if(empty($request->cedula_madre)){
+
+        $cedula = str_replace('.', '', $request->cedula_madre);
+
+        if(empty($cedula)){
             $data['mensaje'] = 'La cedula del padre no puede estar vacio.';
             $data['ok'] = 0;
             return response()->json($data);
         }
 
-
-        if($request->cedula_madre == 0){
+        if($cedula == 0){
             $data['mensaje'] = 'El numero de cedula no puede ser 0';
             $data['ok'] = 0;
             return response()->json($data);
         }else{
-            $validar_cedula = Padre::where('cedula', $request->cedula_madre)
+            $validar_cedula = Padre::where('cedula', $cedula)
             ->where('estado_id', 1)
             ->first();
 
             if(!empty($validar_cedula->cedula)){
-                $data['mensaje'] = 'Ya existe una persona con este numero de cedula: ' .$request->cedula_madre .' - ' .$validar_cedula->nombre .$validar_cedula->apellido;
+                $data['mensaje'] = 'Ya existe una persona con este numero de cedula: ' .$cedula .' - ' .$validar_cedula->nombre .$validar_cedula->apellido;
                 $data['ok'] = 0;
                 return response()->json($data);
             }
@@ -365,7 +372,7 @@ class AlumnoController extends Controller
         $padre = Padre::create([
             'nombre' => $request->nombre_madre,
             'apellido' => $request->apellido_madre,
-            'cedula' => $request->cedula_madre,
+            'cedula' => $cedula,
             'telefono_particular' => $request->telefono_particular,
             'telefono_wapp' => $request->telefono,
             'lugar_trabajo' => $request->lugar_trabajo,
@@ -391,7 +398,9 @@ class AlumnoController extends Controller
 
     public function encargado_consulta(Request $request)
     {
-        $encargado = Encargado::where('cedula', $request->cedula)
+
+        $cedula = str_replace('.', '', $request->cedula);
+        $encargado = Encargado::where('cedula', $cedula)
         ->where('estado_id', 1)
         ->first();
 
@@ -401,23 +410,25 @@ class AlumnoController extends Controller
     public function encargado_crear(Request $request)
     {
 
-        if(empty($request->cedula_madre)){
+        $cedula = str_replace('.', '', $request->cedula_madre);
+
+        if(empty($cedula)){
             $data['mensaje'] = 'La cedula del encargado no puede estar vacio.';
             $data['ok'] = 0;
             return response()->json($data);
         }
 
-        if($request->cedula_madre == 0){
+        if($cedula == 0){
             $data['mensaje'] = 'El numero de cedula no puede ser 0';
             $data['ok'] = 0;
             return response()->json($data);
         }else{
-            $validar_cedula = Encargado::where('cedula', $request->cedula_madre)
+            $validar_cedula = Encargado::where('cedula', $cedula)
             ->where('estado_id', 1)
             ->first();
 
             if(!empty($validar_cedula->cedula)){
-                $data['mensaje'] = 'Ya existe una persona con este numero de cedula: ' .$request->cedula_madre .' - ' .$validar_cedula->nombre .$validar_cedula->apellido;
+                $data['mensaje'] = 'Ya existe una persona con este numero de cedula: ' .$cedula .' - ' .$validar_cedula->nombre .$validar_cedula->apellido;
                 $data['ok'] = 0;
                 return response()->json($data);
             }
@@ -431,7 +442,7 @@ class AlumnoController extends Controller
 
         $encargado = Encargado::create([
             'nombre' => $request->nombre_madre,
-            'cedula' => $request->cedula_madre,
+            'cedula' => $cedula,
             'telefono' => $request->telefono,
             'parentezco' => $request->parentezo,
             'usuario_grabacion' => auth()->user()->id,

@@ -34,8 +34,8 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified'
 ])->group(function () {
-    Route::get('/cobros', [MatriculaController::class, 'cobros'])->name('cobros');
     Route::get('/', [InicioController::class, 'index'])->name('dashboard');
+    Route::get('/matriculas/cobros/{id}', [MatriculaController::class, 'cobros'])->name('matricula.cobro');
     Route::resource('/alumnos', AlumnoController::class)->names('alumno');
     Route::resource('/matriculas', MatriculaController::class)->names('matricula');
 
