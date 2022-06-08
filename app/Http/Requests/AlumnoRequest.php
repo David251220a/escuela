@@ -27,6 +27,7 @@ class AlumnoRequest extends FormRequest
             'cedula' => 'required',
             'nombre' => 'required',
             'apellido' => 'required',
+            'direccion' => 'required',
             'fecha_nacimiento' => 'required',
             'foto_perfil' => 'image|mimes:jpeg,png,jpg,gif',
             'foto.*' => 'image|mimes:jpeg,png,jpg,gif',

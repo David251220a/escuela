@@ -174,12 +174,12 @@
 
                         <div class="mb-2">
                             <label for="">Total a Cobrar</label>
-                            <input type="text" name="total_cobrar" id="total_cobrar" value="0" class="border-gray-500 rounded w-full text-right" readonly>
+                            <input type="text" name="total_cobrar" id="total_cobrar" class="border-gray-500 rounded w-full text-right text-2xl" value="0" readonly>
                         </div>
 
                         <div class="mb-2">
                             <label for="">Total a Pagar</label>
-                            <input type="text" name="total_pagar" id="total_pagar" value="0" class="border-gray-500 rounded w-full text-right"
+                            <input type="text" name="total_pagar" id="total_pagar" value="0" class="border-gray-500 rounded w-full text-right text-2xl"
                             onkeyup="format(this)" onchange="format(this)" required>
                         </div>
 
