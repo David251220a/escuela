@@ -27,20 +27,21 @@
 
                             @foreach ($alumnos as $item)
                                 <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{{ number_format($item->cedula, 0, ".", ".") }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{{ $item->nombre }} {{ $item->apellido }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                                    <td class="px-6 whitespace-nowrap text-xl text-gray-500 text-center">{{ number_format($item->cedula, 0, ".", ".") }}</td>
+                                    <td class="px-6 whitespace-nowrap text-xl text-gray-500 text-center">{{ $item->nombre }} {{ $item->apellido }}</td>
+                                    <td class="px-6 whitespace-nowrap text-xl text-gray-500 text-center">
                                         <a
                                         href="#"
                                         class= "text-green-500 font-bold"
                                         >  {{ $item->estado->nombre }}</a>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{{ $item->grado->nombre }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{{ $item->turno->nombre }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">
-                                        <a href="#" class="whitespace-nowrap text-sm mr-2"><i class='bx bx-user-pin'></i></a>
-                                        <a href="{{ route('alumno.edit', $item) }}" class="whitespace-nowrap text-sm mr-2"><i class='bx bx-edit-alt'></i></a>
-                                        <a href="{{ route('matricula.cobro', $item->id) }}" class="whitespace-nowrap text-sm mr-2"><i class='bx bx-coin-stack'></i></a>
+                                    <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-center">{{ $item->grado->nombre }}</td>
+                                    <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-center">{{ $item->turno->nombre }}</td>
+                                    <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-right">
+                                        <a href="#" class="whitespace-nowrap text-5xl mr-2"><i class='bx bx-user-pin'></i></a>
+                                        <a href="{{ route('alumno.edit', $item) }}" class="whitespace-nowrap text-5xl mr-2"><i class='bx bx-edit-alt'></i></a>
+                                        <a href="{{ route('matricula.cobro', $item->id) }}" class="whitespace-nowrap text-5xl mr-2"><i class='bx bx-coin-stack'></i></a>
+                                        <a href="{{ route('ingreso.cobro', $item->id) }}" class="whitespace-nowrap text-5xl mr-2"><i class='bx bx-cart-add'></i></a>
                                     </td>
                                 </tr>
                             @endforeach

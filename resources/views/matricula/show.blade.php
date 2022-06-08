@@ -1,7 +1,7 @@
 <x-app-layout>
 
     <div class="mb-2">
-        <h2 class="text-center text-2xl font-semibold text-gray-600">Cobro de Matricula</h2>
+        <h2 class="text-center text-2xl font-semibold text-gray-600">Cobro de Cuota</h2>
     </div>
 
     <div>
@@ -55,12 +55,12 @@
 
                                     <thead class="bg-gray-50">
                                         <tr>
-                                            <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Cuota</th>
-                                            <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Fecha Vencimiento</th>
-                                            <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Monto Cuota</th>
-                                            <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Monto Saldo</th>
-                                            <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Monto Cobrado</th>
-                                            <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Seleccionar</th>
+                                            <th scope="col" class="px-6 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Cuota</th>
+                                            <th scope="col" class="px-6 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Fecha Vencimiento</th>
+                                            <th scope="col" class="px-6 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Monto Cuota</th>
+                                            <th scope="col" class="px-6 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Monto Saldo</th>
+                                            <th scope="col" class="px-6 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Monto Cobrado</th>
+                                            <th scope="col" class="px-6 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Seleccionar</th>
                                         </tr>
                                     </thead>
 
@@ -72,29 +72,29 @@
 
                                             @if ($item->monto_cuota_cobrado < $item->monto_cuota_cobrar)
                                                 <tr>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                                                    <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-center">
                                                         {{ number_format($item->cuota, 0, ".", ".") }}
                                                     </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                                                    <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-center">
                                                         <input type="date" name="fecha_vencimiento[{{$cont}}]" id="fecha_vencimiento[{{$cont}}]"
                                                         value="{{ $item->fecha_vencimiento }}" class=" text-center border-gray-100" readonly>
                                                     </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                                                    <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-center">
                                                         {{ number_format($item->monto_cuota_cobrar, 0, ".", ".") }}
                                                         <input type="hidden" name="cuota_cobrar[{{$cont}}]" id="cuota_cobrar[{{$cont}}]"
                                                         value="{{$item->monto_cuota_cobrar}}">
                                                     </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                                                    <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-center">
                                                         <input type="text" name="cuota_saldo[{{$cont}}]" id="cuota_saldo[{{$cont}}]"
                                                         value="{{ number_format($item->saldo, 0, ".", ".") }}"
                                                         class="border border-gray-100 rounded w-full text-center" readonly>
                                                     </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                                                    <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-center">
                                                         {{ number_format($item->monto_cuota_cobrado, 0, ".", ".") }}
                                                         <input type="hidden" name="cuota_cobrado[{{$cont}}]" id="cuota_cobrado[{{$cont}}]"
                                                         value="{{$item->monto_cuota_cobrado}}">
                                                     </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                                                    <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-center">
                                                         <input type="checkbox" name="{{$cont}}" id="{{$cont}}" value="0"
                                                         onclick="cal_total_pagar(this)">
                                                         <input type="hidden" name="cuota[]" id="cuota[]" value="{{$item->id}}">
@@ -165,7 +165,7 @@
                 <div class="mt-4">
 
                     <div class="md:grid grid-cols-4 gap-4 px-4 py-6">
-                        <div class="mb-2" style="display: none">
+                        <div class="mb-2" >
                             <label for="">Aplicar Multa</label>
                             <input type="text" name="multa" id="multa" value="{{ $paramentro_general->monto_multa }}"
                             onkeyup="format(this)" onchange="format(this)"
@@ -201,7 +201,7 @@
                     class="inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded
                     shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700
                     active:shadow-lg transition duration-150 ease-in-out"
-                     value="">Guardar</button>
+                     value="">Cobrar</button>
                 </div>
 
             </form>
