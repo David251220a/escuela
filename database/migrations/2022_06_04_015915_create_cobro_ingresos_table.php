@@ -31,8 +31,10 @@ return new class extends Migration
             $table->string('factura_nro', 6)->nullable(' ');
             $table->decimal('monto_total_factura', 12, 0)->default(0);
             $table->decimal('monto_cobrado_factura', 12, 0)->default(0);
+            $table->integer('cantidad')->default(0);
             $table->integer('cobro_ingreso_concepto')->default(0);
             $table->unsignedInteger('estado_id')->default(1);
+            $table->integer('alumno_id')->default(0);
             $table->foreignId('usuario_alta')->references('id')->on('users');
             $table->integer('usuario_modificacion')->default(1);
             $table->timestamps();

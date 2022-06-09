@@ -80,7 +80,7 @@
                                 <a class="" href="{{ route('consulta.index') }}">Grado - Turno</a>
                             </li>
                             <li>
-                                <a class="" href="#">Web Desing 2</a>
+                                <a class="" href="{{ route('consulta.cobros_varios') }}">Cobros Varios</a>
                             </li>
 
                         </ul>

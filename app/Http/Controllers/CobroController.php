@@ -90,6 +90,7 @@ class CobroController extends Controller
                 'cantidad' => $cantidad[$i],
                 'cobro_ingreso_concepto' => $id_concepto[$i],
                 'estado_id' => 1,
+                'alumno_id' => $alumno->id,
                 'usuario_alta' => auth()->user()->id,
                 'usuario_modificacion' => auth()->user()->id,
             ]);

@@ -29,4 +29,8 @@ class Cobro extends Model
         return $this->belongsTo(CobroConcepto::class, 'cobro_concepto_id');
     }
 
+    public function estado(){
+        return $this->belongsTo(Estado::class, 'estado_id');
+    }
+
 }
