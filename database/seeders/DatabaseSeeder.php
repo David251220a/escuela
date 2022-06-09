@@ -17,19 +17,20 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 
-        DB::table('users')->insert([
-            'name' => 'Usuario',
-            'email' => 'dev@dev',
-            'password' => Hash::make('hola123456'),
-        ]);
+        // DB::table('users')->insert([
+        //     'name' => 'Usuario',
+        //     'email' => 'dev@dev',
+        //     'password' => Hash::make('hola123456'),
+        // ]);
 
-        $this->call([
-            Estado::class,
-        ]);
+        // $this->call([
+        //     Estado::class,
+        // ]);
 
         DB::table('tipo_documento')->insert([
             'nombre' => 'DOCUMENTO DE IDENTIDAD',
             'estado_id' => 1,
+            'usuario_grabacion' => 1,
         ]);
 
         DB::table('turno')->insert([

@@ -67,6 +67,7 @@ function anadir_ingreso(){
     aux_total = aux_total.split('').reverse().join('').replace(/^[\.]/,'');
     document.getElementById('total_ingresoss').value = aux_total;
     document.getElementById('total_pagar').value = aux_total;
+    document.getElementById('total_pagar_completo').value = aux_total;
     document.getElementById('cantidad_total').value = total_cantidad;
 }
 
@@ -80,6 +81,7 @@ function quitar_concepto(btn_quitar){
     document.getElementById('total_ingresoss').value = aux_total;
     document.getElementById('cantidad_total').value = total_cantidad;
     document.getElementById('total_pagar').value = aux_total;
+    document.getElementById('total_pagar_completo').value = aux_total;
 
     var rowIndex = btn_quitar.parentNode.parentNode.parentNode.rowIndex;
     document.getElementById("ingresos").deleteRow(rowIndex);
@@ -120,7 +122,7 @@ document.addEventListener('keydown', (event) => {
         }).then(resultado => {
             if (resultado.value) {
                 select = document.getElementById('ingreso_concepto');
-                select2 = document.getElementById('ingreso_concepto_precio');
+                select_precio = document.getElementById('ingreso_concepto_precio');
                 var nombre = Swal.getPopup().querySelector('#nombre').value;
                 var precio = Swal.getPopup().querySelector('#precio').value;
                 axios.post('/cobros/ingreso/crear',  {
@@ -131,28 +133,24 @@ document.addEventListener('keydown', (event) => {
                     for (let i = select.options.length; i >= 0; i--) {
                         select.remove(i);
                     }
-
-                    for(var i=0; i < respuesta.data.length; i++){
-                        var option = document.createElement('option');
-                        var valor = respuesta.data[i].id;
-                        var valor2 = respuesta.data[i].nombre;
-                        option.value = valor;
-                        option.text = valor2;
-                        select.appendChild(option);
-                    }
-
-                    for (let i = select2.options.length; i >= 0; i--) {
-                        select.remove(i);
+                    for (let i = select_precio.options.length; i >= 0; i--) {
+                        select_precio.remove(i);
                     }
 
                     for(var i=0; i < respuesta.data.length; i++){
                         var option = document.createElement('option');
+                        var option2 = document.createElement('option');
                         var valor = respuesta.data[i].id;
                         var valor2 = respuesta.data[i].nombre;
+                        var valor3 = respuesta.data[i].precio;
                         option.value = valor;
                         option.text = valor2;
                         select.appendChild(option);
+                        option2.value = valor3;
+                        option2.text = valor3;
+                        select_precio.appendChild(option2);
                     }
+
                 })
                 .catch(error => {
                     console.log(error);

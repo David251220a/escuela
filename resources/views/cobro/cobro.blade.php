@@ -112,6 +112,33 @@
         </div>
     </div>
 
+
+    <div class="md:grid grid-cols-2 gap-4 px-4 py-6">
+
+        <div class="mb-2">
+            <label for="">Total a Pagar</label>
+            <input type="text" name="total_pagar_completo" id="total_pagar_completo" class="border-gray-500 rounded w-full text-right text-2xl" value="0"
+            onkeyup="format(this)" onchange="format(this)" required>
+        </div>
+
+        <div class="mb-4">
+            <label for="">Tipo de Cobro</label>
+            <select name="tipo_cobro" id="tipo_cobro" class="w-full rounded border-gray-400 enviar">
+                @foreach ($tipo_cobro as $item)
+                    <option {{ (old('tipo_cobro') == $item->id ? 'selected' : '' ) }}  value="{{ $item->id }}">{{ $item->nombre }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+
+    <div class="mb-4 pl-4">
+        <button type="submit"
+        class="inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded
+        shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700
+        active:shadow-lg transition duration-150 ease-in-out"
+         value="">Cobrar</button>
+    </div>
+
     <div id="conceptos" style="display: none">
 
         <div class="md:grid grid-cols-2 gap-4 px-4 py-6">
