@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class Estado extends Seeder
 {
@@ -14,6 +15,12 @@ class Estado extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('estado')->insert([
+            'nombre' => 'ACTIVO',
+        ]);
+
+        DB::table('estado')->insert([
+            'nombre' => 'INACTIVO',
+        ]);
     }
 }
