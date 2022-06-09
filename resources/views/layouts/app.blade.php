@@ -82,6 +82,9 @@
                             <li>
                                 <a class="" href="{{ route('consulta.cobros_varios') }}">Cobros Varios</a>
                             </li>
+                            <li>
+                                <a class="" href="{{ route('consulta.cobros_varios_alumno') }}">Cobros Alumno</a>
+                            </li>
 
                         </ul>
                     </li>

@@ -43,6 +43,7 @@ Route::middleware([
 
     Route::get('/consultas', [ConsultaController::class, 'index'])->name('consulta.index');
     Route::get('/consultas/cobros_varios', [ConsultaController::class, 'cobros_varios'])->name('consulta.cobros_varios');
+    Route::get('/consultas/cobros_varios/alumno', [ConsultaController::class, 'cobros_varios_alumno'])->name('consulta.cobros_varios_alumno');
 
     Route::get('/cobros/ingreso/{id}', [CobroController::class, 'cobros_varios'])->name('ingreso.cobro');
     Route::post('/cobros/ingreso/{id}', [CobroController::class, 'store'])->name('ingreso.store');
