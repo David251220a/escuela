@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class CobroIngreso extends Model
 {
     use HasFactory;
+
+    protected $table = 'cobro_ingreso';
+
+    protected $guarded = [];
+
 }

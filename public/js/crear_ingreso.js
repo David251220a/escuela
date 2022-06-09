@@ -55,10 +55,17 @@ function anadir_ingreso(){
     precio = precio.split('').reverse().join('').replace(/^[\.]/,'');
     document.getElementById("ingresos").insertRow(-1).innerHTML =
     '<tr>\
-        <td class"text-center w-full" style="text-align: center">'+text_concepto+' <input type="hidden" name="id_concepto['+contador+']" value="'+id_ingreso+'" readonly> </td>\
-        <td class"text-right"><input type="text" class="text-right w-full border-gray-100" name="precio['+contador+']" value="'+precio+'" readonly> </td>\
-        <td class"text-right"><input type="text" class="text-right w-full border-gray-100" name="cantidad['+contador+']" id="cantidad['+contador+']" value="'+cantidad+'" readonly></td>\
-        <td class"text-right"><input type="text" class="text-right w-full border-gray-100" name="total_ingreso['+contador+']" id="total_ingreso['+contador+']" value="'+total_ingreso+'" readonly></td>\
+        <td class"text-center w-full" style="text-align: center">'+text_concepto+'<input type="hidden" name="id_concepto[]" value="'+id_ingreso+'"\
+        </td>\
+        <td class"text-right">\
+        <input type="text" class="text-right w-full border-gray-100" name="precio['+contador+']" value="'+precio+'" readonly><input type="hidden" name="precio_aux[]" value="'+precio+'" readonly>\
+        </td>\
+        <td class"text-right">\
+        <input type="text" class="text-right w-full border-gray-100" name="cantidad['+contador+']" id="cantidad['+contador+']" value="'+cantidad+'" readonly><input type="hidden"name="cantidad_aux[]" value="'+cantidad+'" readonly>\
+        </td>\
+        <td class"text-right">\
+        <input type="text" class="text-right w-full border-gray-100" name="total_ingreso['+contador+']" id="total_ingreso['+contador+']" value="'+total_ingreso+'" readonly><input type="hidden" name="total_ingreso_aux[]" value="'+total_ingreso+'" readonly>\
+        </td>\
         <td class"text-center"> <button type="button" id="'+contador+'" class="mx-4" onclick="quitar_concepto(this)"> <i class="bx bxs-x-circle"></i> </button> </td>\
     </tr>';
 
