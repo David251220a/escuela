@@ -80,10 +80,13 @@
                                 <a class="" href="{{ route('consulta.index') }}">Grado - Turno</a>
                             </li>
                             <li>
-                                <a class="" href="{{ route('consulta.cobros_varios') }}">Cobros Varios</a>
+                                <a class="" href="{{ route('consulta.cobros_varios') }}">Ingreso Varios</a>
                             </li>
                             <li>
-                                <a class="" href="{{ route('consulta.cobros_varios_alumno') }}">Cobros Alumno</a>
+                                <a class="" href="{{ route('consulta.cobros_varios_alumno') }}">Ingreso Alumno</a>
+                            </li>
+                            <li>
+                                <a class="" href="{{ route('consulta.cobros_varios_grado') }}">Ingreso Grado</a>
                             </li>
 
                         </ul>

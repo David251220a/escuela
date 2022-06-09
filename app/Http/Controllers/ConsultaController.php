@@ -200,4 +200,88 @@ class ConsultaController extends Controller
 
     }
 
+    public function cobros_varios_grado(Request $request)
+    {
+        $ingreso_concepto = CobroIngresoConcepto::where('estado_id', 1)
+        ->get();
+        $grado = Grado::where('estado_id', 1)->get();
+        $turno = Turno::where('estado_id', 1)->get();
+        $search_grado = 1;
+        $search_turno = 1;
+
+        if(!empty($request->grado)){
+            $search_grado = $request->grado;
+        }
+
+        if(!empty($request->turno)){
+            $search_turno = $request->turno;
+        }
+
+        if(empty($request->ingreso_concepto)){
+            $search_concepto = 9999;
+        }else{
+            $search_concepto = $request->ingreso_concepto;
+        }
+
+        if(empty($request->desde_fecha)){
+            $search_desde_fecha =  date('Y-m-d', strtotime(Carbon::now()));
+        }else{
+            $search_desde_fecha = $request->desde_fecha;
+            $search_desde_fecha =  date('Y-m-d', strtotime($search_desde_fecha));
+        }
+
+        if(empty($request->hasta_fecha)){
+            $search_hasta_fecha =  date('Y-m-d', strtotime(Carbon::now()));
+        }else{
+            $search_hasta_fecha = $request->hasta_fecha;
+            $search_hasta_fecha =  date('Y-m-d', strtotime($search_hasta_fecha));
+        }
+
+        if($search_concepto == 9999){
+            $cobros = CobroIngreso::join('cobro', 'cobro_ingreso.cobro_id', '=', 'cobro.id')
+            ->select('cobro_ingreso.*', 'cobro.fecha_cobro', 'cobro.estado_id')
+            ->where('cobro.cobro_concepto_id', 3)
+            ->where('cobro.estado_id', 1)
+            ->whereBetween(DB::raw('CAST(cobro.fecha_cobro AS DATE)'),[$search_desde_fecha, $search_hasta_fecha])
+            ->where('cobro_ingreso.cobro_ingreso_concepto', '<=', $search_concepto)
+            ->paginate(10);
+
+            $cobros_aux = CobroIngreso::join('cobro', 'cobro_ingreso.cobro_id', '=', 'cobro.id')
+            ->select('cobro_ingreso.*', 'cobro.fecha_cobro', 'cobro.estado_id')
+            ->where('cobro.cobro_concepto_id', 3)
+            ->where('cobro.estado_id', 1)
+            ->whereBetween(DB::raw('CAST(cobro.fecha_cobro AS DATE)'),[$search_desde_fecha, $search_hasta_fecha])
+            ->where('cobro_ingreso.cobro_ingreso_concepto', '<=', $search_concepto)
+            ->get();
+
+        }else{
+            $cobros = CobroIngreso::join('cobro', 'cobro_ingreso.cobro_id', '=', 'cobro.id')
+            ->select('cobro_ingreso.*', 'cobro.fecha_cobro', 'cobro.estado_id')
+            ->where('cobro.cobro_concepto_id', 3)
+            ->where('cobro.estado_id', 1)
+            ->whereBetween(DB::raw('CAST(cobro.fecha_cobro AS DATE)'),[$search_desde_fecha, $search_hasta_fecha])
+            ->where('cobro_ingreso.cobro_ingreso_concepto', $search_concepto)
+            ->paginate(10);
+
+            $cobros_aux = CobroIngreso::join('cobro', 'cobro_ingreso.cobro_id', '=', 'cobro.id')
+            ->select('cobro_ingreso.*', 'cobro.fecha_cobro', 'cobro.estado_id')
+            ->where('cobro.cobro_concepto_id', 3)
+            ->where('cobro.estado_id', 1)
+            ->whereBetween(DB::raw('CAST(cobro.fecha_cobro AS DATE)'),[$search_desde_fecha, $search_hasta_fecha])
+            ->where('cobro_ingreso.cobro_ingreso_concepto', $search_concepto)
+            ->get();
+        }
+
+        return view('consulta.cobros_varios_grado', compact('ingreso_concepto'
+        , 'search_concepto'
+        , 'grado'
+        , 'turno'
+        , 'cobros'
+        , 'cobros_aux'
+        , 'search_grado'
+        , 'search_turno'
+        , 'search_desde_fecha'
+        , 'search_hasta_fecha'));
+    }
+
 }

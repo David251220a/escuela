@@ -77,7 +77,7 @@
         @php
             $total_ingreso = 0;
             $cantidad = 0;
-            foreach ($cobros as $item) {
+            foreach ($cobros_aux as $item) {
                 $total_ingreso = $total_ingreso + $item->monto_cobrado_factura;
                 $cantidad = $cantidad + $item->cantidad;
             }

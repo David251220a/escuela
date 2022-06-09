@@ -1,10 +1,10 @@
 <x-app-layout>
-
     <div class="mb-4">
-        <h2 class="text-2xl text-gray-500 font-semibold mb-2 text-center">Ingresos Varios</h2>
+        <h2 class="text-2xl text-gray-500 font-semibold mb-2 text-center">Ingresos Varios - Grado / Turno</h2>
     </div>
 
-    <form action="{{ route('consulta.cobros_varios') }}" method="GET">
+
+    <form action="{{ route('consulta.cobros_varios_grado') }}" method="GET">
 
         <div class="mb-4 border-b border-gray-200">
 
@@ -33,6 +33,24 @@
                 </div>
 
                 <div class="mb-4">
+                    <label for="">Grado</label>
+                    <select name="grado" id="grado" class="w-full rounded border-gray-400 enviar">
+                        @foreach ($grado as $item)
+                            <option {{ ($search_grado == $item->id ? 'selected' : '' ) }} value="{{ $item->id }}">{{ $item->nombre }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label for="">Turno</label>
+                    <select name="turno" id="turno" class="w-full rounded border-gray-400 enviar">
+                        @foreach ($turno as $item)
+                            <option {{ ($search_turno == $item->id ? 'selected' : '' ) }} value="{{ $item->id }}">{{ $item->nombre }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="mb-4">
                     <button type="submit" class="bg-green-500 rounded px-4 py-2 text-center text-white text-base font-bold mt-5">Filtrar</button>
                     <a href="#"
                     class="ml-2 border border-green-500 rounded text-center font-bold px-4 py-2 text-green-700" target="__blank">
@@ -50,8 +68,12 @@
         $total_ingreso = 0;
         $cantidad = 0;
         foreach ($cobros_aux as $item) {
-            $total_ingreso = $total_ingreso + $item->monto_cobrado_factura;
-            $cantidad = $cantidad + $item->cantidad;
+            if($item->alumno->grado->id == $search_grado){
+                if($item->alumno->turno->id == $search_turno){
+                    $total_ingreso = $total_ingreso + $item->monto_cobrado_factura;
+                    $cantidad = $cantidad + $item->cantidad;
+                }
+            }
         }
     @endphp
 
@@ -77,26 +99,33 @@
                         <tbody class="bg-white divide-y divide-gray-200">
 
                             @foreach ($cobros as $item)
-                                <tr>
-                                    <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-right">{{ number_format($item->alumno->cedula, 0, ".", ".") }}</td>
-                                    <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-left">
-                                        {{ $item->alumno->nombre }} {{ $item->alumno->apellido }}
-                                    </td>
-                                    <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-center">{{ date('Y-m-d', strtotime($item->fecha_cobro)) }}</td>
-                                    <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-left">
-                                        {{ $item->ingreso_concepto->nombre }}
-                                    </td>
-                                    <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-right">
-                                        {{ $item->cantidad }}
-                                    </td>
-                                    <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-right">{{ number_format($item->monto_cobrado_factura, 0, ".", ".") }}</td>
-                                    <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-center">
-                                        <a
-                                        href="#"
-                                        class= "text-green-500 font-bold"
-                                        >  {{ $item->cobros->estado->nombre }}</a>
-                                    </td>
-                                </tr>
+                                @if ($item->alumno->grado->id == $search_grado)
+
+                                    @if ($item->alumno->turno->id == $search_turno)
+                                        <tr>
+                                            <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-right">{{ number_format($item->alumno->cedula, 0, ".", ".") }}</td>
+                                            <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-left">
+                                                {{ $item->alumno->nombre }} {{ $item->alumno->apellido }}
+                                            </td>
+                                            <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-center">{{ date('Y-m-d', strtotime($item->fecha_cobro)) }}</td>
+                                            <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-left">
+                                                {{ $item->ingreso_concepto->nombre }}
+                                            </td>
+                                            <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-right">
+                                                {{ $item->cantidad }}
+                                            </td>
+                                            <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-right">{{ number_format($item->monto_cobrado_factura, 0, ".", ".") }}</td>
+                                            <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-center">
+                                                <a
+                                                href="#"
+                                                class= "text-green-500 font-bold"
+                                                >  {{ $item->cobros->estado->nombre }}</a>
+                                            </td>
+                                        </tr>
+                                    @endif
+
+                                @endif
+
                             @endforeach
 
                         </tbody>
@@ -109,7 +138,7 @@
     </div>
 
     <div class="mb-4">
-        {{$cobros->links()}}
+        {{$cobros->appends(['desde_fecha' => $search_desde_fecha, 'hasta_fecha' => $search_hasta_fecha, 'ingreso_concepto' => $search_concepto , 'grado'=>$search_grado, 'turno'=>$search_turno])->links()}}
     </div>
 
     <div class="md:grid grid-cols-4 gap-4 px-4 py-6 mb-4">
