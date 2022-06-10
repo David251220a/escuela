@@ -275,11 +275,14 @@ class ConsultaController extends Controller
             ->get();
         }
 
+        $alumno = Alumno::all();
+
         return view('consulta.cobros_varios_grado', compact('ingreso_concepto'
         , 'search_concepto'
         , 'grado'
         , 'turno'
         , 'cobros'
+        , 'alumno'
         , 'cobros_aux'
         , 'search_grado'
         , 'search_turno'

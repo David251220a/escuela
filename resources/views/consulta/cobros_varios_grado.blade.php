@@ -152,4 +152,18 @@
         </div>
     </div>
 
+
+    <div>
+        <div class="mb-4">
+            <label for="">Ingreso Concepto</label>
+            <select name="ingreso_concepto" id="ingreso_concepto" class="w-full rounded border-gray-400 enviar mi-selector">
+                @foreach ($alumno as $item)
+                    <option value="{{ $item->id }}">{{ $item->nombre }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
 </x-app-layout>
