@@ -16,24 +16,23 @@
                     <div class="mb-4">
                         <label for="">Cedula Alumno</label>
                         <input type="text" name="cedula" id="cedula" class="w-full rounded border-gray-400 enviar text-right" value="{{ number_format($alumno->cedula, 0, ".", ".") }}"
-                        onkeyup="format(this)" onchange="format(this)">
+                        onkeyup="format(this)" onchange="format(this)" readonly>
                     </div>
                 </div>
 
                 <div class="mb-4">
                     <label for="">Alumno</label>
-                    <input type="text" name="alumno" id="alumno" class="w-full rounded border-gray-400 text-right" value="{{$alumno->nombre}} {{$alumno->apellido}}"
-                    onkeyup="format(this)" onchange="format(this)">
+                    <input type="text" name="alumno" id="alumno" class="w-full rounded border-gray-400 text-right" value="{{$alumno->nombre}} {{$alumno->apellido}}" readonly>
                 </div>
 
                 <div class="mb-4">
                     <label for="">Grado</label>
-                    <input type="text" name="grado_id" id="grado_id" class="w-full rounded border-gray-400 text-right" value="{{$alumno->grado->nombre}}">
+                    <input type="text" name="grado_id" id="grado_id" class="w-full rounded border-gray-400 text-right" value="{{$alumno->grado->nombre}}" readonly>
                 </div>
 
                 <div class="mb-4">
                     <label for="">Turno</label>
-                    <input type="text" name="turno_id" id="turno_id" class="w-full rounded border-gray-400 text-right" value="{{$alumno->turno->nombre}}">
+                    <input type="text" name="turno_id" id="turno_id" class="w-full rounded border-gray-400 text-right" value="{{$alumno->turno->nombre}}" readonly>
                 </div>
 
                 <div class="mb-4">

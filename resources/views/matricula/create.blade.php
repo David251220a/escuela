@@ -13,16 +13,13 @@
                 <div class="mb-4">
                     <label for="">Cedula Alumno</label>
                     <input type="text" name="cedula" id="cedula"  class="w-full rounded border-gray-400 enviar text-right"
-                    value="{{ old('cedula') }}" onkeyup="format(this)" onchange="format(this)" placeholder="Cedula..."  >
-                    <span>
-                        <p class="text-red-500 text-left text-sm font-semibold">Presione enter para validar numero de cedula</p>
-                    </span>
+                    value="{{ number_format( $alumno->cedula, 0, ".", ".") }}">
                 </div>
 
                 <div class="mb-4">
                     <label for="">Nombre</label>
                     <input type="text" name="nombre_apellido" id="nombre_apellido" class="w-full rounded border-gray-400 enviar enviar"
-                    value="{{ old('nombre_apellido', "SIN ESPECIFICAR") }}" readonly>
+                    value="{{ $alumno->nombre .' '.$alumno->apellido}}" readonly>
                 </div>
 
                 <div class="mb-4">

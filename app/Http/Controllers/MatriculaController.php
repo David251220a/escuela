@@ -23,7 +23,7 @@ class MatriculaController extends Controller
         return view('matricula.index');
     }
 
-    public function create()
+    public function create(Request $request)
     {
         $ciclo = Ciclo::where('estado_id', 1)
         ->get();
@@ -34,7 +34,20 @@ class MatriculaController extends Controller
         $tipo_cobro = TipoCobro::where('estado_id', 1)
         ->get();
 
-        return view('matricula.create', compact('ciclo', 'grado', 'turno', 'tipo_cobro'));
+        $alumno = Alumno::find($request->id);
+
+        $existe = Matricula::where('alumno_id', $alumno->id)
+        ->where('estado_id', 1)
+        ->where('ciclo_id', $ciclo[0]->id)
+        ->first();
+
+        if(!empty($existe)){
+            return redirect()->route('alumno.index')
+            ->withInput()
+            ->withErrors('Ya existe matriculacion para este alumno en este ciclo.');
+        }
+
+        return view('matricula.create', compact('ciclo', 'grado', 'turno', 'tipo_cobro', 'alumno'));
     }
 
     public function store(MatriculaRequest $request)

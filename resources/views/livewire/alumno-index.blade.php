@@ -38,10 +38,11 @@
                                     <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-center">{{ $item->grado->nombre }}</td>
                                     <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-center">{{ $item->turno->nombre }}</td>
                                     <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-right">
-                                        <a href="#" class="whitespace-nowrap text-5xl mr-2"><i class='bx bx-user-pin'></i></a>
-                                        <a href="{{ route('alumno.edit', $item) }}" class="whitespace-nowrap text-5xl mr-2"><i class='bx bx-edit-alt'></i></a>
-                                        <a href="{{ route('matricula.cobro', $item->id) }}" class="whitespace-nowrap text-5xl mr-2"><i class='bx bx-coin-stack'></i></a>
-                                        <a href="{{ route('ingreso.cobro', $item->id) }}" class="whitespace-nowrap text-5xl mr-2"><i class='bx bx-cart-add'></i></a>
+                                        <a href="#" class="whitespace-nowrap text-2xl mr-2"><i class='bx bx-user-pin'></i></a>
+                                        <a href="{{ route('alumno.edit', $item) }}" class="whitespace-nowrap text-2xl mr-2"><i class='bx bx-edit-alt'></i></a>
+                                        <a href="{{ route('matricula.cobro', $item->id) }}" class="whitespace-nowrap text-2xl mr-2"><i class='bx bx-coin-stack'></i></a>
+                                        <a href="{{ route('ingreso.cobro', $item->id) }}" class="whitespace-nowrap text-2xl mr-2"><i class='bx bx-cart-add'></i></a>
+                                        <a href="{{ route('matricula.create', [ "id" => $item->id]) }}" class="whitespace-nowrap text-2xl mr-2"><i class='bx bx-user-plus'></i></a>
                                     </td>
                                 </tr>
                             @endforeach
