@@ -165,7 +165,7 @@
                 <div class="mt-4">
 
                     <div class="md:grid grid-cols-4 gap-4 px-4 py-6">
-                        <div class="mb-2" >
+                        <div class="mb-2" style="display: none">
                             <label for="">Aplicar Multa</label>
                             <input type="text" name="multa" id="multa" value="{{ $paramentro_general->monto_multa }}"
                             onkeyup="format(this)" onchange="format(this)"
