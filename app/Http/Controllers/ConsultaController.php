@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Alumno;
+use App\Models\Ciclo;
 use App\Models\Cobro;
 use App\Models\CobroIngreso;
 use App\Models\CobroIngresoConcepto;
+use App\Models\CobroMatriculaCuota;
 use App\Models\Grado;
+use App\Models\Matricula;
 use App\Models\Turno;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -284,4 +287,94 @@ class ConsultaController extends Controller
         , 'search_hasta_fecha'));
     }
 
+    public function cobros_cuota(Request $request)
+    {
+        $grado = Grado::where('estado_id', 1)->get();
+        $turno = Turno::where('estado_id', 1)->get();
+        $search_grado = 1;
+        $search_turno = 1;
+
+        if(!empty($request->grado)){
+            $search_grado = $request->grado;
+        }
+
+        if(!empty($request->turno)){
+            $search_turno = $request->turno;
+        }
+
+        if(empty($request->desde_fecha)){
+            $search_desde_fecha =  date('Y-m-d', strtotime(Carbon::now()));
+        }else{
+            $search_desde_fecha = $request->desde_fecha;
+            $search_desde_fecha =  date('Y-m-d', strtotime($search_desde_fecha));
+        }
+
+        if(empty($request->hasta_fecha)){
+            $search_hasta_fecha =  date('Y-m-d', strtotime(Carbon::now()));
+        }else{
+            $search_hasta_fecha = $request->hasta_fecha;
+            $search_hasta_fecha =  date('Y-m-d', strtotime($search_hasta_fecha));
+        }
+
+        $ver = 0;
+        if(empty($request->checkeado)){
+            $ver = 0;
+        }else{
+            $ver = $request->checkeado;
+        }
+
+        $cobros = CobroMatriculaCuota::join('matricula', 'cobro_matricula_cuota.matricula_id', '=', 'matricula.id')
+        ->join('cobro', 'cobro_matricula_cuota.cobro_id', '=', 'cobro.id')
+        ->select('cobro_matricula_cuota.*', 'cobro.fecha_cobro', 'matricula.grado_id','matricula.turno_id')
+        ->where('cobro.estado_id', 1)
+        ->whereBetween(DB::raw('CAST(cobro.fecha_cobro AS DATE)'),[$search_desde_fecha, $search_hasta_fecha])
+        ->where('matricula.turno_id', $search_turno)
+        ->where('matricula.grado_id', $search_grado)
+        ->paginate(10);
+
+        $cobros_aux = CobroMatriculaCuota::join('matricula', 'cobro_matricula_cuota.matricula_id', '=', 'matricula.id')
+        ->join('cobro', 'cobro_matricula_cuota.cobro_id', '=', 'cobro.id')
+        ->select('cobro_matricula_cuota.*', 'cobro.fecha_cobro', 'matricula.grado_id','matricula.turno_id')
+        ->where('cobro.estado_id', 1)
+        ->whereBetween(DB::raw('CAST(cobro.fecha_cobro AS DATE)'),[$search_desde_fecha, $search_hasta_fecha])
+        ->where('matricula.turno_id', $search_turno)
+        ->where('matricula.grado_id', $search_grado)
+        ->get();
+
+        return view('consulta.cobros_cuota', compact(
+        'grado'
+        , 'turno'
+        , 'ver'
+        , 'cobros'
+        , 'cobros_aux'
+        , 'search_grado'
+        , 'search_turno'
+        , 'search_desde_fecha'
+        , 'search_hasta_fecha'));
+    }
+
+
+    public function cobros_cuota_ver($id)
+    {
+        $alumno = Alumno::find($id);
+
+        $fecha = Carbon::now();
+        $fecha = date('Y', strtotime($fecha));
+
+        $ciclo = Ciclo::where('año', $fecha)
+        ->first();
+
+        $matricula = Matricula::where('alumno_id', $id)
+        ->where('estado_id', 1)
+        ->where('ciclo_id', $ciclo->id)
+        ->first();
+
+        if(empty($matricula)){
+            return redirect()->route('consulta.cobros_cuota')
+            ->withInput()
+            ->withErrors('Todavia no se ha matroculado al alumno en este ciclo: ' .$fecha);
+        }
+
+        return view('consulta.cobros_cuota_ver', compact('alumno'));
+    }
 }

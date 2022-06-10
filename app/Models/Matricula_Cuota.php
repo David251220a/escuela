@@ -21,4 +21,5 @@ class Matricula_Cuota extends Model
         return $this->belongsTo(Matricula::class, 'matricula_id');
     }
 
+
 }

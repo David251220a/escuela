@@ -88,6 +88,9 @@
                             <li>
                                 <a class="" href="{{ route('consulta.cobros_varios_grado') }}">Ingreso Grado</a>
                             </li>
+                            <li>
+                                <a class="" href="{{ route('consulta.cobros_cuota') }}">Ingreso Cuota</a>
+                            </li>
 
                         </ul>
                     </li>

@@ -17,4 +17,9 @@ class CobroMatriculaCuota extends Model
         return $this->belongsTo(Cobro::class, 'cobro_id');
     }
 
+    public function matricula_cuota(){
+        return $this->belongsTo(Matricula_Cuota::class, 'matricula_cuota_id');
+    }
+
+
 }

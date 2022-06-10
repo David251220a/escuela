@@ -57,4 +57,8 @@ class Alumno extends Model
         return $this->belongsTo(Turno::class, 'turno_id');
     }
 
+    public function matricula(){
+        return $this->hasMany(Matricula::class, 'alumno_id', 'id')->orderBy('id','DESC');
+    }
+
 }

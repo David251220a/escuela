@@ -33,4 +33,8 @@ class Cobro extends Model
         return $this->belongsTo(Estado::class, 'estado_id');
     }
 
+    public function forma_pago(){
+        return $this->belongsTo(TipoCobro::class, 'tipo_cobro_id');
+    }
+
 }
