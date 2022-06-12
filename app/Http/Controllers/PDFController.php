@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Alumno;
+use App\Models\CobroIngreso;
 use App\Models\Grado;
 use App\Models\Matricula_Cuota;
 use App\Models\Turno;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Facades\DB;
 use Luecano\NumeroALetras\NumeroALetras;
 
 class PDFController extends Controller
@@ -35,6 +37,32 @@ class PDFController extends Controller
         $PDF = PDF::loadView('documentos.consulta_grado_turno', compact('alumno', 'turno', 'grado'));
 
         return $PDF->stream();
+    }
+
+    public function ingreso_grado_turno($grado, $turno, $ingreso, $fecha_desde, $fecha_hasta){
+
+        $alumno = Alumno::where('grado_id', $grado)
+        ->where('turno_id', $turno)
+        ->where('estado_id', 1)
+        ->orderBy('apellido', 'ASC')
+        ->get();
+
+        $ingreso_hasta = 0;
+        if($ingreso == 9999){
+            $ingreso_hasta = 0;
+        }else{
+            $ingreso_hasta = $ingreso;
+        }
+
+        $cobros = CobroIngreso::join('cobro', 'cobro_ingreso.cobro_id', '=', 'cobro.id')
+        ->select('cobro_ingreso.*', 'cobro.fecha_cobro', 'cobro.estado_id')
+        ->where('cobro.cobro_concepto_id', 3)
+        ->where('cobro.estado_id', 1)
+        ->whereBetween(DB::raw('CAST(cobro.fecha_cobro AS DATE)'),[$fecha_desde, $fecha_hasta])
+        ->where('cobro_ingreso.cobro_ingreso_concepto', '<=', $ingreso)
+        ->where('cobro_ingreso.cobro_ingreso_concepto', '>=', $ingreso_hasta)
+        ->get();
+
     }
 
 }
