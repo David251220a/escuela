@@ -97,54 +97,52 @@
         </table>
 
         <div class="salto"></div>
-        @if (!empty($cobros))
 
-            @foreach ($tipo_ingreso as $tipo)
+        <h4 class="titulo">{{$tipo_ingreso[0]->ingreso_concepto->nombre}}</h4>
 
-                <h4 class="titulo">{{$tipo->ingreso_concepto->nombre}}</h4>
+        <table class="content">
+            <thead>
+                <tr>
+                    <th>Documento</th>
+                    <th>Alumno</th>
+                    <th>Fecha</th>
+                    <th>Monto Total</th>
+                </tr>
 
-                <table class="content">
-                    <thead>
-                        <tr>
-                            <th>Documento</th>
-                            <th>Alumno</th>
-                            <th>Fecha</th>
-                            <th>Monto Total</th>
-                        </tr>
-
-                    </thead>
-                    @php
-                        $suma = 0;
-                        $total = 0;
-                    @endphp
-                    <tbody>
-                        @foreach ($cobros as $item)
-                            @if ($item->cobro_ingreso_concepto == $tipo->cobro_ingreso_concepto)
-                                <tr>
-                                    <td style="text-align: right">{{number_format($item->alumno->cedula, 0, ".", ".")}}</td>
-                                    <td style="text-align: left">{{ $item->alumno->apellido }}, {{ $item->alumno->nombre }}</td>
-                                    <td style="text-align: center">{{ date('d/m/Y', strtotime($item->fecha_cobro)) }}</td>
-                                    <td style="text-align: right">{{number_format($item->monto_cobrado_factura, 0, ".", ".")}}</td>
-                                </tr>
+            </thead>
+            @php
+                $suma = 0;
+                $total = 0;
+                $tiene = 0;
+            @endphp
+            <tbody>
+                @foreach ($alumno as $item)
+                    <tr>
+                        <td style="text-align: right">{{number_format($item->cedula, 0, ".", ".")}}</td>
+                        <td style="text-align: left">{{ $item->apellido }}, {{ $item->nombre }}</td>
+                        @foreach ($cobros as $cobro)
+                            @if ($cobro->alumno_id == $item->id)
+                                <td style="text-align: center">{{ date('d/m/Y', strtotime($cobro->fecha_cobro)) }}</td>
+                                <td style="text-align: right">{{number_format($cobro->monto_cobrado_factura, 0, ".", ".")}}</td>
                                 @php
-                                    $suma = $suma + $item->monto_cobrado_factura
+                                    $tiene = 1;
+                                    $total = $total + $cobro->monto_cobrado_factura;
+                                @endphp
+                                @break
+                            @else
+                                @php
+                                    $tiene = 0;
                                 @endphp
                             @endif
-                            @php
-                                $total = $total + $item->monto_cobrado_factura;
-                            @endphp
                         @endforeach
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="3" style="text-align: left; font-weight: bold">SUB TOTAL - {{$tipo->ingreso_concepto->nombre}}:</td>
-                            <td style="text-align: right; font-weight: bold">{{number_format($suma, 0, ".", ".")}}</td>
-                        </tr>
-                    </tfoot>
-                </table>
-                {{-- <div style="page-break-before: always;"></div> --}}
-            @endforeach
-        @endif
+                        @if ($tiene == 0)
+                        <td style="text-align: center"></td>
+                        <td style="text-align: right">0</td>
+                        @endif
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
 
         <br>
 

@@ -12,11 +12,11 @@
 
                 <div class="mb-4">
                     <label for="">Cedula Alumno</label>
-                    <input type="text" name="cedula" id="cedula" class="border-gray-500 rounded w-full text-right text-base enviar"
-                    value="{{ number_format($search_cedula, 0, ".", ".") }}" onchange="format(this)" onkeyup="format(this)">
-                    <span class="text-red-500 text-sm font-semibold">
+                    <input type="text" name="cedula" id="cedula" class="border-gray-500 rounded w-full text-right text-base enviar" value="{{ number_format($search_cedula, 0, ".", ".") }}" readonly>
+                    {{-- value="{{ number_format($search_cedula, 0, ".", ".") }}" onchange="format(this)" onkeyup="format(this)"> --}}
+                    {{-- <span class="text-red-500 text-sm font-semibold">
                         Press ENTER para validar cedula
-                    </span>
+                    </span> --}}
                 </div>
 
                 <div class="mb-4">
@@ -61,13 +61,20 @@
 
                 <div class="mb-4">
                     <button type="submit" class="bg-green-500 rounded px-4 py-2 text-center text-white text-base font-bold mt-5">Filtrar</button>
-                    <a href="#"
+                    <a href="{{ route('pdf.ingreso_alumno', ['cedula'=>$search_cedula, 'ingreso_concepto'=>$search_concepto, 'desde_fecha'=>$search_desde_fecha, 'hasta_fecha'=>$search_hasta_fecha]) }}"
                     class="ml-2 border border-green-500 rounded text-center font-bold px-4 py-2 text-green-700" target="__blank">
                         <i class='bx bxs-file-pdf'></i>
                         PDF
                     </a>
                 </div>
 
+                <div>
+                    <a href="{{ route('alumno.index') }}"
+                    class="ml-2 border border-green-500 rounded text-center font-bold px-4 py-2 text-green-700">
+                        <i class='bx bx-arrow-back'></i>
+                        Volver a Alumnos
+                    </a>
+                </div>
             </div>
 
         </div>

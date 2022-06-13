@@ -82,9 +82,9 @@
                             <li>
                                 <a class="" href="{{ route('consulta.cobros_varios') }}">Ingreso Varios</a>
                             </li>
-                            <li>
+                            {{-- <li>
                                 <a class="" href="{{ route('consulta.cobros_varios_alumno') }}">Ingreso Alumno</a>
-                            </li>
+                            </li> --}}
                             <li>
                                 <a class="" href="{{ route('consulta.cobros_varios_grado') }}">Ingreso Grado</a>
                             </li>

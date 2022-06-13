@@ -66,6 +66,14 @@
                     <button type="button" class="bg-green-500 rounded px-4 py-2 text-center text-white text-base font-bold mt-5" onclick="anadir_ingreso()">Añadir</button>
                 </div>
 
+                <div class="mb-4">
+                    <a href="{{ route('alumno.index') }}"
+                    class="w-full ml-2 border border-green-500 rounded text-center font-bold px-4 py-2 text-green-700">
+                        <i class='bx bx-arrow-back'></i>
+                        Volver a Alumnos
+                    </a>
+                </div>
+
             </div>
         </div>
 

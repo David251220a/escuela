@@ -154,7 +154,7 @@ class ConsultaController extends Controller
                 ->select('cobro_ingreso.*', 'cobro.fecha_cobro', 'cobro.estado_id')
                 ->where('cobro.cobro_concepto_id', 3)
                 ->where('cobro.estado_id', 1)
-                ->where('alumno_id', $alumno->id)
+                ->where('cobro_ingreso.alumno_id', $alumno->id)
                 ->whereBetween(DB::raw('CAST(cobro.fecha_cobro AS DATE)'),[$search_desde_fecha, $search_hasta_fecha])
                 ->where('cobro_ingreso.cobro_ingreso_concepto', '<=', $search_concepto)
                 ->paginate(10);
@@ -163,7 +163,7 @@ class ConsultaController extends Controller
                 ->select('cobro_ingreso.*', 'cobro.fecha_cobro', 'cobro.estado_id')
                 ->where('cobro.cobro_concepto_id', 3)
                 ->where('cobro.estado_id', 1)
-                ->where('alumno_id', $alumno->id)
+                ->where('cobro_ingreso.alumno_id', $alumno->id)
                 ->whereBetween(DB::raw('CAST(cobro.fecha_cobro AS DATE)'),[$search_desde_fecha, $search_hasta_fecha])
                 ->where('cobro_ingreso.cobro_ingreso_concepto', '<=', $search_concepto)
                 ->get();
@@ -175,7 +175,7 @@ class ConsultaController extends Controller
                 ->select('cobro_ingreso.*', 'cobro.fecha_cobro', 'cobro.estado_id')
                 ->where('cobro.cobro_concepto_id', 3)
                 ->where('cobro.estado_id', 1)
-                ->where('alumno_id', $alumno->id)
+                ->where('cobro_ingreso.alumno_id', $alumno->id)
                 ->whereBetween(DB::raw('CAST(cobro.fecha_cobro AS DATE)'),[$search_desde_fecha, $search_hasta_fecha])
                 ->where('cobro_ingreso.cobro_ingreso_concepto', $search_concepto)
                 ->paginate(10);

@@ -52,7 +52,7 @@
 
                 <div class="mb-4">
                     <button type="submit" class="bg-green-500 rounded px-4 py-2 text-center text-white text-base font-bold mt-5">Filtrar</button>
-                    <a href="#"
+                    <a href="{{ route('pdf.ingreso_grado_turno', ['grado' => $search_grado, 'turno' => $search_turno, 'ingreso' => $search_concepto, 'fecha_desde' => $search_desde_fecha, 'fecha_hasta' => $search_hasta_fecha])}}"
                     class="ml-2 border border-green-500 rounded text-center font-bold px-4 py-2 text-green-700" target="__blank">
                         <i class='bx bxs-file-pdf'></i>
                         PDF

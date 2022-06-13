@@ -90,7 +90,10 @@
                         <td style="text-align: right">{{ number_format($item->cedula, 0, ".", ".") }}</td>
                         <td>{{$item->nombre }} {{$item->apellido }}</td>
                         <td style="text-align: center">{{ date('d-m-Y', strtotime($item->fecha_nacimiento)) }}</td>
-                        <td style="text-align: center">{{$item->edad}}</td>
+                        @php
+                            $edad = date_diff(date_create($item->fecha_nacimiento), date_create(Carbon\Carbon::now()));
+                        @endphp
+                        <td style="text-align: center">{{ $edad->y }}</td>
                         <td style="text-align: center">
                             <img src="{{ asset('storage/'. str_replace('public/', '', $item->foto)) }}" alt=""
                             style="width: 80px; height: 80px;align-content: center; margin: auto;">

@@ -90,13 +90,19 @@
                         <br style="margin-botton: 5px">
                         DESDE FECHA: {{date('d-m-Y', strtotime($fecha_desde))}} HASTA FECHA: {{date('d-m-Y', strtotime($fecha_hasta))}}
                         <br style="margin-botton: 5px">
-                        {{$grado_aux->nombre}} - TURNO {{$turno_aux->nombre}}
                     </th>
                 </tr>
             </thead>
         </table>
 
         <div class="salto"></div>
+
+        <div style="margin-bottom: 5px">
+            Nombre y Apellido: <b>{{$alumno->nombre}} {{$alumno->apellido}}</b>
+        </div>
+        <div>
+            Grado: <b>{{$alumno->grado->nombre}}</b> Turno: <b>{{$alumno->turno->nombre}}</b>
+        </div>
         @if (!empty($cobros))
 
             @foreach ($tipo_ingreso as $tipo)
@@ -106,8 +112,6 @@
                 <table class="content">
                     <thead>
                         <tr>
-                            <th>Documento</th>
-                            <th>Alumno</th>
                             <th>Fecha</th>
                             <th>Monto Total</th>
                         </tr>
@@ -121,9 +125,7 @@
                         @foreach ($cobros as $item)
                             @if ($item->cobro_ingreso_concepto == $tipo->cobro_ingreso_concepto)
                                 <tr>
-                                    <td style="text-align: right">{{number_format($item->alumno->cedula, 0, ".", ".")}}</td>
-                                    <td style="text-align: left">{{ $item->alumno->apellido }}, {{ $item->alumno->nombre }}</td>
-                                    <td style="text-align: center">{{ date('d/m/Y', strtotime($item->fecha_cobro)) }}</td>
+                                    <td style="text-align: center" width="80%">{{ date('d/m/Y', strtotime($item->fecha_cobro)) }}</td>
                                     <td style="text-align: right">{{number_format($item->monto_cobrado_factura, 0, ".", ".")}}</td>
                                 </tr>
                                 @php
@@ -137,7 +139,7 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="3" style="text-align: left; font-weight: bold">SUB TOTAL - {{$tipo->ingreso_concepto->nombre}}:</td>
+                            <td style="text-align: left; font-weight: bold">SUB TOTAL - {{$tipo->ingreso_concepto->nombre}}:</td>
                             <td style="text-align: right; font-weight: bold">{{number_format($suma, 0, ".", ".")}}</td>
                         </tr>
                     </tfoot>

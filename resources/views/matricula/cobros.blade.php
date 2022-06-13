@@ -18,6 +18,14 @@
         <label for="">Estado: <b class="{{($matricula->estado_id == 1 ? 'text-green-500' : 'text-red-500') }}">{{ $matricula->estado->nombre }}</b></label>
     </div>
 
+    <div class="mb-4">
+        <a href="{{ route('alumno.index') }}"
+        class="ml-2 border border-green-500 rounded text-center font-bold px-4 py-2 text-green-700">
+            <i class='bx bx-arrow-back'></i>
+            Volver a Alumnos
+        </a>
+    </div>
+
     <div class="mb-4 border-b border-gray-200">
 
         <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
