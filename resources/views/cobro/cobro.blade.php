@@ -4,7 +4,7 @@
         <h2 class="text-2xl text-gray-500 font-semibold mb-2 text-center">Ingresos Varios</h2>
     </div>
 
-    <form action="{{ route('ingreso.store', $alumno->id) }}" method="POST" onsubmit="return checkSubmit();">
+    <form action="{{ route('ingreso.store', $alumno->id) }}" method="POST" onsubmit="return checkSubmit();" novalidate>
         @csrf
 
 
@@ -152,7 +152,7 @@
 
     </form>
 
-    <div id="conceptos" style="display: none">
+    <div hidden id="conceptos" style="display: none">
 
         <div class="md:grid grid-cols-2 gap-4 px-4 py-6">
 

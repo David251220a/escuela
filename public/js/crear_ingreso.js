@@ -110,7 +110,6 @@ function mayuscula(input){
     input.value = input.value.toUpperCase();
 }
 
-var element = document.querySelectorAll('.enviar');
 document.addEventListener('keydown', (event) => {
     const keyName = event.key;
 
@@ -127,12 +126,13 @@ document.addEventListener('keydown', (event) => {
             confirmButtonText: 'Guardar',
 
         }).then(resultado => {
+
             if (resultado.value) {
                 select = document.getElementById('ingreso_concepto');
                 select_precio = document.getElementById('ingreso_concepto_precio');
                 var nombre = Swal.getPopup().querySelector('#nombre').value;
                 var precio = Swal.getPopup().querySelector('#precio').value;
-                axios.post('/cobros/ingreso/crear',  {
+                axios.post('/crear_ingreso',  {
                     nombre : nombre,
                     precio : precio
                 })
@@ -161,6 +161,7 @@ document.addEventListener('keydown', (event) => {
                 })
                 .catch(error => {
                     console.log(error);
+                    console.log(error.response.data);
                 })
 
             }
