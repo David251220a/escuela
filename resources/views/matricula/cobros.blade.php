@@ -50,7 +50,7 @@
 
         <div class="hidden p-1 rounded-lg" id="profile" role="tabpanel" aria-labelledby="dashboard-tab">
 
-            <form action="{{ route('matricula.update' , $matricula) }}" method="POST">
+            <form action="{{ route('matricula.update' , $matricula) }}" method="POST" onsubmit="return checkSubmit();">
                 @method('PUT')
                 @csrf
 

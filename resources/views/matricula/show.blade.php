@@ -24,6 +24,12 @@
             <i class='bx bx-arrow-back'></i>
             Volver a Alumnos
         </a>
+
+        <a href="{{ route('pdf.imprimir_cobro_matricula', $matricula->id) }}"
+        class="ml-2 border border-green-500 rounded text-center font-bold px-4 py-2 text-green-700" target="__blank">
+            <i class='bx bxs-printer'></i>
+            Recibo Matricula
+        </a>
     </div>
 
     <div class="mb-4 border-b border-gray-200">
@@ -50,7 +56,7 @@
 
         <div class="hidden p-1 rounded-lg" id="profile" role="tabpanel" aria-labelledby="dashboard-tab">
 
-            <form action="{{ route('matricula.update' , $matricula) }}" method="POST">
+            <form action="{{ route('matricula.update' , $matricula) }}" method="POST" onsubmit="return checkSubmit();">
                 @method('PUT')
                 @csrf
 

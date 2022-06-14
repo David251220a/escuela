@@ -16,14 +16,9 @@
     </div>
 
     <div class="mb-4">
-        <a href="#"
-        class="ml-2 border border-green-500 rounded text-center font-bold px-4 py-2 text-green-700">
-            <i class='bx bxs-file-pdf'></i>
-            Cuotas Pagada
-        </a>
 
-        <a href="#"
-        class="ml-2 border border-green-500 rounded text-center font-bold px-4 py-2 text-green-700">
+        <a href="{{ route('pdf.estado_cuenta', $alumno->id) }}"
+        class="ml-2 border border-green-500 rounded text-center font-bold px-4 py-2 text-green-700" target="__blank">
             <i class='bx bxs-file-pdf'></i>
             Estado Cuenta
         </a>

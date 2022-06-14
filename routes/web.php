@@ -64,5 +64,10 @@ Route::middleware([
     Route::get('/matricula/comprobante/{id}', [PDFController::class, 'imprimir_cobro_cuota'])->name('imprimir_cobro_cuota');
     Route::get('/ingreso/cobros_grado', [PDFController::class, 'ingreso_grado_turno'])->name('pdf.ingreso_grado_turno');
     Route::get('/ingreso/alumnos_cobros', [PDFController::class, 'ingreso_alumno'])->name('pdf.ingreso_alumno');
+    Route::get('/matricula/comprobante_matricula/{id}', [PDFController::class, 'imprimir_cobro_matricula'])->name('pdf.imprimir_cobro_matricula');
+    Route::get('/ingreso/varios', [PDFController::class, 'ingreso_varios'])->name('pdf.ingreso_varios');
+    Route::get('/ingreso/cuota', [PDFController::class, 'ingreso_cuota'])->name('pdf.ingreso_cuota');
+    Route::get('/ingreso/matricula', [PDFController::class, 'ingreso_matricula'])->name('pdf.ingreso_matricula');
+    Route::get('/ingreso/estado_cuenta/{id}', [PDFController::class, 'estado_cuenta'])->name('pdf.estado_cuenta');
 
 });

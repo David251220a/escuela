@@ -1,6 +1,17 @@
 var cant_cuotas = 0;
 var const_total = 0;
 
+enviando = false; //Obligaremos a entrar el if en el primer submit
+
+function checkSubmit() {
+    if (!enviando) {
+        enviando= true;
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function format(input){
     var num = input.value.replace(/\./g,'');
     if(!isNaN(num)){
@@ -93,3 +104,6 @@ function recalcular(){
     document.getElementById('total_pagar').value = total_cobrar;
 
 }
+
+
+

@@ -4,7 +4,7 @@
         <h2 class="text-2xl text-gray-500 font-semibold mb-2 text-center">Ingresos Varios</h2>
     </div>
 
-    <form action="{{ route('ingreso.store', $alumno->id) }}" method="POST">
+    <form action="{{ route('ingreso.store', $alumno->id) }}" method="POST" onsubmit="return checkSubmit();">
         @csrf
 
 

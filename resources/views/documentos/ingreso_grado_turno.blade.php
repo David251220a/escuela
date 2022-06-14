@@ -99,6 +99,11 @@
         <div class="salto"></div>
         @if (!empty($cobros))
 
+            @php
+                $suma = 0;
+                $total = 0;
+            @endphp
+
             @foreach ($tipo_ingreso as $tipo)
 
                 <h4 class="titulo">{{$tipo->ingreso_concepto->nombre}}</h4>
@@ -113,10 +118,7 @@
                         </tr>
 
                     </thead>
-                    @php
-                        $suma = 0;
-                        $total = 0;
-                    @endphp
+
                     <tbody>
                         @foreach ($cobros as $item)
                             @if ($item->cobro_ingreso_concepto == $tipo->cobro_ingreso_concepto)
@@ -144,19 +146,21 @@
                 </table>
                 {{-- <div style="page-break-before: always;"></div> --}}
             @endforeach
+            <br>
+
+            <table class="content">
+
+                <thead>
+                    <tr>
+                        <th style="font-size: 16px" width="80%">TOTAL GENERAL</th>
+                        <th style="font-size: 16px; text-align: right">{{number_format($total, 0, ".", ".")}}</th>
+                    </tr>
+                </thead>
+            </table>
+
         @endif
 
-        <br>
 
-        <table class="content">
-
-            <thead>
-                <tr>
-                    <th style="font-size: 16px" width="80%">TOTAL GENERAL</th>
-                    <th style="font-size: 16px; text-align: right">{{number_format($total, 0, ".", ".")}}</th>
-                </tr>
-            </thead>
-        </table>
 
     </body>
 

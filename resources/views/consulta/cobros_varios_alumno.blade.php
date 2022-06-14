@@ -140,7 +140,7 @@
 
 
         <div class="mb-4">
-            {{$cobros->links()}}
+            {{$cobros->appends(['desde_fecha' => $search_desde_fecha, 'hasta_fecha' => $search_hasta_fecha, 'ingreso_concepto' => $search_concepto])->links()}}
         </div>
 
         <div class="md:grid grid-cols-4 gap-4 px-4 py-6 mb-4">

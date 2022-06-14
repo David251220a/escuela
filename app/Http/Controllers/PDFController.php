@@ -3,13 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Alumno;
+use App\Models\Ciclo;
 use App\Models\CobroIngreso;
 use App\Models\CobroIngresoConcepto;
+use App\Models\CobroMatricula;
+use App\Models\CobroMatriculaCuota;
 use App\Models\Grado;
+use App\Models\Matricula;
 use App\Models\Matricula_Cuota;
 use App\Models\Turno;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Luecano\NumeroALetras\NumeroALetras;
 
@@ -175,4 +180,147 @@ class PDFController extends Controller
 
     }
 
+
+    public function imprimir_cobro_matricula($id)
+    {
+        $matricula = Matricula::find($id);
+        $formatter = new NumeroALetras();
+        $PDF = PDF::loadView('documentos.comprobante_cobro_matricula', compact('matricula', 'formatter'));
+
+        return $PDF->stream();
+
+    }
+
+    public function ingreso_varios(Request $request)
+    {
+
+        $tipo_cobro_hasta = 0;
+        $search_concepto_hasta = 0;
+
+        $search_cobro = $request->search_cobro;
+        if($search_cobro != 999){
+            $tipo_cobro_hasta = $request->search_cobro;
+        }
+
+        $search_concepto = $request->search_concepto;
+        if($search_concepto != 9999){
+            $search_concepto_hasta = $request->search_concepto;
+        }
+
+        $search_desde_fecha = $request->search_desde_fecha;
+        $search_desde_fecha =  date('Y-m-d', strtotime($search_desde_fecha));
+
+        $search_hasta_fecha = $request->search_hasta_fecha;
+        $search_hasta_fecha =  date('Y-m-d', strtotime($search_hasta_fecha));
+
+
+        $cobros = CobroIngreso::join('cobro', 'cobro_ingreso.cobro_id', '=', 'cobro.id')
+        ->select('cobro_ingreso.*', 'cobro.fecha_cobro', 'cobro.estado_id')
+        ->where('cobro.cobro_concepto_id', 3)
+        ->where('cobro.estado_id', 1)
+        ->whereBetween(DB::raw('CAST(cobro.fecha_cobro AS DATE)'),[$search_desde_fecha, $search_hasta_fecha])
+        ->where('cobro_ingreso.cobro_ingreso_concepto', '<=', $search_concepto)
+        ->where('cobro_ingreso.cobro_ingreso_concepto', '>=', $search_concepto_hasta)
+        ->where('cobro.tipo_cobro_id', '<=', $search_cobro)
+        ->where('cobro.tipo_cobro_id', '>=', $tipo_cobro_hasta)
+        ->orderBy('cobro_ingreso.cobro_ingreso_concepto', 'ASC')
+        ->orderBy('cobro.tipo_cobro_id', 'ASC')
+        ->get();
+
+        $PDF = PDF::loadView('documentos.ingresos_varios', compact('cobros', 'search_desde_fecha', 'search_hasta_fecha'));
+
+        return $PDF->stream();
+    }
+
+    public function ingreso_cuota(Request $request)
+    {
+        $search_cobro_hasta = 0;
+        $search_cobro = $request->search_cobro;
+        if($search_cobro != 999){
+            $search_cobro_hasta = $request->search_cobro;
+        }
+
+        $search_grado = $request->search_grado;
+        $search_turno = $request->search_turno;
+        $search_desde_fecha = $request->search_desde_fecha;
+        $search_desde_fecha =  date('Y-m-d', strtotime($search_desde_fecha));
+        $search_hasta_fecha = $request->search_hasta_fecha;
+        $search_hasta_fecha =  date('Y-m-d', strtotime($search_hasta_fecha));
+
+        $grado = Grado::find($search_grado);
+        $turno = Turno::find($search_turno);
+
+        $cobros = CobroMatriculaCuota::join('matricula', 'cobro_matricula_cuota.matricula_id', '=', 'matricula.id')
+        ->join('cobro', 'cobro_matricula_cuota.cobro_id', '=', 'cobro.id')
+        ->select('cobro_matricula_cuota.*', 'cobro.fecha_cobro', 'matricula.grado_id','matricula.turno_id')
+        ->where('cobro.estado_id', 1)
+        ->whereBetween(DB::raw('CAST(cobro.fecha_cobro AS DATE)'),[$search_desde_fecha, $search_hasta_fecha])
+        ->where('matricula.turno_id', $search_turno)
+        ->where('matricula.grado_id', $search_grado)
+        ->where('cobro.tipo_cobro_id', '<=', $search_cobro)
+        ->where('cobro.tipo_cobro_id', '>=', $search_cobro_hasta)
+        ->orderBy('cobro.fecha_cobro', 'DESC')
+        ->get();
+
+        $PDF = PDF::loadView('documentos.ingresos_cuota', compact('cobros', 'search_desde_fecha', 'search_hasta_fecha', 'grado', 'turno'));
+
+        return $PDF->stream();
+
+    }
+
+    public function ingreso_matricula(Request $request)
+    {
+        $search_cobro_hasta = 0;
+        $search_cobro = $request->search_cobro;
+        if($search_cobro != 999){
+            $search_cobro_hasta = $request->search_cobro;
+        }
+
+        $search_grado = $request->search_grado;
+        $search_turno = $request->search_turno;
+        $search_desde_fecha = $request->search_desde_fecha;
+        $search_desde_fecha =  date('Y-m-d', strtotime($search_desde_fecha));
+        $search_hasta_fecha = $request->search_hasta_fecha;
+        $search_hasta_fecha =  date('Y-m-d', strtotime($search_hasta_fecha));
+
+        $grado = Grado::find($search_grado);
+        $turno = Turno::find($search_turno);
+
+        $cobros = CobroMatricula::join('matricula', 'cobro_matricula.matricula_id', '=', 'matricula.id')
+        ->join('cobro', 'cobro_matricula.cobro_id', '=', 'cobro.id')
+        ->where('cobro.estado_id', 1)
+        ->whereBetween(DB::raw('CAST(cobro.fecha_cobro AS DATE)'),[$search_desde_fecha, $search_hasta_fecha])
+        ->where('matricula.turno_id', $search_turno)
+        ->where('matricula.grado_id', $search_grado)
+        ->where('cobro.tipo_cobro_id', '<=', $search_cobro)
+        ->where('cobro.tipo_cobro_id', '>=', $search_cobro_hasta)
+        ->orderBy('cobro.fecha_cobro', 'DESC')
+        ->get();
+
+        $PDF = PDF::loadView('documentos.ingresos_matricula', compact('cobros', 'search_desde_fecha', 'search_hasta_fecha', 'grado', 'turno'));
+
+        return $PDF->stream();
+    }
+
+    public function estado_cuenta($id)
+    {
+        $date = Carbon::now();
+        $anio = date('Y', strtotime($date));
+        $alumno = Alumno::find($id);
+        $ciclo = Ciclo::where('año', $anio)->first();
+        $matricula = Matricula::where('alumno_id', $id)
+        ->where('ciclo_id', $ciclo->id)
+        ->orderBy('id', 'DESC')
+        ->first();
+
+        $cobro_matricula = CobroMatricula::where('matricula_id', $matricula->id)
+        ->where('estado_id', 1)
+        ->get();
+        $cobro_matricula_cuota = CobroMatriculaCuota::where('matricula_id', $matricula->id)->where('estado_id', 1)->get();
+        $cobro_ingreso = CobroIngreso::where('alumno_id', $alumno->id)->where('estado_id', 1)->whereYear('created_at', $anio)->get();
+
+        $PDF = PDF::loadView('documentos.estado_cuenta', compact('alumno', 'ciclo', 'cobro_matricula', 'cobro_matricula_cuota', 'matricula', 'cobro_ingreso'));
+
+        return $PDF->stream();
+    }
 }

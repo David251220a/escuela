@@ -33,8 +33,18 @@
                 </div>
 
                 <div class="mb-4">
+                    <label for="">Tipo de Cobro</label>
+                    <select name="tipo_cobro" id="tipo_cobro" class="w-full rounded border-gray-400 enviar">
+                        <option {{ ($search_cobro == 9999 ? 'selected' : '' ) }} value="999">TODOS</option>
+                        @foreach ($tipo_cobro as $item)
+                            <option {{ ($search_cobro == $item->id ? 'selected' : '' ) }} value="{{ $item->id }}">{{ $item->nombre }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="mb-4">
                     <button type="submit" class="bg-green-500 rounded px-4 py-2 text-center text-white text-base font-bold mt-5">Filtrar</button>
-                    <a href="#"
+                    <a href="{{route('pdf.ingreso_varios', ['search_desde_fecha' => $search_desde_fecha, 'search_hasta_fecha' => $search_hasta_fecha ,'search_concepto' => $search_concepto, 'search_cobro' => $search_cobro]) }}"
                     class="ml-2 border border-green-500 rounded text-center font-bold px-4 py-2 text-green-700" target="__blank">
                         <i class='bx bxs-file-pdf'></i>
                         PDF
@@ -71,6 +81,7 @@
                                 <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Cantidad</th>
                                 <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Monto Ingreso</th>
                                 <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Estado</th>
+                                <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Forma de Cobro</th>
                             </tr>
                         </thead>
 
@@ -82,7 +93,7 @@
                                     <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-left">
                                         {{ $item->alumno->nombre }} {{ $item->alumno->apellido }}
                                     </td>
-                                    <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-center">{{ date('Y-m-d', strtotime($item->fecha_cobro)) }}</td>
+                                    <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-center">{{ date('d/m/Y', strtotime($item->fecha_cobro)) }}</td>
                                     <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-left">
                                         {{ $item->ingreso_concepto->nombre }}
                                     </td>
@@ -95,6 +106,9 @@
                                         href="#"
                                         class= "text-green-500 font-bold"
                                         >  {{ $item->cobros->estado->nombre }}</a>
+                                    </td>
+                                    <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-center">
+                                        {{ $item->cobros->forma_pago->nombre }}
                                     </td>
                                 </tr>
                             @endforeach
@@ -109,7 +123,7 @@
     </div>
 
     <div class="mb-4">
-        {{$cobros->links()}}
+        {{$cobros->appends(['desde_fecha' => $search_desde_fecha, 'hasta_fecha' => $search_hasta_fecha, 'tipo_cobro' => $search_cobro, 'ingreso_concepto' => $search_concepto])->links()}}
     </div>
 
     <div class="md:grid grid-cols-4 gap-4 px-4 py-6 mb-4">
