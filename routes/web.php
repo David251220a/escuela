@@ -3,6 +3,7 @@
 use App\Http\Controllers\AlumnoController;
 use App\Http\Controllers\CobroController;
 use App\Http\Controllers\ConsultaController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InicioController;
 use App\Http\Controllers\LimpiarController;
 use App\Http\Controllers\MatriculaController;
@@ -30,6 +31,8 @@ Route::get('/link', function () {
     $shortcut = '/home/kb57mc21mbm4/prestamosdev/public/storage';
     symlink($target, $shortcut);
 });
+
+Route::get('/inicio', [DashboardController::class, 'index'])->name('inicio');
 
 Route::middleware([
     'auth:sanctum',
