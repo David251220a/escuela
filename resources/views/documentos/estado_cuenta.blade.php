@@ -155,10 +155,10 @@
                     @endphp
                     @foreach ($matricula->cuotas as $item)
                         @php
-                            $pintar = ( empty($item->cobro_cuota->cobros->forma_pago->nombre) ? '0' : '1');
+                            $pintar = ( $item->monto_cuota_cobrar == $item->monto_cuota_cobrado ? '0' : '1');
 
                         @endphp
-                        <tr style="{{ ($pintar == 0 ? 'background: rgb(199, 199, 196)' : '') }}">
+                        <tr style="{{ ($pintar == 1 ? 'background: rgb(199, 199, 196)' : '') }}">
                             <td>COBRO CUOTA</td>
                             <td>{{ Str::upper(\Carbon\Carbon::parse($item->fecha_vencimiento)->translatedFormat('F')) }}</td>
                             <td>

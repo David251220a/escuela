@@ -11,19 +11,7 @@
             <div class="md:grid grid-cols-4 gap-4 px-4 py-6">
 
                 <div class="mb-4">
-                    <label for="">Fecha Desde</label>
-                    <input type="date" name="desde_fecha" id="desde_fecha" class="border-gray-500 rounded w-full text-right text-base"
-                    value="{{date('Y-m-d', strtotime($search_desde_fecha)) }}">
-                </div>
-
-                <div class="mb-4">
-                    <label for="">Fecha Hasta</label>
-                    <input type="date" name="hasta_fecha" id="hasta_fecha" class="border-gray-500 rounded w-full text-right text-base"
-                    value="{{date('Y-m-d', strtotime($search_hasta_fecha)) }}">
-                </div>
-
-                <div class="mb-4">
-                    <label for="">Ingreso Concepto</label>
+                    <label for="">Ingreso Concepto - Fecha</label>
                     <select name="ingreso_concepto" id="ingreso_concepto" class="w-full rounded border-gray-400 enviar">
                         <option {{ ($search_concepto == 9999 ? 'selected' : '' ) }} value="9999">TODOS</option>
                         @foreach ($ingreso_concepto as $item)
@@ -40,6 +28,20 @@
                             <option {{ ($search_cobro == $item->id ? 'selected' : '' ) }} value="{{ $item->id }}">{{ $item->nombre }}</option>
                         @endforeach
                     </select>
+                </div>
+                <div></div>
+                <div></div>
+
+                <div class="mb-4">
+                    <label for="">Fecha Desde</label>
+                    <input type="date" name="desde_fecha" id="desde_fecha" class="border-gray-500 rounded w-full text-right text-base"
+                    value="{{date('Y-m-d', strtotime($search_desde_fecha)) }}">
+                </div>
+
+                <div class="mb-4">
+                    <label for="">Fecha Hasta</label>
+                    <input type="date" name="hasta_fecha" id="hasta_fecha" class="border-gray-500 rounded w-full text-right text-base"
+                    value="{{date('Y-m-d', strtotime($search_hasta_fecha)) }}">
                 </div>
 
                 <div class="mb-4">
@@ -76,12 +78,9 @@
                             <tr>
                                 <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Cedula</th>
                                 <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Alumno</th>
-                                <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Fecha</th>
+                                <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Fecha Cobro</th>
                                 <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Ingreso Concepto</th>
-                                <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Cantidad</th>
                                 <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Monto Ingreso</th>
-                                <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Estado</th>
-                                <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Forma de Cobro</th>
                             </tr>
                         </thead>
 
@@ -97,19 +96,7 @@
                                     <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-left">
                                         {{ $item->ingreso_concepto->nombre }}
                                     </td>
-                                    <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-right">
-                                        {{ $item->cantidad }}
-                                    </td>
                                     <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-right">{{ number_format($item->monto_cobrado_factura, 0, ".", ".") }}</td>
-                                    <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-center">
-                                        <a
-                                        href="#"
-                                        class= "text-green-500 font-bold"
-                                        >  {{ $item->cobros->estado->nombre }}</a>
-                                    </td>
-                                    <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-center">
-                                        {{ $item->cobros->forma_pago->nombre }}
-                                    </td>
                                 </tr>
                             @endforeach
 

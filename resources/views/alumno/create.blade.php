@@ -196,7 +196,7 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="">Cedula Padre</label>
+                            <label for="" onclick="ver()">Cedula Padre</label>
                             <input type="text" name="cedula_padre" id="cedula_padre" class="w-full rounded border-gray-400 enviar text-right" value="0"
                             onkeyup="format(this)" onchange="format(this)">
                             <span>

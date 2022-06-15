@@ -220,6 +220,7 @@ class ConsultaController extends Controller
         $search_grado = 1;
         $search_turno = 1;
         $search_concepto_hasta = 0;
+        $unico = 0;
 
         if(!empty($request->grado)){
             $search_grado = $request->grado;
@@ -235,6 +236,8 @@ class ConsultaController extends Controller
             $search_concepto = $request->ingreso_concepto;
             if($search_concepto != 9999){
                 $search_concepto_hasta = $request->ingreso_concepto;
+                $aux_ingresos = CobroIngresoConcepto::where('id', $search_concepto)->first();
+                $unico = $aux_ingresos->unico;
             }
         }
 
@@ -252,54 +255,47 @@ class ConsultaController extends Controller
             $search_hasta_fecha =  date('Y-m-d', strtotime($search_hasta_fecha));
         }
 
-        if($search_concepto == 9999){
-            $cobros = CobroIngreso::join('cobro', 'cobro_ingreso.cobro_id', '=', 'cobro.id')
-            ->join('alumno', 'cobro_ingreso.alumno_id', '=', 'alumno.id')
-            ->select('cobro_ingreso.*', 'cobro.fecha_cobro', 'cobro.estado_id', 'alumno.grado_id', 'alumno.turno_id', 'alumno.nombre', 'alumno.apellido')
-            ->where('cobro.cobro_concepto_id', 3)
-            ->where('cobro.estado_id', 1)
-            ->where('alumno.grado_id', $search_grado)
-            ->where('alumno.turno_id', $search_turno)
-            ->whereBetween(DB::raw('CAST(cobro.fecha_cobro AS DATE)'),[$search_desde_fecha, $search_hasta_fecha])
-            ->where('cobro_ingreso.cobro_ingreso_concepto', '<=', $search_concepto)
-            ->paginate(10);
+        $cobros = CobroIngreso::join('cobro', 'cobro_ingreso.cobro_id', '=', 'cobro.id')
+        ->join('alumno', 'cobro_ingreso.alumno_id', '=', 'alumno.id')
+        ->select('cobro_ingreso.*', 'cobro.fecha_cobro', 'cobro.estado_id', 'alumno.grado_id', 'alumno.turno_id', 'alumno.nombre', 'alumno.apellido')
+        ->where('cobro.cobro_concepto_id', 3)
+        ->where('cobro.estado_id', 1)
+        ->where('alumno.grado_id', $search_grado)
+        ->where('alumno.turno_id', $search_turno)
+        ->whereBetween(DB::raw('CAST(cobro.fecha_cobro AS DATE)'),[$search_desde_fecha, $search_hasta_fecha])
+        ->where('cobro_ingreso.cobro_ingreso_concepto', '<=', $search_concepto)
+        ->where('cobro_ingreso.cobro_ingreso_concepto', '>=', $search_concepto_hasta)
+        ->orderBy('alumno.nombre', 'ASC')
+        ->paginate(10);
 
-            $cobros_aux = CobroIngreso::join('cobro', 'cobro_ingreso.cobro_id', '=', 'cobro.id')
-            ->select('cobro_ingreso.*', 'cobro.fecha_cobro', 'cobro.estado_id')
-            ->where('cobro.cobro_concepto_id', 3)
-            ->where('cobro.estado_id', 1)
-            ->whereBetween(DB::raw('CAST(cobro.fecha_cobro AS DATE)'),[$search_desde_fecha, $search_hasta_fecha])
-            ->where('cobro_ingreso.cobro_ingreso_concepto', '<=', $search_concepto)
-            ->get();
+        $cobros_aux = CobroIngreso::join('cobro', 'cobro_ingreso.cobro_id', '=', 'cobro.id')
+        ->join('alumno', 'cobro_ingreso.alumno_id', '=', 'alumno.id')
+        ->select('cobro_ingreso.*', 'cobro.fecha_cobro', 'cobro.estado_id', 'alumno.grado_id', 'alumno.turno_id', 'alumno.nombre', 'alumno.apellido')
+        ->where('cobro.cobro_concepto_id', 3)
+        ->where('cobro.estado_id', 1)
+        ->where('alumno.grado_id', $search_grado)
+        ->where('alumno.turno_id', $search_turno)
+        ->whereBetween(DB::raw('CAST(cobro.fecha_cobro AS DATE)'),[$search_desde_fecha, $search_hasta_fecha])
+        ->where('cobro_ingreso.cobro_ingreso_concepto', '<=', $search_concepto)
+        ->where('cobro_ingreso.cobro_ingreso_concepto', '>=', $search_concepto_hasta)
+        ->orderBy('alumno.apellido', 'ASC')
+        ->orderBy('alumno.nombre', 'ASC')
+        ->get();
 
-        }else{
-            $cobros = CobroIngreso::join('cobro', 'cobro_ingreso.cobro_id', '=', 'cobro.id')
-            ->join('alumno', 'cobro_ingreso.alumno_id', '=', 'alumno.id')
-            ->select('cobro_ingreso.*', 'cobro.fecha_cobro', 'cobro.estado_id', 'alumno.grado_id', 'alumno.turno_id', 'alumno.nombre', 'alumno.apellido')
-            ->where('cobro.cobro_concepto_id', 3)
-            ->where('cobro.estado_id', 1)
-            ->where('alumno.grado_id', $search_grado)
-            ->where('alumno.turno_id', $search_turno)
-            ->whereBetween(DB::raw('CAST(cobro.fecha_cobro AS DATE)'),[$search_desde_fecha, $search_hasta_fecha])
-            ->where('cobro_ingreso.cobro_ingreso_concepto', $search_concepto)
-            ->paginate(10);
+        $alumno = Alumno::where('turno_id', $search_turno)
+        ->where('grado_id', $search_grado)
+        ->where('estado_id', 1)
+        ->orderBy('apellido', 'ASC')
+        ->orderBy('nombre', 'ASC')
+        ->get();
 
-            $cobros_aux = CobroIngreso::join('cobro', 'cobro_ingreso.cobro_id', '=', 'cobro.id')
-            ->select('cobro_ingreso.*', 'cobro.fecha_cobro', 'cobro.estado_id')
-            ->where('cobro.cobro_concepto_id', 3)
-            ->where('cobro.estado_id', 1)
-            ->whereBetween(DB::raw('CAST(cobro.fecha_cobro AS DATE)'),[$search_desde_fecha, $search_hasta_fecha])
-            ->where('cobro_ingreso.cobro_ingreso_concepto', $search_concepto)
-            ->get();
-        }
-
-        $alumno = Alumno::all();
 
         return view('consulta.cobros_varios_grado', compact('ingreso_concepto'
         , 'search_concepto'
         , 'grado'
         , 'turno'
         , 'cobros'
+        , 'unico'
         , 'alumno'
         , 'cobros_aux'
         , 'search_grado'

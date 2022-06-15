@@ -20,12 +20,18 @@ return new class extends Migration
             $table->integer('cantidad_dias_gracia');
         });
 
+        Schema::create('matricula_estado', function (Blueprint $table) {
+            $table->integer('id', true);
+            $table->string('nombre', 50);
+        });
+
         Schema::create('matricula', function (Blueprint $table) {
             $table->integer('id', true);
             $table->unsignedInteger('alumno_id');
             $table->integer('ciclo_id');
             $table->integer('grado_id');
             $table->integer('turno_id');
+            $table->integer('matricula_estado_id');
             $table->unsignedInteger('estado_id')->default(1);
             $table->dateTime('fecha');
             $table->decimal('monto_matricula', 12, 0)->default(0);
@@ -41,6 +47,7 @@ return new class extends Migration
             $table->foreign('grado_id')->references('id')->on('grado');
             $table->foreign('turno_id')->references('id')->on('turno');
             $table->foreign('estado_id')->references('id')->on('estado');
+            $table->foreign('matricula_estado_id')->references('id')->on('matricula_estado');
 
         });
     }
@@ -52,7 +59,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('matriculas');
+        Schema::dropIfExists('matricula');
         Schema::dropIfExists('paramentro_general');
+        Schema::dropIfExists('matricula_estado');
     }
 };

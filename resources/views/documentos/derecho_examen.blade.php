@@ -137,8 +137,8 @@
                                 @endif
                             @endforeach
                             @if ($tiene == 0)
-                            <td style="text-align: center"></td>
-                            <td style="text-align: right">0</td>
+                                <td style="text-align: center"></td>
+                                <td style="text-align: right">0</td>
                             @endif
                         </tr>
                     @endforeach

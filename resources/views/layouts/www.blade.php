@@ -12,7 +12,6 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
         {{-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> --}}
 
         @livewireStyles
@@ -80,7 +79,7 @@
                                 <a class="" href="{{ route('consulta.index') }}">Grado - Turno</a>
                             </li>
                             <li>
-                                <a class="" href="{{ route('consulta.cobros_varios') }}">Ingreso Varios - Fecha</a>
+                                <a class="" href="{{ route('consulta.cobros_varios') }}">Ingreso Varios</a>
                             </li>
                             {{-- <li>
                                 <a class="" href="{{ route('consulta.cobros_varios_alumno') }}">Ingreso Alumno</a>

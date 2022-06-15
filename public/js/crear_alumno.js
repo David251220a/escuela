@@ -521,3 +521,7 @@ function mayuscula(input){
     input.value = input.value.toUpperCase();
 }
 
+function ver(){
+    crear_padre();
+}
+

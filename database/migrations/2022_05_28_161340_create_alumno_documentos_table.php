@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('id', true);
             $table->string('nombre', 100)->default(' ');
             $table->unsignedInteger('estado_id');
+            $table->integer('orden')->default(0);
             $table->foreignId('usuario_grabacion')->references('id')->on('users');
             $table->integer('usuario_modificacion');
             $table->timestamps();
