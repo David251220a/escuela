@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('nombre', 200);
             $table->unsignedInteger('estado_id')->default(1);
             $table->decimal('precio', 12, 0)->default(0);
+            $table->char('unico', 1)->default(0);
             $table->timestamps();
 
             $table->foreign('estado_id')->references('id')->on('estado');

@@ -86,10 +86,10 @@
                                 <a class="" href="{{ route('consulta.cobros_varios_alumno') }}">Ingreso Alumno</a>
                             </li> --}}
                             <li>
-                                <a class="" href="{{ route('consulta.cobros_varios_grado') }}">Ingreso Grado</a>
+                                <a class="" href="{{ route('consulta.cobros_varios_grado') }}">Ingre. Varios Grado/Turno</a>
                             </li>
                             <li>
-                                <a class="" href="{{ route('consulta.cobros_cuota') }}">Ingreso Cuota</a>
+                                <a class="" href="{{ route('consulta.cobros_cuota') }}">Ingresos Cuota</a>
                             </li>
 
                         </ul>

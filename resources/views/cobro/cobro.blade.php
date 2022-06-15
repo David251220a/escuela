@@ -167,6 +167,13 @@
                 <input type="text" name="precio" id="precio" class="w-full rounded border-gray-400 enviar text-right" value="0"
                 onkeyup="format(this)" onchange="format(this)" required>
             </div>
+            <div class="mb-4">
+                <label for="">Unico</label>
+                <select name="unico" id="unico" class="w-full rounded border-gray-400">
+                    <option value="0">NO</option>
+                    <option value="1">SI</option>
+                </select>
+            </div>
         </div>
 
     </div>

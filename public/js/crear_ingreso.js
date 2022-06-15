@@ -132,9 +132,11 @@ document.addEventListener('keydown', (event) => {
                 select_precio = document.getElementById('ingreso_concepto_precio');
                 var nombre = Swal.getPopup().querySelector('#nombre').value;
                 var precio = Swal.getPopup().querySelector('#precio').value;
+                var unico = Swal.getPopup().querySelector('#unico').value;
                 axios.post('/crear_ingreso',  {
                     nombre : nombre,
-                    precio : precio
+                    precio : precio,
+                    unico : unico,
                 })
                 .then(respuesta => {
                     for (let i = select.options.length; i >= 0; i--) {

@@ -52,6 +52,7 @@ class PDFController extends Controller
         $ingreso = $request->ingreso;
         $fecha_desde = $request->fecha_desde;
         $fecha_hasta = $request->fecha_hasta;
+        $todos = 1;
 
         $alumno = Alumno::where('grado_id', $grado)
         ->where('turno_id', $turno)
@@ -68,6 +69,7 @@ class PDFController extends Controller
             $aux_titulo = CobroIngresoConcepto::where('id', $ingreso)
             ->first();
             $titulo = $aux_titulo->nombre;
+            $todos = 0;
         }
 
         $grado_aux = Grado::find($grado);
@@ -87,6 +89,7 @@ class PDFController extends Controller
         ->orderBy('alumno.apellido', 'ASC')
         ->get();
 
+
         $tipo_ingreso = CobroIngreso::join('cobro', 'cobro_ingreso.cobro_id', '=', 'cobro.id')
         ->join('alumno', 'cobro_ingreso.alumno_id', '=', 'alumno.id')
         ->select('cobro_ingreso.cobro_ingreso_concepto')
@@ -100,16 +103,7 @@ class PDFController extends Controller
         ->where('alumno.turno_id', $turno)
         ->get();
 
-        if(($ingreso == 1) || ($ingreso == 2)) {
-            $PDF = PDF::loadView('documentos.derecho_examen', compact('alumno'
-            , 'turno_aux'
-            , 'cobros'
-            , 'grado_aux'
-            , 'fecha_desde'
-            , 'tipo_ingreso'
-            , 'fecha_hasta'
-            , 'titulo'));
-        }else{
+        if($ingreso == 9999){
             $PDF = PDF::loadView('documentos.ingreso_grado_turno', compact('alumno'
             , 'turno_aux'
             , 'cobros'
@@ -118,6 +112,27 @@ class PDFController extends Controller
             , 'tipo_ingreso'
             , 'fecha_hasta'
             , 'titulo'));
+        }else{
+            if($aux_titulo->unico == 1) {
+                $PDF = PDF::loadView('documentos.derecho_examen', compact('alumno'
+                , 'turno_aux'
+                , 'cobros'
+                , 'grado_aux'
+                , 'aux_titulo'
+                , 'fecha_desde'
+                , 'tipo_ingreso'
+                , 'fecha_hasta'
+                , 'titulo'));
+            }else{
+                $PDF = PDF::loadView('documentos.ingreso_grado_turno', compact('alumno'
+                , 'turno_aux'
+                , 'cobros'
+                , 'grado_aux'
+                , 'fecha_desde'
+                , 'tipo_ingreso'
+                , 'fecha_hasta'
+                , 'titulo'));
+            }
         }
 
         return $PDF->stream();

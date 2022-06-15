@@ -104,11 +104,12 @@ class CobroController extends Controller
 
         $nombre = $request->nombre;
         $precio = str_replace('.', '', $request->precio);
-
+        $unico = $request->unico;
         CobroIngresoConcepto::create([
             'nombre' => $nombre,
             'estado_id' => 1,
             'precio' => $precio,
+            'unico' => $unico,
         ]);
 
         $data = CobroIngresoConcepto::where('estado_id', 1)

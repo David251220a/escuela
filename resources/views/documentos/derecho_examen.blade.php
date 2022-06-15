@@ -97,64 +97,68 @@
         </table>
 
         <div class="salto"></div>
+        @if (count($alumno) > 0)
 
-        <h4 class="titulo">{{$tipo_ingreso[0]->ingreso_concepto->nombre}}</h4>
+            <h4 class="titulo">{{$aux_titulo->nombre}}</h4>
 
-        <table class="content">
-            <thead>
-                <tr>
-                    <th>Documento</th>
-                    <th>Alumno</th>
-                    <th>Fecha</th>
-                    <th>Monto Total</th>
-                </tr>
-
-            </thead>
-            @php
-                $suma = 0;
-                $total = 0;
-                $tiene = 0;
-            @endphp
-            <tbody>
-                @foreach ($alumno as $item)
+            <table class="content">
+                <thead>
                     <tr>
-                        <td style="text-align: right">{{number_format($item->cedula, 0, ".", ".")}}</td>
-                        <td style="text-align: left">{{ $item->apellido }}, {{ $item->nombre }}</td>
-                        @foreach ($cobros as $cobro)
-                            @if ($cobro->alumno_id == $item->id)
-                                <td style="text-align: center">{{ date('d/m/Y', strtotime($cobro->fecha_cobro)) }}</td>
-                                <td style="text-align: right">{{number_format($cobro->monto_cobrado_factura, 0, ".", ".")}}</td>
-                                @php
-                                    $tiene = 1;
-                                    $total = $total + $cobro->monto_cobrado_factura;
-                                @endphp
-                                @break
-                            @else
-                                @php
-                                    $tiene = 0;
-                                @endphp
-                            @endif
-                        @endforeach
-                        @if ($tiene == 0)
-                        <td style="text-align: center"></td>
-                        <td style="text-align: right">0</td>
-                        @endif
+                        <th>Documento</th>
+                        <th>Alumno</th>
+                        <th>Fecha</th>
+                        <th>Monto Total</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
 
-        <br>
+                </thead>
+                @php
+                    $suma = 0;
+                    $total = 0;
+                    $tiene = 0;
+                @endphp
+                <tbody>
+                    @foreach ($alumno as $item)
+                        <tr>
+                            <td style="text-align: right">{{number_format($item->cedula, 0, ".", ".")}}</td>
+                            <td style="text-align: left">{{ $item->apellido }}, {{ $item->nombre }}</td>
+                            @foreach ($cobros as $cobro)
+                                @if ($cobro->alumno_id == $item->id)
+                                    <td style="text-align: center">{{ date('d/m/Y', strtotime($cobro->fecha_cobro)) }}</td>
+                                    <td style="text-align: right">{{number_format($cobro->monto_cobrado_factura, 0, ".", ".")}}</td>
+                                    @php
+                                        $tiene = 1;
+                                        $total = $total + $cobro->monto_cobrado_factura;
+                                    @endphp
+                                    @break
+                                @else
+                                    @php
+                                        $tiene = 0;
+                                    @endphp
+                                @endif
+                            @endforeach
+                            @if ($tiene == 0)
+                            <td style="text-align: center"></td>
+                            <td style="text-align: right">0</td>
+                            @endif
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
 
-        <table class="content">
+            <br>
 
-            <thead>
-                <tr>
-                    <th style="font-size: 16px" width="80%">TOTAL GENERAL</th>
-                    <th style="font-size: 16px; text-align: right">{{number_format($total, 0, ".", ".")}}</th>
-                </tr>
-            </thead>
-        </table>
+            <table class="content">
+
+                <thead>
+                    <tr>
+                        <th style="font-size: 16px" width="80%">TOTAL GENERAL</th>
+                        <th style="font-size: 16px; text-align: right">{{number_format($total, 0, ".", ".")}}</th>
+                    </tr>
+                </thead>
+            </table>
+
+        @endif
+
 
     </body>
 

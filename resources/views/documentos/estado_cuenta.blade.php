@@ -109,6 +109,11 @@
             @php
                 $sub_total = 0;
                 $total = 0;
+                $cobro_matricula_cont = 0;
+                $forma_pago = '';
+                $fecha = '';
+                $monto_matriculacion= 0;
+                $pinto = 0;
             @endphp
             <table class="content">
                 <thead>
@@ -117,51 +122,67 @@
                         <th>Cuota</th>
                         <th>Fecha Cobro</th>
                         <th>Forma de Pago</th>
+                        <th>Monto a Cobrar</th>
                         <th>Monto Cobrado</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($cobro_matricula as $item)
-                        <tr>
-                            <td>COBRO MATRICULA</td>
-                            <td></td>
-                            <td>{{date('d/m/Y', strtotime($item->cobros->fecha_cobro))}}</td>
-                            <td>{{$item->cobros->forma_pago->nombre}}</td>
-                            <td style="text-align: right">{{number_format($item->monto_cobrado_factura, 0, ".", ".")}}</td>
-                            @php
-                                $sub_total = $sub_total + $item->monto_cobrado_factura;
-                                $total = $total + $item->monto_cobrado_factura;
-                            @endphp
-                        </tr>
+                        @php
+                            $cobro_matricula_cont = $cobro_matricula_cont + $item->monto_cobrado_factura;
+                            $forma_pago = $item->cobros->forma_pago->nombre;
+                            $fecha = date('d/m/Y', strtotime($item->cobros->fecha_cobro));
+                        @endphp
                     @endforeach
+                    <tr style="{{ ($cobro_matricula_cont == $matricula->monto_matricula ? '' : 'background: rgb(199, 199, 196)') }}">
+                        <td>COBRO MATRICULA</td>
+                        <td></td>
+                        <td>{{ $fecha }}</td>
+                        <td>{{ $forma_pago }}</td>
+                        <td style="text-align: right">{{number_format($matricula->monto_matricula, 0, ".", ".")}}</td>
+                        <td style="text-align: right">{{number_format($cobro_matricula_cont, 0, ".", ".")}}</td>
+                        @php
+                            $sub_total = $sub_total + $cobro_matricula_cont;
+                            $total = $total + $cobro_matricula_cont;
+                        @endphp
+                    </tr>
                     <tr>
-                        <td colspan="4" style="font-size: 14px"><b>SUB TOTAL - COBRO MATRICULA:</b></td>
+                        <td colspan="5" style="font-size: 14px"><b>SUB TOTAL - COBRO MATRICULA:</b></td>
                         <td style="text-align: right; font-size: 14px"><b>{{number_format($sub_total, 0, ".", ".")}}</b></td>
                     </tr>
                     @php
                         $sub_total = 0;
                     @endphp
-                    @foreach ($cobro_matricula_cuota as $item)
-                        <tr>
+                    @foreach ($matricula->cuotas as $item)
+                        @php
+                            $pintar = ( empty($item->cobro_cuota->cobros->forma_pago->nombre) ? '0' : '1');
+
+                        @endphp
+                        <tr style="{{ ($pintar == 0 ? 'background: rgb(199, 199, 196)' : '') }}">
                             <td>COBRO CUOTA</td>
-                            <td>{{$item->matricula_cuota->cuota}}</td>
-                            <td>{{date('d/m/Y', strtotime($item->cobros->fecha_cobro))}}</td>
-                            <td>{{$item->cobros->forma_pago->nombre}}</td>
-                            <td style="text-align: right">{{number_format($item->monto_cobrado_cuota, 0, ".", ".")}}</td>
+                            <td>{{ Str::upper(\Carbon\Carbon::parse($item->fecha_vencimiento)->translatedFormat('F')) }}</td>
+                            <td>
+                                {{ (empty($item->cobro_cuota->cobros->fecha_cobro) ? '' : date('d/m/Y', strtotime($item->cobro_cuota->cobros->fecha_cobro ))) }}
+                            </td>
+                            <td>
+                                {{ ( empty($item->cobro_cuota->cobros->forma_pago->nombre) ? '' : $item->cobro_cuota->cobros->forma_pago->nombre) }}
+                            </td>
+                            <td style="text-align: right">{{number_format($item->monto_cuota_cobrar, 0, ".", ".")}}</td>
+                            <td style="text-align: right">{{number_format($item->monto_cuota_cobrado, 0, ".", ".")}}</td>
                             @php
-                                $sub_total = $sub_total + $item->monto_cobrado_cuota;
-                                $total = $total + $item->monto_cobrado_cuota;
+                                $sub_total = $sub_total + $item->monto_cuota_cobrado;
+                                $total = $total + $item->monto_cuota_cobrado;
                             @endphp
                         </tr>
                     @endforeach
                     <tr>
-                        <td colspan="4" style="font-size: 14px"><b>SUB TOTAL - COBRO CUOTA:</b></td>
+                        <td colspan="5" style="font-size: 14px"><b>SUB TOTAL - COBRO CUOTA:</b></td>
                         <td style="text-align: right; font-size: 14px"><b>{{number_format($sub_total, 0, ".", ".")}}</b></td>
                     </tr>
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th colspan="4" style="text-align: left; font-size: 16px">TOTAL GENERAL EN CONCEPTO DE MATRICULA Y CUOTA</th>
+                        <th colspan="5" style="text-align: left; font-size: 16px">TOTAL GENERAL EN CONCEPTO DE MATRICULA Y CUOTA</th>
                         <th style="text-align: right; font-size: 16px"><b>{{number_format($total, 0, ".", ".")}}</b></th>
                     </tr>
                 </tfoot>
