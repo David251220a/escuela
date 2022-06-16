@@ -46,5 +46,8 @@ class Matricula extends Model
     }
 
 
+    public function matricula_estado(){
+        return $this->belongsTo(MatriculaEstado::class, 'matricula_estado_id');
+    }
 
 }

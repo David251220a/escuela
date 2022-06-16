@@ -149,6 +149,7 @@ class MatriculaController extends Controller
 
         $alumno->grado_id = $request->grado;
         $alumno->turno_id = $request->turno;
+        $alumno->ciclo_id = $request->ciclo;
         $alumno->update();
 
         return redirect()->route('matricula.index')->with('message', 'Se creo con exito la matricula.');

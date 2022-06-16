@@ -23,11 +23,13 @@ class PDFController extends Controller
 
     public function imprimir_cobro_cuota($id){
 
-        $matricula_cuota = Matricula_Cuota::where('id', $id)
+        $cobro = CobroMatriculaCuota::find($id);
+        $matricula_cuota = Matricula_Cuota::where('id', $cobro->matricula_cuota_id)
         ->first();
         $formatter = new NumeroALetras();
 
-        $PDF = PDF::loadView('documentos.comprobante_cobro_cuota', compact('matricula_cuota', 'formatter'));
+
+        $PDF = PDF::loadView('documentos.comprobante_cobro_cuota', compact('matricula_cuota', 'formatter', 'cobro'));
 
         return $PDF->stream();
     }
@@ -198,9 +200,10 @@ class PDFController extends Controller
 
     public function imprimir_cobro_matricula($id)
     {
-        $matricula = Matricula::find($id);
+        $cobro = CobroMatricula::find($id);
+        $matricula = Matricula::find($cobro->matricula_id);
         $formatter = new NumeroALetras();
-        $PDF = PDF::loadView('documentos.comprobante_cobro_matricula', compact('matricula', 'formatter'));
+        $PDF = PDF::loadView('documentos.comprobante_cobro_matricula', compact('matricula', 'formatter', 'cobro'));
 
         return $PDF->stream();
 

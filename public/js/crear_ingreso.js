@@ -16,7 +16,7 @@ function format(input){
     var num = input.value.replace(/\./g,'');
     if(!isNaN(num)){
         if((num == '') || (num == 0)){
-            input.value = "1";
+
         }else{
             num = parseInt(num);
             num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');

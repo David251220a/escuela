@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\CobroIngreso;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -44,6 +45,7 @@ class DatabaseSeeder extends Seeder
             AlumnoDocumentoConcepto::class,
             Alergia::class,
             Seguro::class,
+            IngregoConcepto::class,
         ]);
 
     }

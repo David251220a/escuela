@@ -159,23 +159,7 @@
     </head>
 
     @php
-        $total = 0;
-        $cont = 0;
-        $emitido = '';
-        $Numero = 0;
-        $mes = Str::upper(\Carbon\Carbon::parse(Carbon\Carbon::now())->translatedFormat('F'));
-        if(count($matricula->cobro_matricula) > 0){
-            $cont = count($matricula->cobro_matricula) - 1;
-
-            foreach ($matricula->cobro_matricula as $item) {
-                $total = $total + $item->monto_cobrado_factura;
-                $emitido = date('d-m-Y', strtotime($item->fecha_cobro));
-                $Numero = number_format($item->id, 0, ".", ".");
-                $mes = Str::upper(\Carbon\Carbon::parse($item->fecha_cobro)->translatedFormat('F'));
-            }
-        }
-
-
+        $mes = Str::upper(\Carbon\Carbon::parse($cobro->cobros->fecha_cobro)->translatedFormat('F'));
     @endphp
 
     <body>
@@ -197,9 +181,9 @@
                 <p class="recibo">
                     RECIBO DE DINERO
                     <br>
-                    Emitido el: {{ $emitido  }}
+                    Emitido el: {{ date('d/m/Y', strtotime($cobro->cobros->fecha_cobro))  }}
                     <br>
-                    N°: {{ $Numero }}
+                    N°: {{ $cobro->cobros->id }}
                 </p>
 
             </div>
@@ -238,11 +222,11 @@
                         </tr>
                         <tr style="">
                             <td colspan="2" style="width: 195px; border-bottom: 1px dotted black; margin-left: 10px">
-                                {{ $mes }}
+                                {{ $mes }} {{ ($matricula->monto_matricula == $cobro->monto_cobrado_factura ? '' : ' - PARCIAL') }}
                             </td>
                             <td rowspan="2" style="padding: 0; width:50px; border-style: solid">
                                 <p style="line-height: 15px; width: 70px; padding: 0; font-weight: bold">
-                                    {{ number_format($total, 0, ".", ".") }}
+                                    {{ number_format($cobro->monto_cobrado_factura, 0, ".", ".") }}
                                 </p>
                                 <p style="width: 70px; padding: 0; font-size: 12px;">
                                     Total a Cobrar
@@ -263,13 +247,13 @@
                         <tr style="">
                             <td colspan="3" style="border-bottom: 1px dotted black">
                                 @php
-                                    if($total > 999999){
+                                    if($cobro->monto_cobrado_factura > 999999){
                                         $letra = 'DE GUARANIES';
                                     }else{
                                         $letra = ' GUARANIES';
                                     }
                                 @endphp
-                                {{$formatter->toMoney($total, 0, $letra , '');}}
+                                {{$formatter->toMoney($cobro->monto_cobrado_factura, 0, $letra , '');}}
                             </td>
                         </tr>
                         <tr style="">
@@ -338,9 +322,9 @@
                 <p class="recibo">
                     RECIBO DE DINERO
                     <br>
-                    Emitido el: {{ $emitido  }}
+                    Emitido el: {{ date('d/m/Y', strtotime($cobro->cobros->fecha_cobro))  }}
                     <br>
-                    N°: {{ $Numero }}
+                    N°: {{ $cobro->cobros->id }}
                 </p>
             </div>
 
@@ -378,11 +362,11 @@
 
                         <tr style="">
                             <td colspan="2" style="width: 195px; border-bottom: 1px dotted black; margin-left: 10px">
-                                {{ $mes }}
+                                {{ $mes }} {{ ($matricula->monto_matricula == $cobro->monto_cobrado_factura ? '' : ' - PARCIAL') }}
                             </td>
                             <td rowspan="2" style="padding: 0; width:50px; border-style: solid">
                                 <p style="line-height: 15px; width: 70px; padding: 0; font-weight: bold">
-                                    {{ number_format($total, 0, ".", ".") }}
+                                    {{ number_format($cobro->monto_cobrado_factura, 0, ".", ".") }}
                                 </p>
                                 <p style="width: 70px; padding: 0; font-size: 12px;">
                                     Total a Cobrar
@@ -402,7 +386,7 @@
 
                         <tr style="">
                             <td colspan="3" style="border-bottom: 1px dotted black">
-                                {{$formatter->toMoney($total, 0, $letra , '');}}
+                                {{$formatter->toMoney($cobro->monto_cobrado_factura, 0, $letra , '');}}
                             </td>
                         </tr>
                         <tr style="">

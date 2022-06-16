@@ -177,9 +177,9 @@
                 <p class="recibo">
                     RECIBO DE DINERO
                     <br>
-                    Emitido el: {{  date('d-m-Y', strtotime($matricula_cuota->cobro_cuota->cobros->fecha_cobro)) }}
+                    Emitido el: {{  date('d-m-Y', strtotime($cobro->cobros->fecha_cobro)) }}
                     <br>
-                    N°: {{ number_format($matricula_cuota->cobro_cuota->cobros->id, 0, ".", ".") }}
+                    N°: {{ number_format($cobro->cobros->id, 0, ".", ".") }}
                 </p>
 
             </div>
@@ -219,11 +219,11 @@
 
                         <tr style="">
                             <td colspan="2" style="width: 195px; border-bottom: 1px dotted black; margin-left: 10px">
-                                {{Str::upper(\Carbon\Carbon::parse($matricula_cuota->fecha_vencimiento)->translatedFormat('F'))}}
+                                {{Str::upper(\Carbon\Carbon::parse($matricula_cuota->fecha_vencimiento)->translatedFormat('F'))}}{{ ($matricula_cuota->monto_cuota_cobrar == $cobro->monto_cobrado_cuota ? '' : ' - PARCIAL') }}
                             </td>
                             <td rowspan="2" style="padding: 0; width:50px; border-style: solid">
                                 <p style="line-height: 15px; width: 70px; padding: 0; font-weight: bold">
-                                    {{ number_format($matricula_cuota->monto_cuota_cobrado, 0, ".", ".") }}
+                                    {{ number_format($cobro->monto_cobrado_cuota, 0, ".", ".") }}
                                 </p>
                                 <p style="width: 70px; padding: 0; font-size: 12px;">
                                     Total a Cobrar
@@ -244,13 +244,13 @@
                         <tr style="">
                             <td colspan="3" style="border-bottom: 1px dotted black">
                                 @php
-                                    if($matricula_cuota->monto_cuota_cobrado > 999999){
+                                    if($cobro->monto_cobrado_cuota > 999999){
                                         $letra = 'DE GUARANIES';
                                     }else{
                                         $letra = ' GUARANIES';
                                     }
                                 @endphp
-                                {{$formatter->toMoney($matricula_cuota->monto_cuota_cobrado, 0, $letra , '');}}
+                                {{$formatter->toMoney($cobro->monto_cobrado_cuota, 0, $letra , '');}}
                             </td>
                         </tr>
                         <tr style="">
@@ -319,9 +319,9 @@
                 <p class="recibo">
                     RECIBO DE DINERO
                     <br>
-                    Emitido el: {{  date('d-m-Y', strtotime($matricula_cuota->cobro_cuota->cobros->fecha_cobro)) }}
+                    Emitido el: {{  date('d-m-Y', strtotime($cobro->cobros->fecha_cobro)) }}
                     <br>
-                    N°: {{ number_format($matricula_cuota->cobro_cuota->cobros->id, 0, ".", ".") }}
+                    N°: {{ number_format($cobro->cobros->id, 0, ".", ".") }}
                 </p>
             </div>
 
@@ -359,11 +359,11 @@
 
                         <tr style="">
                             <td colspan="2" style="width: 195px; border-bottom: 1px dotted black; margin-left: 10px">
-                                {{Str::upper(\Carbon\Carbon::parse($matricula_cuota->fecha_vencimiento)->translatedFormat('F'))}}
+                                {{Str::upper(\Carbon\Carbon::parse($matricula_cuota->fecha_vencimiento)->translatedFormat('F'))}}{{ ($matricula_cuota->monto_cuota_cobrar == $cobro->monto_cobrado_cuota ? '' : ' - PARCIAL') }}
                             </td>
                             <td rowspan="2" style="padding: 0; width:50px; border-style: solid">
                                 <p style="line-height: 15px; width: 70px; padding: 0; font-weight: bold">
-                                    {{ number_format($matricula_cuota->monto_cuota_cobrado, 0, ".", ".") }}
+                                    {{ number_format($cobro->monto_cobrado_cuota, 0, ".", ".") }}
                                 </p>
                                 <p style="width: 70px; padding: 0; font-size: 12px;">
                                     Total a Cobrar
@@ -383,7 +383,14 @@
 
                         <tr style="">
                             <td colspan="3" style="border-bottom: 1px dotted black">
-                                {{$formatter->toMoney($matricula_cuota->monto_cuota_cobrado, 0, $letra , '');}}
+                                @php
+                                    if($cobro->monto_cobrado_cuota > 999999){
+                                        $letra = 'DE GUARANIES';
+                                    }else{
+                                        $letra = ' GUARANIES';
+                                    }
+                                @endphp
+                                {{$formatter->toMoney($cobro->monto_cobrado_cuota, 0, $letra , '');}}
                             </td>
                         </tr>
                         <tr style="">
