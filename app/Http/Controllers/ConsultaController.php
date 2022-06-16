@@ -24,7 +24,11 @@ class ConsultaController extends Controller
 
         $grado = Grado::all();
         $turno = Turno::all();
-
+        $date = Carbon::now();
+        $ciclo = Ciclo::all();
+        $date = Carbon::now();
+        $anio = date("Y",strtotime($date));
+        $aux_ciclo = Ciclo::where('nombre', $anio)->first();
         if(empty($request->grado)){
             $search_grado = 1;
         }else{
@@ -37,11 +41,19 @@ class ConsultaController extends Controller
             $search_turno = $request->turno;
         }
 
+        if(!empty($request->ciclo)){
+            $anio = $request->ciclo;
+            $aux_ciclo = Ciclo::where('nombre', $anio)->first();
+        }
+
         $alumno = Alumno::where('grado_id', $search_grado)
         ->where('turno_id', $search_turno)
+        ->where('ciclo_id', $aux_ciclo->id)
+        ->orderBy('apellido', 'ASC')
+        ->orderBy('nombre', 'ASC')
         ->paginate(10);
 
-        return view('consulta.index', compact('grado', 'turno', 'search_turno', 'search_grado', 'alumno'));
+        return view('consulta.index', compact('grado', 'turno', 'search_turno', 'search_grado', 'alumno', 'ciclo', 'anio'));
 
     }
 
@@ -86,7 +98,8 @@ class ConsultaController extends Controller
         }
 
         $cobros = CobroIngreso::join('cobro', 'cobro_ingreso.cobro_id', '=', 'cobro.id')
-        ->select('cobro_ingreso.*', 'cobro.fecha_cobro', 'cobro.estado_id')
+        ->join('alumno', 'cobro_ingreso.alumno_id', '=', 'alumno.id')
+        ->select('cobro_ingreso.*', 'cobro.fecha_cobro', 'cobro.estado_id', 'alumno.nombre', 'alumno.apellido')
         ->where('cobro.cobro_concepto_id', 3)
         ->where('cobro.estado_id', 1)
         ->whereBetween(DB::raw('CAST(cobro.fecha_cobro AS DATE)'),[$search_desde_fecha, $search_hasta_fecha])
@@ -94,10 +107,13 @@ class ConsultaController extends Controller
         ->where('cobro_ingreso.cobro_ingreso_concepto', '>=', $search_concepto_hasta)
         ->where('cobro.tipo_cobro_id', '<=', $search_cobro)
         ->where('cobro.tipo_cobro_id', '>=', $tipo_cobro_hasta)
+        ->orderBy('alumno.apellido', 'ASC')
+        ->orderBy('alumno.nombre', 'ASC')
         ->paginate(10);
 
         $cobros_aux = CobroIngreso::join('cobro', 'cobro_ingreso.cobro_id', '=', 'cobro.id')
-        ->select('cobro_ingreso.*', 'cobro.fecha_cobro', 'cobro.estado_id')
+        ->join('alumno', 'cobro_ingreso.alumno_id', '=', 'alumno.id')
+        ->select('cobro_ingreso.*', 'cobro.fecha_cobro', 'cobro.estado_id', 'alumno.nombre', 'alumno.apellido')
         ->where('cobro.cobro_concepto_id', 3)
         ->where('cobro.estado_id', 1)
         ->whereBetween(DB::raw('CAST(cobro.fecha_cobro AS DATE)'),[$search_desde_fecha, $search_hasta_fecha])
@@ -105,6 +121,8 @@ class ConsultaController extends Controller
         ->where('cobro_ingreso.cobro_ingreso_concepto', '>=', $search_concepto_hasta)
         ->where('cobro.tipo_cobro_id', '<=', $search_cobro)
         ->where('cobro.tipo_cobro_id', '>=', $tipo_cobro_hasta)
+        ->orderBy('alumno.apellido', 'ASC')
+        ->orderBy('alumno.nombre', 'ASC')
         ->get();
 
 
@@ -221,6 +239,7 @@ class ConsultaController extends Controller
         $search_turno = 1;
         $search_concepto_hasta = 0;
         $unico = 0;
+        $titulo = 'TODOS';
 
         if(!empty($request->grado)){
             $search_grado = $request->grado;
@@ -228,17 +247,6 @@ class ConsultaController extends Controller
 
         if(!empty($request->turno)){
             $search_turno = $request->turno;
-        }
-
-        if(empty($request->ingreso_concepto)){
-            $search_concepto = 9999;
-        }else{
-            $search_concepto = $request->ingreso_concepto;
-            if($search_concepto != 9999){
-                $search_concepto_hasta = $request->ingreso_concepto;
-                $aux_ingresos = CobroIngresoConcepto::where('id', $search_concepto)->first();
-                $unico = $aux_ingresos->unico;
-            }
         }
 
         if(empty($request->desde_fecha)){
@@ -253,6 +261,23 @@ class ConsultaController extends Controller
         }else{
             $search_hasta_fecha = $request->hasta_fecha;
             $search_hasta_fecha =  date('Y-m-d', strtotime($search_hasta_fecha));
+        }
+
+        if(empty($request->ingreso_concepto)){
+            $search_concepto = 9999;
+            $titulo = 'TODOS';
+        }else{
+            $search_concepto = $request->ingreso_concepto;
+            if($search_concepto != 9999){
+                $search_concepto_hasta = $request->ingreso_concepto;
+                $aux_ingresos = CobroIngresoConcepto::where('id', $search_concepto)->first();
+                $unico = $aux_ingresos->unico;
+                if($unico == 1){
+                    $search_desde_fecha =  date('Y-m-d', strtotime(date('Y', strtotime(Carbon::now())).'-01-01'));
+                    $search_hasta_fecha =  date('Y-m-d', strtotime(date('Y', strtotime(Carbon::now())).'-12-31'));
+                }
+                $titulo = $aux_ingresos->nombre;
+            }
         }
 
         $cobros = CobroIngreso::join('cobro', 'cobro_ingreso.cobro_id', '=', 'cobro.id')
@@ -296,6 +321,7 @@ class ConsultaController extends Controller
         , 'turno'
         , 'cobros'
         , 'unico'
+        , 'titulo'
         , 'alumno'
         , 'cobros_aux'
         , 'search_grado'
@@ -418,7 +444,6 @@ class ConsultaController extends Controller
         , 'search_desde_fecha'
         , 'search_hasta_fecha'));
     }
-
 
     public function cobros_cuota_ver($id)
     {

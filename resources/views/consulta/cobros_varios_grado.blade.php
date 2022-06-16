@@ -76,6 +76,10 @@
         }
     @endphp
 
+    <div>
+        <h3 class="mt-4 mb-4 font-semibold text-xl text-center text-gray-500">{{ $titulo }}</h3>
+    </div>
+
     @if ($unico == 0)
         @include('ui.ingresos_varios')
     @else

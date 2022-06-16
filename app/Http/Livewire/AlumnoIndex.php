@@ -14,9 +14,11 @@ class AlumnoIndex extends Component
 
         $cedula =  $this->search;
 
-        $alumnos = Alumno::where('cedula', $cedula)
+        $alumnos = Alumno::where('cedula', 'LIKE', '%'.$cedula.'%')
         ->orWhere('nombre', 'LIKE', '%'.$cedula.'%')
         ->orWhere('apellido', 'LIKE', '%'.$cedula.'%')
+        ->orderBy('apellido', 'ASC')
+        ->orderBy('nombre', 'ASC')
         ->paginate(10);
 
         return view('livewire.alumno-index', compact('alumnos'));

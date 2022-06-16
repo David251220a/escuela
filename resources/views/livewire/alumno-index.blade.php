@@ -15,7 +15,7 @@
                         <thead class="bg-gray-50">
                             <tr>
                                 <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Documento</th>
-                                <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Nombre y Apellido</th>
+                                <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Apellido y Nombre</th>
                                 <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Estado</th>
                                 <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Grado</th>
                                 <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Turno</th>
@@ -28,7 +28,7 @@
                             @foreach ($alumnos as $item)
                                 <tr>
                                     <td class="px-6 whitespace-nowrap text-xl text-gray-500 text-center">{{ number_format($item->cedula, 0, ".", ".") }}</td>
-                                    <td class="px-6 whitespace-nowrap text-xl text-gray-500 text-center">{{ $item->nombre }} {{ $item->apellido }}</td>
+                                    <td class="px-6 whitespace-nowrap text-xl text-gray-500 text-left">{{ $item->apellido }}, {{ $item->nombre }}</td>
                                     <td class="px-6 whitespace-nowrap text-xl text-gray-500 text-center">
                                         <a
                                         href="#"

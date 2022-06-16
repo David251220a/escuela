@@ -63,6 +63,8 @@
                         REPORTE DE ALUMNOS
                         <br style="margin-botton: 5px">
                         Grado: {{$grado->nombre}} - Turno: {{$turno->nombre}}
+                        <br style="margin-botton: 5px">
+                        Ciclo: {{$aux_ciclo->nombre}}
                     </th>
                 </tr>
             </thead>

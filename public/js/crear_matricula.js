@@ -91,6 +91,8 @@ function btn_generar(){
             title: 'Oops...',
             text: 'Debe elegir un grado para poder generar cuota.',
         })
+
+        return;
     }
 
     if(nombre_alumno == 'SIN ESPECIFICAR'){
@@ -99,6 +101,7 @@ function btn_generar(){
             title: 'Oops...',
             text: 'Debe elegir un alumno para poder generar cuota.',
         })
+        return;
     }
 
     if(turno_id == 1){
@@ -107,6 +110,7 @@ function btn_generar(){
             title: 'Oops...',
             text: 'Debe elegir un turno para poder generar cuota.',
         })
+        return false;
     }
 
     if((monto_cuota == 0) || (monto_cuota == '')) {
@@ -115,6 +119,7 @@ function btn_generar(){
             title: 'Oops...',
             text: 'El monto cuota debe ser mayor a 0 para poder generar cuota.',
         })
+        return false;
     }
     fecha_inicio = moment(fecha_inicio);
     var now = moment();
@@ -124,6 +129,7 @@ function btn_generar(){
             title: 'Oops...',
             text: 'La año de la fecha de inicio deberia ser de este año.',
         })
+        return false;
     }
 
     if(cantidad_cuota <= 0){
@@ -132,6 +138,8 @@ function btn_generar(){
             title: 'Oops...',
             text: 'La cantidad de cuota no puede ser menor o igual a 0!!.',
         })
+
+        return false;
     }
     var cont = 0;
     for (let i = 0; i < cantidad_cuota; i++) {

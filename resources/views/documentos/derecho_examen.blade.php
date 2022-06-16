@@ -88,8 +88,6 @@
                         <br style="margin-botton: 5px">
                         CONCEPTO: {{$titulo}}
                         <br style="margin-botton: 5px">
-                        DESDE FECHA: {{date('d-m-Y', strtotime($fecha_desde))}} HASTA FECHA: {{date('d-m-Y', strtotime($fecha_hasta))}}
-                        <br style="margin-botton: 5px">
                         {{$grado_aux->nombre}} - TURNO {{$turno_aux->nombre}}
                     </th>
                 </tr>

@@ -38,19 +38,6 @@
                 <div class="md:grid grid-cols-4 gap-4 px-4 py-6">
 
                     <div class="mb-4">
-                        <label for="">Fecha Desde</label>
-                        <input type="date" name="desde_fecha" id="desde_fecha" class="border-gray-500 rounded w-full text-right text-base enviar"
-                        value="{{date('Y-m-d', strtotime($search_desde_fecha)) }}">
-                        <input type="hidden" name="checkeado" id="checkeado" value="{{$ver}}">
-                    </div>
-
-                    <div class="mb-4">
-                        <label for="">Fecha Hasta</label>
-                        <input type="date" name="hasta_fecha" id="hasta_fecha" class="border-gray-500 rounded w-full text-right text-base enviar"
-                        value="{{date('Y-m-d', strtotime($search_hasta_fecha)) }}">
-                    </div>
-
-                    <div class="mb-4">
                         <label for="">Grado</label>
                         <select name="grado" id="grado" class="w-full rounded border-gray-400 enviar">
                             @foreach ($grado as $item)
@@ -84,6 +71,19 @@
                                 <option {{ ($search_cobro == $item->id ? 'selected' : '' ) }} value="{{ $item->id }}">{{ $item->nombre }}</option>
                             @endforeach
                         </select>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="">Fecha Desde</label>
+                        <input type="date" name="desde_fecha" id="desde_fecha" class="border-gray-500 rounded w-full text-right text-base enviar"
+                        value="{{date('Y-m-d', strtotime($search_desde_fecha)) }}">
+                        <input type="hidden" name="checkeado" id="checkeado" value="{{$ver}}">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="">Fecha Hasta</label>
+                        <input type="date" name="hasta_fecha" id="hasta_fecha" class="border-gray-500 rounded w-full text-right text-base enviar"
+                        value="{{date('Y-m-d', strtotime($search_hasta_fecha)) }}">
                     </div>
 
                     <div class="mb-4">

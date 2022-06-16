@@ -34,14 +34,20 @@ class PDFController extends Controller
         return $PDF->stream();
     }
 
-    public function alumno_grado_turno($search_grado, $search_turno)
+    public function alumno_grado_turno($search_grado, $search_turno, $ciclo)
     {
+        $aux_ciclo = Ciclo::where('nombre', $ciclo)->first();
+
         $alumno = Alumno::where('grado_id', $search_grado)
         ->where('turno_id', $search_turno)
+        ->where('ciclo_id', $aux_ciclo->id)
+        ->orderBy('apellido', 'ASC')
+        ->orderBy('nombre', 'ASC')
         ->paginate(10);
+
         $grado = Grado::find($search_grado);
         $turno = Turno::find($search_turno);
-        $PDF = PDF::loadView('documentos.consulta_grado_turno', compact('alumno', 'turno', 'grado'));
+        $PDF = PDF::loadView('documentos.consulta_grado_turno', compact('alumno', 'turno', 'grado', 'aux_ciclo'));
 
         return $PDF->stream();
     }

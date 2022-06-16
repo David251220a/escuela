@@ -70,6 +70,14 @@ class AlumnoDocumentoConcepto extends Seeder
             'usuario_modificacion' => 1,
             'orden' => 7,
         ]);
+
+        DB::table('lugar_nacimiento')->insert([
+            'nombre' => 'SIN ESPECIFICAR',
+            'estado_id' => 1,
+            'usuario_grabacion' => 1,
+            'usuario_modificacion' => 1,
+        ]);
+
     }
 
 }

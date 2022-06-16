@@ -29,8 +29,19 @@
                 </div>
 
                 <div class="mb-4">
+                    <label for="">Ciclo</label>
+                    <select name="ciclo" id="ciclo" class="w-full rounded border-gray-400 enviar">
+                        @foreach ($ciclo as $item)
+                            <option {{ ($anio == $item->año ? 'selected' : '' ) }} value="{{ $item->año }}">{{ $item->nombre }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                @php
+
+                @endphp
+                <div class="mb-4">
                     <button type="submit" class="bg-green-500 rounded px-4 py-2 text-center text-white text-base font-bold mt-5">Filtrar</button>
-                    <a href="{{ route('pdf.alumno_grado_turno', [$search_grado, $search_turno] )}}"
+                    <a href="{{ route('pdf.alumno_grado_turno', [$search_grado, $search_turno, $anio] )}}"
                     class="ml-2 border border-green-500 rounded text-center font-bold px-4 py-2 text-green-700" target="__blank">
                         <i class='bx bxs-file-pdf'></i>
                         PDF
@@ -53,9 +64,7 @@
                             <tr>
                                 <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Documento</th>
                                 <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Nombre y Apellido</th>
-                                <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Estado</th>
-                                <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Grado</th>
-                                <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Turno</th>
+                                <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center"></th>
                             </tr>
                         </thead>
 
@@ -63,16 +72,12 @@
 
                             @foreach ($alumno as $item)
                                 <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{{ number_format($item->cedula, 0, ".", ".") }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{{ $item->nombre }} {{ $item->apellido }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
-                                        <a
-                                        href="#"
-                                        class= "text-green-500 font-bold"
-                                        >  {{ $item->estado->nombre }}</a>
+                                    <td class="px-6 whitespace-nowrap text-lg text-gray-500 text-center">{{ number_format($item->cedula, 0, ".", ".") }}</td>
+                                    <td class="px-6 whitespace-nowrap text-lg text-gray-500 text-center">{{ $item->nombre }} {{ $item->apellido }}</td>
+                                    <td class="px-6 whitespace-nowrap text-lg text-gray-500 text-center">
+                                        <img src="{{ Storage::url($item->foto) }}" class="rounded-full w-24 h-24" alt="">
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{{ $item->grado->nombre }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{{ $item->turno->nombre }}</td>
+
                                 </tr>
                             @endforeach
 

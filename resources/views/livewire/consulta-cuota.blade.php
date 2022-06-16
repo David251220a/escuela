@@ -28,7 +28,7 @@
                             @foreach ($alumnos as $item)
                                 <tr>
                                     <td class="px-6 whitespace-nowrap text-xl text-gray-500 text-center">{{ number_format($item->cedula, 0, ".", ".") }}</td>
-                                    <td class="px-6 whitespace-nowrap text-xl text-gray-500 text-center">{{ $item->apellido }}, {{ $item->nombre }}</td>
+                                    <td class="px-6 whitespace-nowrap text-xl text-gray-500 text-left">{{ $item->apellido }}, {{ $item->nombre }}</td>
                                     <td class="px-6 whitespace-nowrap text-xl text-gray-500 text-center">
                                         <a
                                         href="#"

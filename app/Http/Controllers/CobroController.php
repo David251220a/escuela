@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Alumno;
+use App\Models\Ciclo;
 use App\Models\Cobro;
+use App\Models\CobroIngreso;
 use App\Models\CobroIngresoConcepto;
 use App\Models\TipoCobro;
 use Carbon\Carbon;
@@ -64,6 +66,9 @@ class CobroController extends Controller
         $cantidad = $request->cantidad_aux;
         $id_concepto = $request->id_concepto;
         $monto_ingreso = $request->total_ingreso_aux;
+
+        $date = Carbon::now();
+        $ciclo = Ciclo::where('nombre', date("Y",strtotime($date)))->first();
         // dd($request->all());
         $cobro = Cobro::create([
             'caja_id' => 1,
@@ -71,7 +76,7 @@ class CobroController extends Controller
             'fecha_cobro' => $fecha,
             'estado_id' => 1,
             'cobro_concepto_id' => 3,
-            'total_cobrado' => $total_ingresos,
+            'total_cobrado' => $total_pagar,
             'observacion' => 'INGRESO VARIOS',
             'tipo_cobro_id' => $tipo_cobro,
             'salida_id' => 1,
@@ -81,12 +86,17 @@ class CobroController extends Controller
         ]);
 
         for ($i=0; $i < count($id_concepto); $i++) {
+
+            $concepto_cobro = CobroIngresoConcepto::find($id_concepto[$i]);
+            // $verificar_saldo = CobroIngreso::whereYear('')
+
             $cobro->cobro_ingreso()->create([
                 'factura_sucursal' => '000',
                 'factura_general' => '000',
                 'factura_nro' => '000000',
                 'monto_total_factura' => str_replace('.', '', $monto_ingreso[$i]),
                 'monto_cobrado_factura' => str_replace('.', '', $monto_ingreso[$i]),
+                'monto_saldo_factura' => str_replace('.', '', $monto_ingreso[$i]),
                 'cantidad' => $cantidad[$i],
                 'cobro_ingreso_concepto' => $id_concepto[$i],
                 'estado_id' => 1,

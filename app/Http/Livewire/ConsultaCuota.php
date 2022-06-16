@@ -16,6 +16,8 @@ class ConsultaCuota extends Component
         $alumnos = Alumno::where('cedula', 'LIKE','%'.$cedula.'%')
         ->orWhere('nombre', 'LIKE', '%'.$cedula.'%')
         ->orWhere('apellido', 'LIKE', '%'.$cedula.'%')
+        ->orderBy('apellido', 'ASC')
+        ->orderBy('nombre', 'ASC')
         ->paginate(10);
 
         return view('livewire.consulta-cuota', compact('alumnos'));
