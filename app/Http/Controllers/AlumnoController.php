@@ -32,7 +32,9 @@ class AlumnoController extends Controller
         $alergia = Alergia::all();
         $grado = Grado::all();
         $turno = Turno::all();
-        $documento_concepto = AlumnoDocumentoConcepto::all();
+        $documento_concepto = AlumnoDocumentoConcepto::where('estado_id', 1)
+        ->orderBy('order', 'ASC')
+        ->get();
 
         return view('alumno.create',
         compact('lugar_nacimiento'
@@ -98,10 +100,12 @@ class AlumnoController extends Controller
             'foto' => $foto_perfil
         ]);
 
-        $documentos = $request->documento_concepto_id;
-        $foto = $request->foto;
 
-        for ($i = 0; $i < 7; $i++) {
+        $foto = $request->foto;
+        $documento_concepto = AlumnoDocumentoConcepto::where('estado_id', 1)
+        ->orderBy('order', 'ASC')
+        ->get();
+        for ($i = 0; $i < count($documento_concepto); $i++) {
 
             if(!empty($foto[$i])){
 
@@ -203,10 +207,12 @@ class AlumnoController extends Controller
             'foto' => $foto_perfil
         ]);
 
-        $documentos = $request->documento_concepto_id;
+        $documento_concepto = AlumnoDocumentoConcepto::where('estado_id', 1)
+        ->orderBy('order', 'ASC')
+        ->get();
         $foto = $request->foto;
 
-        for ($i = 0; $i < 7; $i++) {
+        for ($i = 0; $i < count($documento_concepto); $i++) {
 
             if(!empty($foto[$i])){
 
