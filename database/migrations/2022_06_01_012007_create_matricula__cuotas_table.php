@@ -42,6 +42,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('matricula__cuotas');
+        Schema::dropIfExists('matricula_cuotas');
     }
 };

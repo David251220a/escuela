@@ -156,8 +156,9 @@ return new class extends Migration
             $table->boolean('certificado_nacimiento_copia')->default(false);
             $table->boolean('libreta_vacunacion')->default(false);
             $table->integer('encargado_id_1')->default(0);
-            $table->integer('grado_id')->default(0);;
-            $table->integer('turno_id')->default(0);;
+            $table->integer('grado_id')->default(0);
+            $table->integer('turno_id')->default(0);
+            $table->integer('ciclo_id')->default(0);
             $table->integer('encargado_id_2')->default(0);
             $table->integer('encargado_id_3')->default(0);
             $table->string('foto', 255)->nullable();
@@ -192,6 +193,8 @@ return new class extends Migration
         Schema::dropIfExists('lugar_nacimiento');
         Schema::dropIfExists('seguro');
         Schema::dropIfExists('tipo_documento');
+        Schema::dropIfExists('grado');
+        Schema::dropIfExists('turno');
         Schema::dropIfExists('estado');
     }
 };

@@ -306,7 +306,6 @@
         @livewireScripts
         <script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
-        <script src="{{ asset('js/dashboard.js') }}"></script>
         <script src="https://unpkg.com/flowbite@1.4.1/dist/flowbite.js"></script>
 
     </body>

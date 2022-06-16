@@ -86,6 +86,6 @@ return new class extends Migration
         Schema::dropIfExists('sede');
         Schema::dropIfExists('banco');
         Schema::dropIfExists('tipo_cobro');
-        Schema::dropIfExists('tarjetas');
+        Schema::dropIfExists('tarjeta');
     }
 };
