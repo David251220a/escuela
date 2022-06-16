@@ -23,6 +23,11 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('admin123456'),
         ]);
 
+        DB::table('paramentro_general')->insert([
+            'monto_multa' => 0,
+            'cantidad_dias_gracia' => 0
+        ]);
+
         $this->call([
             Estado::class,
             TipoDocumento::class,

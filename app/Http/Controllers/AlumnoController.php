@@ -7,6 +7,7 @@ use App\Models\Alergia;
 use App\Models\Alumno;
 use App\Models\AlumnoDocumento;
 use App\Models\AlumnoDocumentoConcepto;
+use App\Models\Ciclo;
 use App\Models\Encargado;
 use App\Models\Grado;
 use App\Models\LugarNacimiento;
@@ -33,7 +34,7 @@ class AlumnoController extends Controller
         $grado = Grado::all();
         $turno = Turno::all();
         $documento_concepto = AlumnoDocumentoConcepto::where('estado_id', 1)
-        ->orderBy('order', 'ASC')
+        ->orderBy('orden', 'ASC')
         ->get();
 
         return view('alumno.create',
@@ -65,7 +66,7 @@ class AlumnoController extends Controller
             $filePath = $request->file('foto_perfil')->store('public/foto_perfil');
             $foto_perfil = $filePath;
         }
-
+        $ciclo = Ciclo::where('nombre', date("Y",strtotime($date)))->first();
         $alumno = Alumno::create([
             'nombre' => $request->nombre,
             'apellido' => $request->apellido,
@@ -95,6 +96,7 @@ class AlumnoController extends Controller
             'encargado_id_1' => $request->id_encargado1,
             'grado_id' => $request->grado,
             'turno_id' => $request->turno,
+            'ciclo_id' => $ciclo->id,
             'encargado_id_2' => $request->id_encargado2,
             'encargado_id_3' => $request->id_encargado3,
             'foto' => $foto_perfil
@@ -103,7 +105,7 @@ class AlumnoController extends Controller
 
         $foto = $request->foto;
         $documento_concepto = AlumnoDocumentoConcepto::where('estado_id', 1)
-        ->orderBy('order', 'ASC')
+        ->orderBy('orden', 'ASC')
         ->get();
         for ($i = 0; $i < count($documento_concepto); $i++) {
 
@@ -172,7 +174,6 @@ class AlumnoController extends Controller
             $foto_perfil = $alumno->foto;
         }
         $cedula = $request->cedula;
-
         $alumno->update([
             'nombre' => $request->nombre,
             'apellido' => $request->apellido,
@@ -208,7 +209,7 @@ class AlumnoController extends Controller
         ]);
 
         $documento_concepto = AlumnoDocumentoConcepto::where('estado_id', 1)
-        ->orderBy('order', 'ASC')
+        ->orderBy('orden', 'ASC')
         ->get();
         $foto = $request->foto;
 

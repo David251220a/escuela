@@ -87,6 +87,7 @@ class MatriculaController extends Controller
             'estado_id' => 1,
             'fecha' => $date,
             'monto_matricula' => $monto_matricula,
+            'matricula_estado_id' => 1,
             'monto_cuota' => $monto_cuota,
             'fecha_inicio' => date_format(date_create($request->fecha_cuota[0]), "Y-m-d"),
             'usuario_alta' => auth()->user()->id,
@@ -287,9 +288,11 @@ class MatriculaController extends Controller
                         ->max('cuota');
 
                         if($max_cuota == $matricula_cuota->cuota){
-                            $estado_id = 9;
-                        }else{
-                            $estado_id = 1;
+                            $matricula_cuota->matricula->update([
+                                'matricula_estado_id' => 2,
+                                'usuario_modificacion' => auth()->user()->id,
+                                'updated_at' => $fecha,
+                            ]);
                         }
 
                         $matricula_cuota->update([
@@ -298,7 +301,6 @@ class MatriculaController extends Controller
                             'saldo' => $monto_cuota_real - $monto_total_pagar,
                             'usuario_modificacion' => auth()->user()->id,
                             'updated_at' => $fecha,
-                            'estado_id' => $estado_id
                         ]);
 
                     }
