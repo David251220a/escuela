@@ -1,6 +1,6 @@
 <x-app-layout>
 
-    <h2 class="text-xl text-gray-500 font-semibold mb-2">Agregar Alumno</h2>
+    <h2 class="text-xl text-gray-500 font-semibold mb-2">Agregare Alumno</h2>
 
     <form action="{{ route('alumno.store') }}" method="POST" enctype="multipart/form-data" novalidate onsubmit="return checkSubmit();">
 
@@ -91,6 +91,8 @@
                         <div class="mb-4">
                             <label for="">Lugar Nacimiento</label>
                             <select name="lugar_nacimiento" id="lugar_nacimiento" class="w-full rounded border-gray-400 enviar">
+                                <p onclick="lugarnacimiento()" class="text-xl font-medium leading-tight mb-2">Lugar Nacimiento</p>
+                                <input type="file" name="foto_perfil" id="foto_perfil" accept="image/*" hidden>
 
                                 @foreach ($lugar_nacimiento as $item)
                                     <option value="{{ $item->id }}">{{ $item->nombre }}</option>
