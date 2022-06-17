@@ -43,7 +43,7 @@
 
             .content td{
                 padding: 3px;
-                line-height: 50px;
+                line-height: 15px;
                 border: 1px solid black;
                 border-collapse: collapse;
             }
@@ -76,11 +76,11 @@
 
                 <tr>
                     <th style="width: 5%">#</th>
-                    <th style="width: 13%">Documento</th>
+                    <th style="width: 20%">Documento</th>
                     <th style="width: 32%">Alumno</th>
                     <th style="width: 12%">Fecha Nacimiento</th>
                     <th style="width: 5%">Edad</th>
-                    <th style="width: 33%">Foto</th>
+                    <th style="width: 15%">Foto</th>
                 </tr>
 
             </thead>

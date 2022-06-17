@@ -11,6 +11,7 @@ use App\Models\CobroMatricula;
 use App\Models\CobroMatriculaCuota;
 use App\Models\Grado;
 use App\Models\Matricula;
+use App\Models\Matricula_Cuota;
 use App\Models\TipoCobro;
 use App\Models\Turno;
 use Carbon\Carbon;
@@ -24,7 +25,6 @@ class ConsultaController extends Controller
 
         $grado = Grado::all();
         $turno = Turno::all();
-        $date = Carbon::now();
         $ciclo = Ciclo::all();
         $date = Carbon::now();
         $anio = date("Y",strtotime($date));
@@ -51,7 +51,7 @@ class ConsultaController extends Controller
         ->where('ciclo_id', $aux_ciclo->id)
         ->orderBy('apellido', 'ASC')
         ->orderBy('nombre', 'ASC')
-        ->paginate(10);
+        ->get();
 
         return view('consulta.index', compact('grado', 'turno', 'search_turno', 'search_grado', 'alumno', 'ciclo', 'anio'));
 
@@ -468,4 +468,53 @@ class ConsultaController extends Controller
 
         return view('consulta.cobros_cuota_ver', compact('alumno'));
     }
+
+    public function grado_consulta(Request $request)
+    {
+        $search_grado = 0;
+        $search_turno = 0;
+        $search_mes = 2;
+
+        if(!empty($request->grado)){
+            $search_grado = $request->grado;
+        }
+
+        if(!empty($request->turno)){
+            $search_turno = $request->turno;
+        }
+
+        if(!empty($request->mes)){
+            $search_mes = $request->mes;
+        }
+
+        $grado = Grado::where('estado_id', 1)->get();
+        $turno = Turno::where('estado_id', 1)->get();
+        $ciclo = Ciclo::all();
+        $date = Carbon::now();
+        $anio = date("Y",strtotime($date));
+        $aux_ciclo = Ciclo::where('nombre', $anio)->first();
+        $alumno = Alumno::where('grado_id', $search_grado)
+        ->where('turno_id', $search_turno)
+        ->where('ciclo_id', $aux_ciclo->id)
+        ->orderBy('apellido', 'ASC')
+        ->orderBy('nombre', 'ASC')
+        ->get();
+
+        $cobros = Matricula_Cuota::join('matricula', 'matricula_cuotas.matricula_id', '=', 'matricula.id')
+        ->select('matricula_cuotas.*', 'matricula.ciclo_id', 'matricula.alumno_id')
+        ->where('matricula_cuotas.cuota', $search_mes)
+        ->where('matricula.ciclo_id', $aux_ciclo->id)
+        ->get();
+
+        return view('consulta.cobro_grado_cuota', compact('grado'
+        , 'turno'
+        , 'search_grado'
+        , 'ciclo'
+        , 'alumno'
+        , 'cobros'
+        , 'anio'
+        , 'search_turno'
+        , 'search_mes'));
+    }
+
 }
