@@ -347,4 +347,34 @@ class PDFController extends Controller
 
         return $PDF->stream();
     }
+
+    public function cuota_mes(Request $request)
+    {
+        $search_grado = $request->search_grado;
+        $search_turno = $request->search_turno;
+        $search_mes = $request->search_mes;
+        $anio = $request->anio;
+
+        $aux_ciclo = Ciclo::where('nombre', $anio)->first();
+
+        $grado = Grado::find($search_grado);
+        $turno = Turno::find($search_turno);
+
+        $alumno = Alumno::where('grado_id', $search_grado)
+        ->where('turno_id', $search_turno)
+        ->where('ciclo_id', $aux_ciclo->id)
+        ->orderBy('apellido', 'ASC')
+        ->orderBy('nombre', 'ASC')
+        ->get();
+
+        $cobros = Matricula_Cuota::join('matricula', 'matricula_cuotas.matricula_id', '=', 'matricula.id')
+        ->select('matricula_cuotas.*', 'matricula.ciclo_id', 'matricula.alumno_id')
+        ->where(DB::raw('MONTH(matricula_cuotas.fecha_vencimiento)'), $search_mes)
+        ->where('matricula.ciclo_id', $aux_ciclo->id)
+        ->get();
+
+        $PDF = PDF::loadView('documentos.consulta_grado_cuota_mes', compact('cobros', 'alumno', 'grado', 'turno'));
+
+        return $PDF->stream();
+    }
 }

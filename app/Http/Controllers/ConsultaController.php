@@ -474,7 +474,9 @@ class ConsultaController extends Controller
         $search_grado = 0;
         $search_turno = 0;
         $search_mes = 2;
-
+        $date = Carbon::now();
+        $anio = date("Y",strtotime($date));
+        $aux_ciclo = Ciclo::where('nombre', $anio)->first();
         if(!empty($request->grado)){
             $search_grado = $request->grado;
         }
@@ -487,12 +489,16 @@ class ConsultaController extends Controller
             $search_mes = $request->mes;
         }
 
+        if(!empty($request->ciclo)){
+            $anio = $request->ciclo;
+            $aux_ciclo = Ciclo::where('nombre', $anio)->first();
+        }
+
+
         $grado = Grado::where('estado_id', 1)->get();
         $turno = Turno::where('estado_id', 1)->get();
         $ciclo = Ciclo::all();
-        $date = Carbon::now();
-        $anio = date("Y",strtotime($date));
-        $aux_ciclo = Ciclo::where('nombre', $anio)->first();
+
         $alumno = Alumno::where('grado_id', $search_grado)
         ->where('turno_id', $search_turno)
         ->where('ciclo_id', $aux_ciclo->id)
@@ -502,7 +508,7 @@ class ConsultaController extends Controller
 
         $cobros = Matricula_Cuota::join('matricula', 'matricula_cuotas.matricula_id', '=', 'matricula.id')
         ->select('matricula_cuotas.*', 'matricula.ciclo_id', 'matricula.alumno_id')
-        ->where('matricula_cuotas.cuota', $search_mes)
+        ->where(DB::raw('MONTH(matricula_cuotas.fecha_vencimiento)'), $search_mes)
         ->where('matricula.ciclo_id', $aux_ciclo->id)
         ->get();
 

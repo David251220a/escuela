@@ -21,5 +21,8 @@ class Matricula_Cuota extends Model
         return $this->belongsTo(Matricula::class, 'matricula_id');
     }
 
+    public function cuota_pagada(){
+        return $this->hasMany(CobroMatriculaCuota::class, 'matricula_cuota_id', 'id')->orderBy('cobro_id', 'DESC');
+    }
 
 }

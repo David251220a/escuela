@@ -46,6 +46,7 @@ class DatabaseSeeder extends Seeder
             Alergia::class,
             Seguro::class,
             IngregoConcepto::class,
+            Ingreso_Estado::class,
         ]);
 
     }

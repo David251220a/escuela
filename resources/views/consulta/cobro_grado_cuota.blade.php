@@ -56,7 +56,7 @@
 
                 <div class="mb-4">
                     <button type="submit" class="bg-green-500 rounded px-4 py-2 text-center text-white text-base font-bold mt-5">Filtrar</button>
-                    <a href="#"
+                    <a href="{{ route('pdf.cuota_mes', ['search_mes'=>$search_mes, 'anio'=>$anio, 'search_turno'=>$search_turno, 'search_grado'=>$search_grado]) }}"
                     class="ml-2 border border-green-500 rounded text-center font-bold px-4 py-2 text-green-700" target="__blank">
                         <i class='bx bxs-file-pdf'></i>
                         PDF
@@ -106,17 +106,44 @@
                             </tr>
                         </thead>
 
-                        <tbody class="bg-white divide-y divide-gray-200">
-
+                        <tbody class="bg-white divide-y divide-gray-200 ">
+                            @php
+                                $total_cobrar = 0;
+                                $total_cobrado = 0;
+                                $saldo = 0;
+                            @endphp
                             @foreach ($alumno as $item)
                                 <tr>
                                     <td class="px-6 whitespace-nowrap text-lg text-gray-500 text-right">{{ number_format($item->cedula, 0, ".", ".") }}</td>
                                     <td class="px-6 whitespace-nowrap text-lg text-gray-500 text-left">{{ $item->nombre }} {{ $item->apellido }}</td>
                                     @foreach ($cobros as $cobro)
-                                        @if ($cobro->alumno_id = $item->id)
-                                            <td class="px-6 whitespace-nowrap text-lg text-gray-500 text-left">
+                                        @if ($cobro->matricula->alumno_id == $item->id)
+                                            @php
+                                                $pintar = ($cobro->monto_cuota_cobrado == $cobro->monto_cuota_cobrar ? 0 : 1);
+                                                $total_cobrado = $total_cobrado + $cobro->monto_cuota_cobrado;
+                                                $total_cobrar = $total_cobrar + $cobro->monto_cuota_cobrar;
+                                                $saldo = $saldo + $cobro->saldo;
+                                            @endphp
+                                            <td class="px-6 whitespace-nowrap text-lg text-center text-bold font-semibold" style="{{ ($pintar == 1 ? 'background: rgb(211, 84, 84)' : '') }}">
                                                 {{Str::upper(\Carbon\Carbon::parse($cobro->fecha_vencimiento)->translatedFormat('F'))}}
                                             </td>
+                                            <td class="px-6 whitespace-nowrap text-lg text-center text-bold font-semibold" style="{{ ($pintar == 1 ? 'background: rgb(211, 84, 84)' : '') }}">
+                                                {{ (count($cobro->cuota_pagada) == 0 ? '' : date('d/m/Y', strtotime($cobro->cuota_pagada[0]->cobros->fecha_cobro)))  }}
+
+                                            </td>
+
+                                            <td class="px-6 whitespace-nowrap text-lg text-right text-bold font-semibold" style="{{ ($pintar == 1 ? 'background: rgb(211, 84, 84)' : '') }}">
+                                                {{ number_format($cobro->monto_cuota_cobrar, 0, ".", ".") }}
+                                            </td>
+                                            <td class="px-6 whitespace-nowrap text-lg text-right text-bold font-semibold" style="{{ ($pintar == 1 ? 'background: rgb(211, 84, 84)' : '') }}">
+                                                {{ number_format($cobro->monto_cuota_cobrado, 0, ".", ".") }}
+                                            </td>
+                                            <td class="px-6 whitespace-nowrap text-lg text-right text-bold font-semibold" style="{{ ($pintar == 1 ? 'background: rgb(211, 84, 84)' : '') }}">
+                                                {{ number_format($cobro->saldo, 0, ".", ".") }}
+                                            </td>
+
+                                            @break
+
                                         @endif
 
                                     @endforeach
@@ -124,6 +151,20 @@
                             @endforeach
 
                         </tbody>
+                        <tfoot class="">
+                            <tr>
+                                <td colspan="6" class="text-xl font-semibold">TOTAL A COBRAR</td>
+                                <td class="text-xl text-right text-bold font-semibold">{{ number_format($total_cobrar, 0, ".", ".") }}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="6" class="text-xl font-semibold">TOTAL A COBRADO</td>
+                                <td class="text-xl text-right text-bold font-semibold">{{ number_format($total_cobrado, 0, ".", ".") }}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="6" class="text-xl font-semibold">SALDO</td>
+                                <td class="text-xl text-right text-bold font-semibold">{{ number_format($saldo, 0, ".", ".") }}</td>
+                            </tr>
+                        </tfoot>
 
                     </table>
 

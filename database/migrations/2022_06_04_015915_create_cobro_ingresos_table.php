@@ -24,6 +24,11 @@ return new class extends Migration
             $table->foreign('estado_id')->references('id')->on('estado');
         });
 
+        Schema::create('ingreso_estado', function (Blueprint $table) {
+            $table->integer('id', true);
+            $table->string('nombre', 100);
+        });
+
         Schema::create('cobro_ingreso', function (Blueprint $table) {
             $table->integer('id', true);
             $table->integer('cobro_id');
@@ -38,13 +43,16 @@ return new class extends Migration
             $table->integer('ciclo_id')->default(0);
             $table->integer('cobro_ingreso_concepto')->default(0);
             $table->unsignedInteger('estado_id')->default(1);
+            $table->integer('ingreso_estado_id')->default(0);
             $table->integer('alumno_id')->default(0);
+            $table->integer('padre_ingreso_id')->default(0);
             $table->foreignId('usuario_alta')->references('id')->on('users');
             $table->integer('usuario_modificacion')->default(1);
             $table->timestamps();
 
             $table->foreign('estado_id')->references('id')->on('estado');
             $table->foreign('cobro_id')->references('id')->on('cobro');
+            $table->foreign('ingreso_estado_id')->references('id')->on('ingreso_estado');
         });
 
     }
@@ -58,5 +66,6 @@ return new class extends Migration
     {
         Schema::dropIfExists('cobro_ingreso');
         Schema::dropIfExists('cobro_ingreso_concepto');
+        Schema::dropIfExists('ingreso_estado');
     }
 };
