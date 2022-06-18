@@ -98,6 +98,7 @@ class CobroController extends Controller
             $validar_unico = CobroIngreso::where('cobro_ingreso_concepto', $id_concepto[$i])
             ->where('ciclo_id', $aux_ciclo->id)
             ->where('estado_id', 1)
+            ->where('alumno_id', $alumno->id)
             ->first();
 
             if(!empty($validar_unico)){
