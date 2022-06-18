@@ -51,9 +51,9 @@
                 </div>
 
                 <div class="mb-4">
-                    <label for="">Concepto Ingreso</label>
+                    <label for="">Monto</label>
                     <input type="text" name="precio" id="precio" class="w-full rounded border-gray-400 enviar text-right" value="{{ number_format($ingreso_concepto[0]->precio, 0, ".", ".") }}"
-                    onkeyup="format(this)" onchange="format(this)" readonly>
+                    onkeyup="format(this)" onchange="format(this)">
                 </div>
 
                 <div class="mb-4">

@@ -37,11 +37,11 @@ function anadir_ingreso(){
     var cantidad = 0;
 
     html_concepto = document.getElementById('ingreso_concepto');
-    html_precio = document.getElementById('ingreso_concepto_precio');
+    html_precio = document.getElementById('precio');
     html_cantidad = document.getElementById('cantidad');
 
     index = html_concepto.selectedIndex;
-    precio = html_precio.options[index].value;
+    precio = html_precio.value.replace(/\./g,'');
     id_ingreso = html_concepto.options[index].value;
     text_concepto = html_concepto.options[index].text;
     cantidad = html_cantidad.value;
