@@ -10,6 +10,7 @@ use App\Models\CobroIngresoConcepto;
 use App\Models\TipoCobro;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CobroController extends Controller
 {
@@ -186,4 +187,37 @@ class CobroController extends Controller
         return response()->json($data);
 
     }
+
+    public function cobros_pendientes($id)
+    {
+        $alumno = Alumno::find($id);
+        $date = Carbon::now();
+        $ciclo = Ciclo::where('nombre', date("Y",strtotime($date)))->first();
+        $cobros = CobroIngreso::join('cobro', 'cobro_ingreso.cobro_id', '=', 'cobro.id')
+        ->select('cobro_ingreso.cobro_id', DB::raw('SUM(cobro_ingreso.monto_total_factura) as monto_total_factura')
+        , 'cobro.fecha_cobro', 'cobro_ingreso.ingreso_estado_id')
+        ->where('cobro_ingreso.alumno_id', $id)
+        ->where('cobro_ingreso.ciclo_id', $ciclo->id)
+        ->where('cobro_ingreso.ingreso_estado_id', 2)
+        ->where('cobro_ingreso.estado_id', 1)
+        ->where('cobro_ingreso.padre_ingreso_id', 0)
+        ->groupBy('cobro_ingreso.cobro_id', 'cobro.fecha_cobro', 'cobro_ingreso.ingreso_estado_id')
+        ->get();
+
+        // dd($cobros);
+
+        return view('cobro.cobros_pendiente',  compact('cobros', 'alumno'));
+    }
+
+    public function cobros_pendientes_detalle($id, $id2)
+    {
+        $alumno = Alumno::find($id);
+        $cobros = CobroIngreso::where('cobro_id', $id2)
+        ->get();
+        $cobros_detalle = CobroIngreso::where('padre_ingreso_id', $id2)
+        ->get();
+        $tipo_cobro = TipoCobro::all();
+        return view('cobro.cobro_pendiente_detalle', compact('alumno', 'cobros', 'cobros_detalle', 'tipo_cobro'));
+    }
+
 }

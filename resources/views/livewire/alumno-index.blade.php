@@ -42,6 +42,7 @@
                                         <a href="{{ route('alumno.edit', $item) }}" class="whitespace-nowrap text-2xl mr-2"><i class='bx bx-edit-alt'></i></a>
                                         <a href="{{ route('matricula.cobro', $item->id) }}" class="whitespace-nowrap text-2xl mr-2"><i class='bx bx-coin-stack'></i></a>
                                         <a href="{{ route('ingreso.cobro', $item->id) }}" class="whitespace-nowrap text-2xl mr-2"><i class='bx bx-cart-add'></i></a>
+                                        <a href="{{ route('ingreso.cobros_pendientes', $item->id) }}" class="whitespace-nowrap text-2xl mr-2"><i class='bx bxs-bank'></i></a>
                                         <a href="{{ route('matricula.create', [ "id" => $item->id]) }}" class="whitespace-nowrap text-2xl mr-2"><i class='bx bx-user-plus'></i></a>
                                         <a href="{{ route('consulta.cobros_varios_alumno', [ "cedula" => $item->cedula]) }}" class="whitespace-nowrap text-2xl mr-2"><i class='bx bx-search-alt-2'></i></a>
                                     </td>

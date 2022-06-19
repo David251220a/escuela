@@ -61,4 +61,8 @@ class Alumno extends Model
         return $this->hasMany(Matricula::class, 'alumno_id', 'id')->orderBy('id','DESC');
     }
 
+    public function ciclo(){
+        return $this->hasOne(Ciclo::class, 'id','ciclo_id');
+    }
+
 }
