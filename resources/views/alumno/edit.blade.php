@@ -53,7 +53,7 @@
 
                 <div class="bg-white rounded overflow-hidden shadow mb-4">
 
-                    <div class="md:grid grid-cols-4 gap-4 px-4 py-6">
+                    <div class="md:grid grid-cols-4 gap-2 px-4">
 
                         <div class="mb-4">
                             <label for="">Cedula</label>
@@ -95,6 +95,16 @@
                         </div>
 
                         <div class="mb-4">
+                            <label for="">Dirección</label>
+                            <input type="text" name="direccion" id="direccion" class="w-full rounded border-gray-400 enviar" value="{{$alumno->direccion}}">
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="">Cantidad de Hermanos</label>
+                            <input type="number" name="cantidad_hermanos" id="cantidad_hermanos" class="w-full rounded border-gray-400 enviar" value="{{$alumno->cantidad_hermanos}}">
+                        </div>
+
+                        <div class="mb-4">
                             <label for="">Telefono Baja</label>
                             <input type="text" name="telefono_baja" id="telefono_baja" class="w-full rounded border-gray-400 enviar" value="{{$alumno->telefono_baja}}">
                         </div>
@@ -102,11 +112,6 @@
                         <div class="mb-4">
                             <label for="">Telefono</label>
                             <input type="text" name="telefono" id="telefono" class="w-full rounded border-gray-400 enviar" value="{{$alumno->telefono}}">
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="">Dirección</label>
-                            <input type="text" name="direccion" id="direccion" class="w-full rounded border-gray-400 enviar" value="{{$alumno->direccion}}">
                         </div>
 
                         <div class="mb-4">
@@ -128,9 +133,25 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="">Cantidad de Hermanos</label>
-                            <input type="number" name="cantidad_hermanos" id="cantidad_hermanos" class="w-full rounded border-gray-400 enviar" value="{{$alumno->cantidad_hermanos}}">
+                            <label for="" onclick="crear_opciones(this)" id="enfermedad_1">Enfermedad</label>
+                            <select name="enfermedad" id="enfermedad" class="w-full rounded border-gray-400 enviar">
+                                @foreach ($enfermedad as $item)
+                                    <option {{($alumno->enfermedad_id == $item->id ? 'selected' : '')}} value="{{ $item->id }}">{{ $item->nombre }}</option>
+                                @endforeach
+                            </select>
+                            <span>
+                                <p class="text-red-500 text-left text-sm font-semibold">Presione F2 para agregar mas opciones</p>
+                            </span>
                         </div>
+
+                        <div class="col-span-2">
+                            <label for="">Observación Enfermedad</label>
+                            <input type="text" name="observacion_enfermedad" id="observacion_enfermedad" class="w-full rounded border-gray-400 enviar"
+                            placeholder="Observación enfermedad..." value="{{ $alumno->observacion_enfermedad }}"
+                            onkeyup="mayuscula(this)" onchange="mayuscula(this)">
+                        </div>
+
+                        <div></div>
 
                         <div class="mb-4">
                             <label for="">Grado</label>
@@ -152,14 +173,60 @@
 
                     </div>
 
+                    <div class="mb-4 pl-4">
+                        <button type="submit"
+                        class="inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded
+                        shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700
+                        active:shadow-lg transition duration-150 ease-in-out"
+                         value="">Guardar</button>
+                    </div>
+
                 </div>
             </div>
+
+            @php
+                $presento_madre = 0;
+                $presento_padre = 0;
+                $presento_encargado= 0;
+                $presento_encargado_1= 0;
+                $presento_encargado_2= 0;
+                $presento_encargado_3= 0;
+                if(count($alumno->documentos) > 0){
+
+                    foreach($alumno->documentos as $item){
+                    if($item->concepto_id == 4){
+                        $presento_padre = $item->recibido;
+                    }
+
+                    if($item->concepto_id == 5){
+                        $presento_madre = $item->recibido;
+                    }
+
+                    if($item->concepto_id == 8){
+                        $presento_encargado = $item->recibido;
+                    }
+
+                    if($item->concepto_id == 9){
+                        $presento_encargado_1 = $item->recibido;
+                    }
+
+                    if($item->concepto_id == 10){
+                        $presento_encargado_2 = $item->recibido;
+                    }
+
+                    if($item->concepto_id == 11){
+                        $presento_encargado_3 =  $item->recibido;
+                    }
+                }
+                }
+
+            @endphp
 
             <div class="hidden p-1 rounded-lg" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
 
                 <div class="bg-white rounded overflow-hidden shadow mb-4">
 
-                    <div class="md:grid grid-cols-4 gap-4 px-4 py-6">
+                    <div class="md:grid grid-cols-4 gap-2 px-4">
                         <div class="mb-4">
                             <label for="">Cedula Madre</label>
                             <input type="text" name="cedula_madre" id="cedula_madre" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->madre->cedula }}">
@@ -169,6 +236,22 @@
                         <div class="mb-4">
                             <label for="">Nombre Madre</label>
                             <input type="text" name="nombre_madre" id="nombre_madre" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->madre->nombre }}" readonly>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="">Fotocopia de Cedula</label>
+                            <input type="file" name="foto_madre" id="foto_madre" class="w-full rounded border-gray-400 enviar" accept="image/*">
+                        </div>
+
+                        <div class="mb-4" style="margin-top: 25px">
+                            <input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600
+                            focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mt-1 mr-2 cursor-pointer" type="checkbox"
+                            value="{{ $presento_madre }}" id="recibido_madre" name="recibido_madre"
+                            onclick="cambiar_check(this)" onkeyup="cambiar_check(this)"
+                            {{ ($presento_madre == 1 ? 'checked' : '') }}>
+                            <label class="form-check-label inline-block text-gray-800" for="flexCheckDefault">
+                              Entregado
+                            </label>
                         </div>
 
                         <div class="mb-4">
@@ -183,36 +266,100 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="">Cedula Encargado</label>
+                            <label for="">Fotocopia de Cedula</label>
+                            <input type="file" name="foto_padre" id="foto_padre" class="w-full rounded border-gray-400 enviar" accept="image/*">
+                        </div>
+
+                        <div class="mb-4" style="margin-top: 25px">
+                            <input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600
+                            focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mt-1 mr-2 cursor-pointer" type="checkbox"
+                            value="{{ $presento_padre }}" id="recibido_padre" name="recibido_padre"
+                            onclick="cambiar_check(this)" onkeyup="cambiar_check(this)"
+                            {{ ($presento_padre == 1 ? 'checked' : '') }}>
+                            <label class="form-check-label inline-block text-gray-800" for="flexCheckDefault">
+                              Entregado
+                            </label>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="">Cedula Encargado 1</label>
                             <input type="text" name="cedula_encargado" id="cedula_encargado" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado->cedula }}">
                             <input type="hidden" name="id_encargado" id="id_encargado" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado->id }}">
                         </div>
 
                         <div class="mb-4">
-                            <label for="">Nombre Encargado</label>
+                            <label for="">Nombre Encargado 1</label>
                             <input type="text" name="nombre_encargado" id="nombre_encargado" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado->nombre }}" readonly>
                         </div>
 
                         <div class="mb-4">
-                            <label for="">Cedula Encargado 1</label>
+                            <label for="">Fotocopia de Cedula</label>
+                            <input type="file" name="foto_encargado" id="foto_encargado" class="w-full rounded border-gray-400 enviar" accept="image/*">
+                        </div>
+
+                        <div class="mb-4" style="margin-top: 25px">
+                            <input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600
+                            focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mt-1 mr-2 cursor-pointer" type="checkbox"
+                            value="{{ $presento_encargado }}" id="recibido_encargado" name="recibido_encargado"
+                            onclick="cambiar_check(this)" onkeyup="cambiar_check(this)"
+                            {{ ($presento_encargado == 1 ? 'checked' : '') }}>
+                            <label class="form-check-label inline-block text-gray-800" for="flexCheckDefault">
+                              Entregado
+                            </label>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="">Cedula Encargado 2</label>
                             <input type="text" name="cedula_encargado1" id="cedula_encargado1" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado1->cedula }}">
                             <input type="hidden" name="id_encargado1" id="id_encargado1" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado1->id }}">
                         </div>
 
                         <div class="mb-4">
-                            <label for="">Nombre Encargado 1</label>
+                            <label for="">Nombre Encargado 2</label>
                             <input type="text" name="nombre_encargado1" id="nombre_encargado1" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado1->nombre }}" readonly>
                         </div>
 
                         <div class="mb-4">
-                            <label for="">Cedula Encargado 2</label>
+                            <label for="">Fotocopia de Cedula</label>
+                            <input type="file" name="foto_encargado1" id="foto_encargado1" class="w-full rounded border-gray-400 enviar" accept="image/*">
+                        </div>
+
+                        <div class="mb-4" style="margin-top: 25px">
+                            <input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600
+                            focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mt-1 mr-2 cursor-pointer" type="checkbox"
+                            value="{{ $presento_encargado_1 }}" id="recibido_encargado1" name="recibido_encargado1"
+                            onclick="cambiar_check(this)" onkeyup="cambiar_check(this)"
+                            {{ ($presento_encargado_1 == 1 ? 'checked' : '') }}>
+                            <label class="form-check-label inline-block text-gray-800" for="flexCheckDefault">
+                              Entregado
+                            </label>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="">Cedula Encargado 3</label>
                             <input type="text" name="cedula_encargado2" id="cedula_encargado2" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado2->cedula }}">
                             <input type="hidden" name="id_encargado2" id="id_encargado2" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado2->id }}">
                         </div>
 
                         <div class="mb-4">
-                            <label for="">Nombre Encargado 2</label>
+                            <label for="">Nombre Encargado 3</label>
                             <input type="text" name="nombre_encargado2" id="nombre_encargado2" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado2->nombre }}" readonly>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="">Fotocopia de Cedula</label>
+                            <input type="file" name="foto_encargado2" id="foto_encargado2" class="w-full rounded border-gray-400 enviar" accept="image/*">
+                        </div>
+
+                        <div class="mb-4" style="margin-top: 25px">
+                            <input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600
+                            focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mt-1 mr-2 cursor-pointer" type="checkbox"
+                            value="{{ $presento_encargado_2 }}" id="recibido_encargado2" name="recibido_encargado2"
+                            onclick="cambiar_check(this)" onkeyup="cambiar_check(this)"
+                            {{ ($presento_encargado_2 == 1 ? 'checked' : '') }}>
+                            <label class="form-check-label inline-block text-gray-800" for="flexCheckDefault">
+                              Entregado
+                            </label>
                         </div>
 
                         <div class="mb-4">
@@ -224,6 +371,22 @@
                         <div class="mb-4">
                             <label for="">Nombre Encargado 3</label>
                             <input type="text" name="nombre_encargado3" id="nombre_encargado3" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado3->nombre }}" readonly>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="">Fotocopia de Cedula</label>
+                            <input type="file" name="foto_encargado3" id="foto_encargado3" class="w-full rounded border-gray-400 enviar" accept="image/*">
+                        </div>
+
+                        <div class="mb-4" style="margin-top: 25px">
+                            <input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600
+                            focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mt-1 mr-2 cursor-pointer" type="checkbox"
+                            value="{{ $presento_encargado_3 }}" id="recibido_encargado3" name="recibido_encargado3"
+                            onclick="cambiar_check(this)" onkeyup="cambiar_check(this)"
+                            {{ ($presento_encargado_3 == 1 ? 'checked' : '') }}>
+                            <label class="form-check-label inline-block text-gray-800" for="flexCheckDefault">
+                              Entregado
+                            </label>
                         </div>
 
                     </div>
@@ -239,7 +402,9 @@
 
                         @foreach ($alumno->documentos as $item)
                             <div class="form-check mb-4">
-                                <input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value="" id="flexCheckChecked" checked readonly>
+                                <input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600
+                                checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left
+                                mr-2 cursor-pointer" type="checkbox" value="" id="flexCheckChecked" {{ ($item->recibido == 1 ? 'checked' : '') }} @disabled(true)>
                                 <label class="form-check-label inline-block text-gray-800" for="flexCheckChecked">
                                    {{$item->concepto->nombre}} - <a href="{{ Storage::url($item->imagen) }}" target="__blank"><i class='bx bx-image-alt'></i> Ver</a>
                                 </label>
@@ -249,12 +414,14 @@
                 </div>
 
                 <div class="bg-white rounded overflow-hidden shadow mb-4">
-
+                    @php
+                        $cont = 0;
+                    @endphp
                     <div class="md:grid grid-cols-4 gap-4 px-4 py-6">
 
                         @foreach ($documento_concepto as $concepto)
 
-                            <div class="col-span-2 mb-4">
+                            <div class="mb-4">
                                 @foreach ($documento_concepto as $item)
 
                                     @if ($item->id == $concepto->id)
@@ -265,21 +432,27 @@
 
                                 @endforeach
                             </div>
-                            <div class="col-span-2 mb-4">
+                            <div class="mb-4">
                                 <label for="">Foto Documento</label>
                                 <input type="file" name="foto[]" id="foto[]" class="w-full rounded border-gray-400 enviar" accept="image/*">
                             </div>
 
+                            <div class="" style="margin-top: 25px">
+                                <input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600
+                                focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mt-1 mr-2 cursor-pointer" type="checkbox"
+                                value="0" id="recibido[{{$cont}}]" name="recibido[{{$cont}}]"
+                                onclick="cambiar_check(this)" onkeyup="cambiar_check(this)">
+                                <label class="form-check-label inline-block text-gray-800" for="flexCheckDefault">
+                                  Entregado
+                                </label>
+                            </div>
+                            <div></div>
+                            @php
+                                $cont = $cont + 1;
+                            @endphp
+
                         @endforeach
 
-                    </div>
-
-                    <div class="mb-4 pl-4">
-                        <button type="submit"
-                        class="inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded
-                        shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700
-                        active:shadow-lg transition duration-150 ease-in-out"
-                         value="">Guardar</button>
                     </div>
 
                 </div>
@@ -461,498 +634,6 @@
         </div>
     </div>
 
-    <script>
+    <script src="{{ asset('js/crear_alumno.js ') }}"></script>
 
-        const foto_perfil = document.getElementById('foto_perfil');
-        foto_perfil.addEventListener('change', mostrarImagen, false);
-
-        var element = document.querySelectorAll('.enviar');
-        document.addEventListener('keydown', (event) => {
-            const keyName = event.key;
-
-            if (event.keyCode == 13) {
-                event.preventDefault();
-                if(event.target.id == 'cedula_madre'){
-                    cedula = document.getElementById('cedula_madre').value;
-                    if(cedula == 0){
-                        document.getElementById('id_madre').value = 1;
-                        document.getElementById('nombre_madre').value = 'SIN ESPECIFICAR';
-                    }else{
-                        axios.post('/madre_consulta',  {
-                            cedula : cedula
-                        })
-                        .then(respuesta => {
-                            if(JSON.stringify(respuesta.data)=='{}'){
-                                crear_madre();
-                            }else{
-                                document.getElementById('id_madre').value = respuesta.data.id;
-                                document.getElementById('nombre_madre').value = respuesta.data.nombre + ' '+ respuesta.data.apellido;
-                            }
-                        })
-                        .catch(error => {
-                            console.log(error);
-
-                        })
-                    }
-
-                }
-
-                if(event.target.id == 'cedula_padre'){
-                    cedula = document.getElementById('cedula_padre').value;
-                    if(cedula == 0){
-                        document.getElementById('id_padre').value = 1;
-                        document.getElementById('nombre_padre').value = 'SIN ESPECIFICAR';
-                    }else{
-                        axios.post('/padre_consulta',  {
-                            cedula : cedula
-                        })
-                        .then(respuesta => {
-                            if(JSON.stringify(respuesta.data)=='{}'){
-                                crear_padre();
-                            }else{
-                                document.getElementById('id_padre').value = respuesta.data.id;
-                                document.getElementById('nombre_padre').value = respuesta.data.nombre + ' '+ respuesta.data.apellido;
-                            }
-                        })
-                        .catch(error => {
-                            console.log(error);
-
-                        })
-                    }
-
-                }
-
-                if(event.target.id == 'cedula_encargado'){
-                    cedula = document.getElementById('cedula_encargado').value;
-                    if(cedula == 0){
-                        document.getElementById('id_encargado').value = 1;
-                        document.getElementById('nombre_encargado').value = 'SIN ESPECIFICAR';
-                    }else{
-                        axios.post('/encargado_consulta',  {
-                            cedula : cedula
-                        })
-                        .then(respuesta => {
-                            if(JSON.stringify(respuesta.data)=='{}'){
-                                crear_encargado(1);
-                            }else{
-                                document.getElementById('id_encargado').value = respuesta.data.id;
-                                document.getElementById('nombre_encargado').value = respuesta.data.nombre;
-                            }
-                        })
-                        .catch(error => {
-                            console.log(error);
-
-                        })
-                    }
-
-                }
-
-                if(event.target.id == 'cedula_encargado1'){
-                    cedula = document.getElementById('cedula_encargado1').value;
-                    if(cedula == 0){
-                        document.getElementById('id_encargado1').value = 1;
-                        document.getElementById('nombre_encargado1').value = 'SIN ESPECIFICAR';
-                    }else{
-                        axios.post('/encargado_consulta',  {
-                            cedula : cedula
-                        })
-                        .then(respuesta => {
-                            if(JSON.stringify(respuesta.data)=='{}'){
-                                crear_encargado(2);
-                            }else{
-                                document.getElementById('id_encargado1').value = respuesta.data.id;
-                                document.getElementById('nombre_encargado1').value = respuesta.data.nombre;
-                            }
-                        })
-                        .catch(error => {
-                            console.log(error);
-
-                        })
-                    }
-
-                }
-
-                if(event.target.id == 'cedula_encargado2'){
-                    cedula = document.getElementById('cedula_encargado2').value;
-                    if(cedula == 0){
-                        document.getElementById('id_encargado2').value = 1;
-                        document.getElementById('nombre_encargado2').value = 'SIN ESPECIFICAR';
-                    }else{
-                        axios.post('/encargado_consulta',  {
-                            cedula : cedula
-                        })
-                        .then(respuesta => {
-                            if(JSON.stringify(respuesta.data)=='{}'){
-                                crear_encargado(3);
-                            }else{
-                                document.getElementById('id_encargado2').value = respuesta.data.id;
-                                document.getElementById('nombre_encargado2').value = respuesta.data.nombre;
-                            }
-                        })
-                        .catch(error => {
-                            console.log(error);
-
-                        })
-                    }
-
-                }
-
-                if(event.target.id == 'cedula_encargado3'){
-                    cedula = document.getElementById('cedula_encargado3').value;
-                    if(cedula == 0){
-                        document.getElementById('id_encargado3').value = 1;
-                        document.getElementById('nombre_encargado3').value = 'SIN ESPECIFICAR';
-                    }else{
-                        axios.post('/encargado_consulta',  {
-                            cedula : cedula
-                        })
-                        .then(respuesta => {
-                            if(JSON.stringify(respuesta.data)=='{}'){
-                                crear_encargado(4);
-                            }else{
-                                document.getElementById('id_encargado3').value = respuesta.data.id;
-                                document.getElementById('nombre_encargado3').value = respuesta.data.nombre;
-                            }
-                        })
-                        .catch(error => {
-                            console.log(error);
-
-                        })
-                    }
-
-                }
-
-            }
-
-            if(event.keyCode == 113){
-                id_aux = 0;
-                if(event.target.id == 'lugar_nacimiento'){
-                    id_aux = 1;
-                    titulo = 'Agregar Lugar Nacimiento';
-                    select = document.getElementById('lugar_nacimiento');
-                }
-
-                if(event.target.id == 'alergia'){
-                    id_aux = 2;
-                    titulo = 'Agregar Alergia';
-                    select = document.getElementById('alergia');
-
-                }
-
-                if(event.target.id == 'seguro'){
-                    id_aux = 3;
-                    titulo = 'Agregar Seguro';
-                    select = document.getElementById('seguro');
-
-                }
-                var siguiente = document.getElementById('datos_formulario').innerHTML;
-                if(parseInt(id_aux) == 0){
-
-                }else{
-
-                    Swal.fire({
-                        title: titulo,
-                        html:
-                        siguiente,
-                        width: 600,
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Guardar',
-
-                    }).then(resultado => {
-                        if (resultado.value) {
-                            var nombre_aux = Swal.getPopup().querySelector('#nombre_tipo_aux').value;
-                            axios.post('/crear_datos',  {
-                                nombre_aux : nombre_aux,
-                                id_aux : id_aux
-                            })
-                            .then(respuesta => {
-                                for (let i = select.options.length; i >= 0; i--) {
-                                    select.remove(i);
-                                }
-
-                                for(var i=0; i < respuesta.data.length; i++){
-                                    var option = document.createElement('option');
-                                    var valor = respuesta.data[i].id;
-                                    var valor2 = respuesta.data[i].nombre;
-                                    option.value = valor;
-                                    option.text = valor2;
-                                    select.appendChild(option);
-                                }
-                            })
-                            .catch(error => {
-                                console.log(error);
-                            })
-
-                        }
-
-                    })
-
-                }
-
-            }
-        });
-
-        function mostrarImagen(event) {
-            var formData = new FormData();
-            var imagefile = document.querySelector('#foto_perfil');
-            formData.append("foto_perfil", imagefile.files[0]);
-
-            var doc_v = event.target.files[0];
-
-            var file = event.target.files[0];
-            var reader = new FileReader();
-            reader.onload = function(event) {
-                var img = document.getElementById('avatar');
-                img.src= event.target.result;
-            }
-            reader.readAsDataURL(file);
-
-        }
-
-
-        function cambio(){
-            $('#foto_perfil').click();
-        }
-
-        function crear_madre(){
-
-            Swal.fire({
-                title: 'Desea crear datos para la Madre?',
-                text: "No existe coincidencia con este numero de cedula!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Si'
-            }).then(resultado => {
-                if (resultado.value) {
-                    var siguiente = document.getElementById('madre_formulario').innerHTML;
-                    Swal.fire({
-                        title: '<u>Datos de la Madre</u>',
-                        html:
-                        siguiente,
-                        width: 800,
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Guardar',
-
-                        }).then(resultado => {
-                            if (resultado.value) {
-                                var cedula_madre = Swal.getPopup().querySelector('#cedula_madre_aux').value;
-                                var nombre_madre = Swal.getPopup().querySelector('#nombre_madre_aux').value;
-                                var apellido_madre = Swal.getPopup().querySelector('#apellido_madre_aux').value;
-                                var telefono_particular = Swal.getPopup().querySelector('#telefono_particular_madre_aux').value;
-                                var telefono = Swal.getPopup().querySelector('#telefono_madre_aux').value;
-                                var direccion = Swal.getPopup().querySelector('#direccion_madre_aux').value;
-                                var lugar_trabajo = Swal.getPopup().querySelector('#trabajo_madre_aux').value;
-                                var dias_trabajo = Swal.getPopup().querySelector('#dias_trabajo_madre_aux').value;
-                                var telefono_trabajo = Swal.getPopup().querySelector('#telefono_trabajo_madre_aux').value;
-
-                                axios.post('/madre_crear',  {
-                                    cedula_madre : cedula_madre,
-                                    nombre_madre : nombre_madre,
-                                    apellido_madre : apellido_madre,
-                                    telefono_particular : telefono_particular,
-                                    telefono : telefono,
-                                    direccion : direccion,
-                                    lugar_trabajo : lugar_trabajo,
-                                    dias_trabajo : dias_trabajo,
-                                    telefono_trabajo : telefono_trabajo,
-                                })
-                                .then(respuesta => {
-                                    if(respuesta.data.ok == 1){
-                                        document.getElementById('id_madre').value = respuesta.data.id;
-                                        document.getElementById('cedula_madre').value = respuesta.data.cedula;
-                                        document.getElementById('nombre_madre').value = respuesta.data.nombre +' '+respuesta.data.apellido;
-                                        Swal.fire(
-                                            'Datos de la Madre',
-                                            respuesta.data.mensaje,
-                                            'success'
-                                        )
-                                    }else{
-                                        Swal.fire({
-                                            icon: 'error',
-                                            title: 'Oops...',
-                                            text: respuesta.data.mensaje,
-                                        })
-                                    }
-
-                                })
-                                .catch(error => {
-                                    console.log(error);
-                                })
-                            }
-
-                        })
-                    }
-                })
-        }
-
-        function crear_padre(){
-
-            Swal.fire({
-                title: 'Desea crear datos para el padre?',
-                text: "No existe coincidencia con este numero de cedula!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Si'
-            }).then(resultado => {
-                if (resultado.value) {
-                    var siguiente = document.getElementById('padre_formulario').innerHTML;
-                    Swal.fire({
-                        title: '<u>Datos del Padre</u>',
-                        html:
-                        siguiente,
-                        width: 800,
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Guardar',
-
-                        }).then(resultado => {
-                            if (resultado.value) {
-                                var cedula_madre = Swal.getPopup().querySelector('#cedula_padre_aux').value;
-                                var nombre_madre = Swal.getPopup().querySelector('#nombre_padre_aux').value;
-                                var apellido_madre = Swal.getPopup().querySelector('#apellido_padre_aux').value;
-                                var telefono_particular = Swal.getPopup().querySelector('#telefono_particular_padre_aux').value;
-                                var telefono = Swal.getPopup().querySelector('#telefono_padre_aux').value;
-                                var direccion = Swal.getPopup().querySelector('#direccion_padre_aux').value;
-                                var lugar_trabajo = Swal.getPopup().querySelector('#trabajo_padre_aux').value;
-                                var dias_trabajo = Swal.getPopup().querySelector('#dias_trabajo_padre_aux').value;
-                                var telefono_trabajo = Swal.getPopup().querySelector('#telefono_trabajo_padre_aux').value;
-
-                                axios.post('/padre_crear',  {
-                                    cedula_madre : cedula_madre,
-                                    nombre_madre : nombre_madre,
-                                    apellido_madre : apellido_madre,
-                                    telefono_particular : telefono_particular,
-                                    telefono : telefono,
-                                    direccion : direccion,
-                                    lugar_trabajo : lugar_trabajo,
-                                    dias_trabajo : dias_trabajo,
-                                    telefono_trabajo : telefono_trabajo,
-                                })
-                                .then(respuesta => {
-                                    if(respuesta.data.ok == 1){
-                                        document.getElementById('id_padre').value = respuesta.data.id;
-                                        document.getElementById('cedula_padre').value = respuesta.data.cedula;
-                                        document.getElementById('nombre_padre').value = respuesta.data.nombre +' '+respuesta.data.apellido;
-                                        Swal.fire(
-                                            'Datos del Padre',
-                                            respuesta.data.mensaje,
-                                            'success'
-                                        )
-                                    }else{
-                                        Swal.fire({
-                                            icon: 'error',
-                                            title: 'Oops...',
-                                            text: respuesta.data.mensaje,
-                                        })
-                                    }
-
-                                })
-                                .catch(error => {
-                                    console.log(error);
-                                })
-                            }
-
-                        })
-                    }
-                })
-        }
-
-        function crear_encargado(encar){
-
-            Swal.fire({
-                title: 'Desea crear datos para el encargado?',
-                text: "No existe coincidencia con este numero de cedula!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Si'
-            }).then(resultado => {
-                if (resultado.value) {
-                    var siguiente = document.getElementById('encargado_formulario').innerHTML;
-                    Swal.fire({
-                        title: '<u>Datos del Encargado</u>',
-                        html:
-                        siguiente,
-                        width: 800,
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Guardar',
-
-                        }).then(resultado => {
-                            if (resultado.value) {
-                                var cedula_madre = Swal.getPopup().querySelector('#cedula_encargado_aux').value;
-                                var nombre_madre = Swal.getPopup().querySelector('#encargado_nombre_aux').value;
-                                var parentezo = Swal.getPopup().querySelector('#encargado_parentezco').value;
-                                var telefono = Swal.getPopup().querySelector('#telefono_encargado_aux').value;
-
-                                axios.post('/encargado_crear',  {
-                                    cedula_madre : cedula_madre,
-                                    nombre_madre : nombre_madre,
-                                    parentezo : parentezo,
-                                    telefono : telefono,
-                                })
-                                .then(respuesta => {
-                                    if(respuesta.data.ok == 1){
-
-                                        if(encar == 1){
-                                            document.getElementById('id_encargado').value = respuesta.data.id;
-                                            document.getElementById('cedula_encargado').value = respuesta.data.cedula;
-                                            document.getElementById('nombre_encargado').value = respuesta.data.nombre;
-                                        }
-
-                                        if(encar == 2){
-                                            document.getElementById('id_encargado1').value = respuesta.data.id;
-                                            document.getElementById('cedula_encargado1').value = respuesta.data.cedula;
-                                            document.getElementById('nombre_encargado1').value = respuesta.data.nombre;
-                                        }
-
-                                        if(encar == 3){
-                                            document.getElementById('id_encargado2').value = respuesta.data.id;
-                                            document.getElementById('cedula_encargado2').value = respuesta.data.cedula;
-                                            document.getElementById('nombre_encargado2').value = respuesta.data.nombre;
-                                        }
-
-                                        if(encar == 4){
-                                            document.getElementById('id_encargado3').value = respuesta.data.id;
-                                            document.getElementById('cedula_encargado3').value = respuesta.data.cedula;
-                                            document.getElementById('nombre_encargado3').value = respuesta.data.nombre;
-                                        }
-
-                                        Swal.fire(
-                                            'Datos del Encargado',
-                                            respuesta.data.mensaje,
-                                            'success'
-                                        )
-                                    }else{
-                                        Swal.fire({
-                                            icon: 'error',
-                                            title: 'Oops...',
-                                            text: respuesta.data.mensaje,
-                                        })
-                                    }
-
-                                })
-                                .catch(error => {
-                                    console.log(error);
-                                })
-                            }
-
-                    })
-                }
-            })
-        }
-
-
-    </script>
 </x-app-layout>

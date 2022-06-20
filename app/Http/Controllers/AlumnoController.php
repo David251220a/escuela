@@ -29,7 +29,7 @@ class AlumnoController extends Controller
 
     public function create()
     {
-        $lugar_nacimiento = LugarNacimiento::all();
+        $lugar_nacimiento = LugarNacimiento::where('estado_id', 1)->get();
         $seguro = Seguro::where('estado_id', 1)->get();
         $alergia = Alergia::where('estado_id', 1)->get();
         $grado = Grado::where('estado_id', 1)->get();
@@ -52,7 +52,7 @@ class AlumnoController extends Controller
 
     public function store(AlumnoRequest $request)
     {
-        dd($request->recibido_madre);
+        // dd($request->all());
         $cedula = str_replace('.', '' ,$request->cedula);
         $validar_cedula = Alumno::where('cedula', $cedula)
         ->where('estado_id', 1)
@@ -106,7 +106,9 @@ class AlumnoController extends Controller
             'ciclo_id' => $ciclo->id,
             'encargado_id_2' => $request->id_encargado2,
             'encargado_id_3' => $request->id_encargado3,
-            'foto' => $foto_perfil
+            'foto' => $foto_perfil,
+            'enfermedad_id' => $request->enfermedad,
+            'observacion_enfermedad' => (empty($request->observacion_enfermedad) ? ' ' : $request->observacion_enfermedad),
         ]);
 
 
@@ -116,6 +118,7 @@ class AlumnoController extends Controller
         ->where('orden', '>', 0)
         ->orderBy('orden', 'ASC')
         ->get();
+
         for ($i = 0; $i < count($documento_concepto); $i++) {
 
             if(!empty($foto[$i])){
@@ -147,19 +150,19 @@ class AlumnoController extends Controller
             $filePath = $request->foto_madre->store('public/foto_documento');
             $foto_documento = $filePath;
             if(empty($request->recibido_madre)){
-                $entregado = 0;
+                $entregado_1 = 0;
             }else{
                 if($request->recibido_madre == 1){
-                    $entregado = 1;
+                    $entregado_1 = 1;
                 }else{
-                    $entregado = 0;
+                    $entregado_1 = 0;
                 }
             }
             AlumnoDocumento::create([
                 'alumno_id' => $alumno->id,
                 'concepto_id' => 5,
                 'imagen' => $foto_documento,
-                'recibido' => $entregado,
+                'recibido' => $entregado_1,
                 'usuario_grabacion' => auth()->user()->id,
                 'usuario_modificacion' => auth()->user()->id,
             ]);
@@ -169,19 +172,19 @@ class AlumnoController extends Controller
             $filePath = $request->foto_padre->store('public/foto_documento');
             $foto_documento = $filePath;
             if(empty($request->recibido_padre)){
-                $entregado = 0;
+                $entregado_1 = 0;
             }else{
                 if($request->recibido_padre == 1){
-                    $entregado = 1;
+                    $entregado_1 = 1;
                 }else{
-                    $entregado = 0;
+                    $entregado_1 = 0;
                 }
             }
             AlumnoDocumento::create([
                 'alumno_id' => $alumno->id,
                 'concepto_id' => 4,
                 'imagen' => $foto_documento,
-                'recibido' => $entregado,
+                'recibido' => $entregado_1,
                 'usuario_grabacion' => auth()->user()->id,
                 'usuario_modificacion' => auth()->user()->id,
             ]);
@@ -191,19 +194,19 @@ class AlumnoController extends Controller
             $filePath = $request->foto_encargado->store('public/foto_documento');
             $foto_documento = $filePath;
             if(empty($request->recibido_encargado)){
-                $entregado = 0;
+                $entregado_1 = 0;
             }else{
                 if($request->recibido_encargado == 1){
-                    $entregado = 1;
+                    $entregado_1 = 1;
                 }else{
-                    $entregado = 0;
+                    $entregado_1 = 0;
                 }
             }
             AlumnoDocumento::create([
                 'alumno_id' => $alumno->id,
                 'concepto_id' => 8,
                 'imagen' => $foto_documento,
-                'recibido' => $entregado,
+                'recibido' => $entregado_1,
                 'usuario_grabacion' => auth()->user()->id,
                 'usuario_modificacion' => auth()->user()->id,
             ]);
@@ -213,19 +216,19 @@ class AlumnoController extends Controller
             $filePath = $request->foto_encargado1->store('public/foto_documento');
             $foto_documento = $filePath;
             if(empty($request->recibido_encargado1)){
-                $entregado = 0;
+                $entregado_1 = 0;
             }else{
                 if($request->recibido_encargado1 == 1){
-                    $entregado = 1;
+                    $entregado_1 = 1;
                 }else{
-                    $entregado = 0;
+                    $entregado_1 = 0;
                 }
             }
             AlumnoDocumento::create([
                 'alumno_id' => $alumno->id,
                 'concepto_id' => 9,
                 'imagen' => $foto_documento,
-                'recibido' => $entregado,
+                'recibido' => $entregado_1,
                 'usuario_grabacion' => auth()->user()->id,
                 'usuario_modificacion' => auth()->user()->id,
             ]);
@@ -235,19 +238,19 @@ class AlumnoController extends Controller
             $filePath = $request->foto_encargado2->store('public/foto_documento');
             $foto_documento = $filePath;
             if(empty($request->recibido_encargado2)){
-                $entregado = 0;
+                $entregado_1 = 0;
             }else{
                 if($request->recibido_encargado2 == 1){
-                    $entregado = 1;
+                    $entregado_1 = 1;
                 }else{
-                    $entregado = 0;
+                    $entregado_1 = 0;
                 }
             }
             AlumnoDocumento::create([
                 'alumno_id' => $alumno->id,
                 'concepto_id' => 10,
                 'imagen' => $foto_documento,
-                'recibido' => $entregado,
+                'recibido' => $entregado_1,
                 'usuario_grabacion' => auth()->user()->id,
                 'usuario_modificacion' => auth()->user()->id,
             ]);
@@ -257,19 +260,19 @@ class AlumnoController extends Controller
             $filePath = $request->foto_encargado3->store('public/foto_documento');
             $foto_documento = $filePath;
             if(empty($request->recibido_encargado3)){
-                $entregado = 0;
+                $entregado_1 = 0;
             }else{
                 if($request->recibido_encargado3 == 1){
-                    $entregado = 1;
+                    $entregado_1 = 1;
                 }else{
-                    $entregado = 0;
+                    $entregado_1 = 0;
                 }
             }
             AlumnoDocumento::create([
                 'alumno_id' => $alumno->id,
                 'concepto_id' => 11,
                 'imagen' => $foto_documento,
-                'recibido' => $entregado,
+                'recibido' => $entregado_1,
                 'usuario_grabacion' => auth()->user()->id,
                 'usuario_modificacion' => auth()->user()->id,
             ]);
@@ -280,16 +283,22 @@ class AlumnoController extends Controller
 
     public function edit(Alumno $alumno)
     {
-        $lugar_nacimiento = LugarNacimiento::all();
-        $seguro = Seguro::all();
-        $alergia = Alergia::all();
-        $grado = Grado::all();
-        $turno = Turno::all();
-        $documento_concepto = AlumnoDocumentoConcepto::all();
+        $lugar_nacimiento = LugarNacimiento::where('estado_id', 1)->get();
+        $seguro = Seguro::where('estado_id', 1)->get();
+        $alergia = Alergia::where('estado_id', 1)->get();
+        $grado = Grado::where('estado_id', 1)->get();
+        $turno = Turno::where('estado_id', 1)->get();
+        $enfermedad = Enfermedad::where('estado_id', 1)->get();
+        $documento_concepto = AlumnoDocumentoConcepto::where('estado_id', 1)
+        ->where('orden', '>', 0)
+        ->orderBy('orden', 'ASC')
+        ->get();
+
         return view('alumno.edit',
         compact('alumno'
         , 'seguro'
         , 'alergia'
+        , 'enfermedad'
         , 'grado'
         , 'turno'
         , 'lugar_nacimiento'
@@ -305,6 +314,12 @@ class AlumnoController extends Controller
             'fecha_nacimiento' => 'required',
             'foto_perfil' => 'image|mimes:jpeg,png,jpg,gif',
             'foto.*' => 'image|mimes:jpeg,png,jpg,gif',
+            'foto_madre' => 'image|mimes:jpeg,png,jpg,gif',
+            'foto_padre' => 'image|mimes:jpeg,png,jpg,gif',
+            'foto_encargado' => 'image|mimes:jpeg,png,jpg,gif',
+            'foto_encargado1' => 'image|mimes:jpeg,png,jpg,gif',
+            'foto_encargado2' => 'image|mimes:jpeg,png,jpg,gif',
+            'foto_encargado3' => 'image|mimes:jpeg,png,jpg,gif',
         ]);
 
         $fecha_nacimiento_1 = $request->fecha_nacimiento;
@@ -357,13 +372,15 @@ class AlumnoController extends Controller
             'encargado_id_3' => $request->id_encargado3,
             'foto' => $foto_perfil,
             'enfermedad_id' => $request->enfermedad,
-            'observacion_enfermedad' => $request->observacion_enfermedad,
+            'observacion_enfermedad' => (empty($request->observacion_enfermedad) ? ' ' : $request->observacion_enfermedad),
         ]);
 
         $documento_concepto = AlumnoDocumentoConcepto::where('estado_id', 1)
+        ->where('orden', '>', 0)
         ->orderBy('orden', 'ASC')
         ->get();
         $foto = $request->foto;
+        $entregado = $request->recibido;
 
         for ($i = 0; $i < count($documento_concepto); $i++) {
 
@@ -371,6 +388,15 @@ class AlumnoController extends Controller
 
                 $filePath = $foto[$i]->store('public/foto_documento');
                 $foto_documento = $filePath;
+                if(empty($entregado[$i])){
+                    $recibido = 0;
+                }else{
+                    if($entregado[$i] == 1){
+                        $recibido = 1;
+                    }else{
+                        $recibido = 0;
+                    }
+                }
                 AlumnoDocumento::updateOrCreate([
                     'alumno_id' => $alumno->id,
                     'concepto_id' => $i + 1,
@@ -379,11 +405,168 @@ class AlumnoController extends Controller
                     'alumno_id' => $alumno->id,
                     'concepto_id' => $i + 1,
                     'imagen' => $foto_documento,
+                    'recibido' => $recibido,
                     'usuario_grabacion' => auth()->user()->id,
                     'usuario_modificacion' => auth()->user()->id,
                 ]);
 
             }
+        }
+
+        if(!empty($request->foto_madre)){
+            $filePath = $request->foto_madre->store('public/foto_documento');
+            $foto_documento = $filePath;
+            if(empty($request->recibido_madre)){
+                $entregado_1 = 0;
+            }else{
+                if($request->recibido_madre == 1){
+                    $entregado_1 = 1;
+                }else{
+                    $entregado_1 = 0;
+                }
+            }
+            AlumnoDocumento::updateOrCreate([
+                'alumno_id' => $alumno->id,
+                'concepto_id' => 5,
+            ],
+            [
+                'alumno_id' => $alumno->id,
+                'concepto_id' => 5,
+                'imagen' => $foto_documento,
+                'recibido' => $entregado_1,
+                'usuario_grabacion' => auth()->user()->id,
+                'usuario_modificacion' => auth()->user()->id,
+            ]);
+        }
+
+        if(!empty($request->foto_padre)){
+            $filePath = $request->foto_padre->store('public/foto_documento');
+            $foto_documento = $filePath;
+            if(empty($request->recibido_padre)){
+                $entregado_1 = 0;
+            }else{
+                if($request->recibido_padre == 1){
+                    $entregado_1 = 1;
+                }else{
+                    $entregado_1 = 0;
+                }
+            }
+            AlumnoDocumento::updateOrCreate([
+                'alumno_id' => $alumno->id,
+                'concepto_id' => 4,
+            ],
+            [
+                'alumno_id' => $alumno->id,
+                'concepto_id' => 4,
+                'imagen' => $foto_documento,
+                'recibido' => $entregado_1,
+                'usuario_grabacion' => auth()->user()->id,
+                'usuario_modificacion' => auth()->user()->id,
+            ]);
+        }
+
+        if(!empty($request->foto_encargado)){
+            $filePath = $request->foto_encargado->store('public/foto_documento');
+            $foto_documento = $filePath;
+            if(empty($request->recibido_encargado)){
+                $entregado_1 = 0;
+            }else{
+                if($request->recibido_encargado == 1){
+                    $entregado_1 = 1;
+                }else{
+                    $entregado_1 = 0;
+                }
+            }
+            AlumnoDocumento::updateOrCreate([
+                'alumno_id' => $alumno->id,
+                'concepto_id' => 8,
+            ],
+            [
+                'alumno_id' => $alumno->id,
+                'concepto_id' => 8,
+                'imagen' => $foto_documento,
+                'recibido' => $entregado_1,
+                'usuario_grabacion' => auth()->user()->id,
+                'usuario_modificacion' => auth()->user()->id,
+            ]);
+        }
+
+        if(!empty($request->foto_encargado1)){
+            $filePath = $request->foto_encargado1->store('public/foto_documento');
+            $foto_documento = $filePath;
+            if(empty($request->recibido_encargado1)){
+                $entregado_1 = 0;
+            }else{
+                if($request->recibido_encargado1 == 1){
+                    $entregado_1 = 1;
+                }else{
+                    $entregado_1 = 0;
+                }
+            }
+            AlumnoDocumento::updateOrCreate([
+                'alumno_id' => $alumno->id,
+                'concepto_id' => 9,
+            ],
+            [
+                'alumno_id' => $alumno->id,
+                'concepto_id' => 9,
+                'imagen' => $foto_documento,
+                'recibido' => $entregado_1,
+                'usuario_grabacion' => auth()->user()->id,
+                'usuario_modificacion' => auth()->user()->id,
+            ]);
+        }
+
+        if(!empty($request->foto_encargado2)){
+            $filePath = $request->foto_encargado2->store('public/foto_documento');
+            $foto_documento = $filePath;
+            if(empty($request->recibido_encargado2)){
+                $entregado_1 = 0;
+            }else{
+                if($request->recibido_encargado2 == 1){
+                    $entregado_1 = 1;
+                }else{
+                    $entregado_1 = 0;
+                }
+            }
+            AlumnoDocumento::updateOrCreate([
+                'alumno_id' => $alumno->id,
+                'concepto_id' => 10,
+            ],
+            [
+                'alumno_id' => $alumno->id,
+                'concepto_id' => 10,
+                'imagen' => $foto_documento,
+                'recibido' => $entregado_1,
+                'usuario_grabacion' => auth()->user()->id,
+                'usuario_modificacion' => auth()->user()->id,
+            ]);
+        }
+
+        if(!empty($request->foto_encargado3)){
+            $filePath = $request->foto_encargado3->store('public/foto_documento');
+            $foto_documento = $filePath;
+            if(empty($request->recibido_encargado3)){
+                $entregado_1 = 0;
+            }else{
+                if($request->recibido_encargado3 == 1){
+                    $entregado_1 = 1;
+                }else{
+                    $entregado_1 = 0;
+                }
+            }
+            AlumnoDocumento::updateOrCreate([
+                'alumno_id' => $alumno->id,
+                'concepto_id' => 11,
+            ],
+            [
+                'alumno_id' => $alumno->id,
+                'concepto_id' => 11,
+                'imagen' => $foto_documento,
+                'recibido' => $entregado_1,
+                'usuario_grabacion' => auth()->user()->id,
+                'usuario_modificacion' => auth()->user()->id,
+            ]);
         }
 
         return redirect()->route('alumno.index')->with('message', 'Se actualizo con exito el alumno!.');

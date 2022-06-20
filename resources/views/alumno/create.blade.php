@@ -408,7 +408,8 @@
                                     @if ($item->id == $concepto->id)
                                         {{-- <option value="{{ $item->id }}">{{ $item->nombre }}</option> --}}
                                         <label for="">Concepto</label>
-                                        <input type="text" name="documento_concepto" id="documento_concepto" class="w-full rounded border-gray-400 enviar" value="{{ $item->nombre }}" readonly >
+                                        <input type="text" name="documento_concepto" id="documento_concepto" class="w-full rounded border-gray-400 enviar"
+                                        value="{{ $item->nombre }}" readonly >
                                     @endif
 
                                 @endforeach
