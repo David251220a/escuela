@@ -31,6 +31,12 @@ class AlumnoRequest extends FormRequest
             'fecha_nacimiento' => 'required',
             'foto_perfil' => 'image|mimes:jpeg,png,jpg,gif',
             'foto.*' => 'image|mimes:jpeg,png,jpg,gif',
+            'foto_madre' => 'image|mimes:jpeg,png,jpg,gif',
+            'foto_padre' => 'image|mimes:jpeg,png,jpg,gif',
+            'foto_encargado' => 'image|mimes:jpeg,png,jpg,gif',
+            'foto_encargado1' => 'image|mimes:jpeg,png,jpg,gif',
+            'foto_encargado2' => 'image|mimes:jpeg,png,jpg,gif',
+            'foto_encargado3' => 'image|mimes:jpeg,png,jpg,gif',
         ];
     }
 }

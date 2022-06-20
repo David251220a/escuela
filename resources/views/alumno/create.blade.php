@@ -101,6 +101,17 @@
                         </div>
 
                         <div class="mb-4">
+                            <label for="">Dirección</label>
+                            <input type="text" name="direccion" id="direccion" class="w-full rounded border-gray-400 enviar" placeholder="Dirección..."
+                            onkeyup="mayuscula(this)" onchange="mayuscula(this)">
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="">Cantidad de Hermanos</label>
+                            <input type="number" name="cantidad_hermanos" id="cantidad_hermanos" class="w-full rounded border-gray-400 enviar" value="0"  >
+                        </div>
+
+                        <div class="mb-4">
                             <label for="">Telefono Baja</label>
                             <input type="text" name="telefono_baja" id="telefono_baja" class="w-full rounded border-gray-400 enviar" placeholder="Telefono Baja...">
                         </div>
@@ -108,12 +119,6 @@
                         <div class="mb-4">
                             <label for="">Telefono</label>
                             <input type="text" name="telefono" id="telefono" class="w-full rounded border-gray-400 enviar" placeholder="Telefono...">
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="">Dirección</label>
-                            <input type="text" name="direccion" id="direccion" class="w-full rounded border-gray-400 enviar" placeholder="Dirección..."
-                            onkeyup="mayuscula(this)" onchange="mayuscula(this)">
                         </div>
 
                         <div class="mb-4">
@@ -141,9 +146,24 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="">Cantidad de Hermanos</label>
-                            <input type="number" name="cantidad_hermanos" id="cantidad_hermanos" class="w-full rounded border-gray-400 enviar" value="0"  >
+                            <label for="" onclick="crear_opciones(this)" id="enfermedad_1">Enfermedad</label>
+                            <select name="enfermedad" id="enfermedad" class="w-full rounded border-gray-400 enviar">
+                                @foreach ($enfermedad as $item)
+                                    <option value="{{ $item->id }}">{{ $item->nombre }}</option>
+                                @endforeach
+                            </select>
+                            <span>
+                                <p class="text-red-500 text-left text-sm font-semibold">Presione F2 para agregar mas opciones</p>
+                            </span>
                         </div>
+
+                        <div class="col-span-2">
+                            <label for="">Observación Enfermedad</label>
+                            <input type="text" name="observacion_enfermedad" id="observacion_enfermedad" class="w-full rounded border-gray-400 enviar" placeholder="Observación enfermedad..."
+                            onkeyup="mayuscula(this)" onchange="mayuscula(this)">
+                        </div>
+
+                        <div></div>
 
                         <div class="mb-4">
                             <label for="">Grado</label>
@@ -180,6 +200,7 @@
                 <div class="bg-white rounded overflow-hidden shadow mb-4">
 
                     <div class="md:grid grid-cols-4 gap-2 px-4">
+                        {{-- MADRE --}}
                         <div class="mb-4">
                             <label for="" onclick="ver_madre()">Cedula Madre</label>
                             <input type="text" name="cedula_madre" id="cedula_madre" class="w-full rounded border-gray-400 enviar text-right" value="0"
@@ -197,6 +218,21 @@
                         </div>
 
                         <div class="mb-4">
+                            <label for="">Fotocopia de Cedula</label>
+                            <input type="file" name="foto_madre" id="foto_madre" class="w-full rounded border-gray-400 enviar" accept="image/*">
+                        </div>
+
+                        <div class="mb-4" style="margin-top: 25px">
+                            <input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600
+                            focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mt-1 mr-2 cursor-pointer" type="checkbox"
+                            value="0" id="recibido_madre" name="recibido_madre"
+                            onclick="cambiar_check(this)" onkeyup="cambiar_check(this)">
+                            <label class="form-check-label inline-block text-gray-800" for="flexCheckDefault">
+                              Entregado
+                            </label>
+                        </div>
+                        {{-- PADRE --}}
+                        <div class="mb-4">
                             <label for="" onclick="ver()">Cedula Padre</label>
                             <input type="text" name="cedula_padre" id="cedula_padre" class="w-full rounded border-gray-400 enviar text-right" value="0"
                             onkeyup="format(this)" onchange="format(this)">
@@ -211,6 +247,22 @@
                             <input type="text" name="nombre_padre" id="nombre_padre" class="w-full rounded border-gray-400 enviar" value="SIN ESPECIFICAR" readonly>
                         </div>
 
+                        <div class="mb-4">
+                            <label for="">Fotocopia de Cedula</label>
+                            <input type="file" name="foto_padre" id="foto_padre" class="w-full rounded border-gray-400 enviar" accept="image/*">
+                        </div>
+
+                        <div class="mb-4" style="margin-top: 25px">
+                            <input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600
+                            focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mt-1 mr-2 cursor-pointer" type="checkbox"
+                            value="0" id="recibido_padre" name="recibido_padre"
+                            onclick="cambiar_check(this)" onkeyup="cambiar_check(this)">
+                            <label class="form-check-label inline-block text-gray-800" for="flexCheckDefault">
+                              Entregado
+                            </label>
+                        </div>
+
+                        {{-- ENCARGADO 1 --}}
                         <div class="mb-4">
                             <label for="" onclick="ver_encargado(1)">Cedula Encargado 1</label>
                             <input type="text" name="cedula_encargado" id="cedula_encargado" class="w-full rounded border-gray-400 enviar text-right" value="0"
@@ -227,6 +279,22 @@
                         </div>
 
                         <div class="mb-4">
+                            <label for="">Fotocopia de Cedula</label>
+                            <input type="file" name="foto_encargado" id="foto_encargado" class="w-full rounded border-gray-400 enviar" accept="image/*">
+                        </div>
+
+                        <div class="mb-4" style="margin-top: 25px">
+                            <input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600
+                            focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mt-1 mr-2 cursor-pointer" type="checkbox"
+                            value="0" id="recibido_encargado" name="recibido_encargado"
+                            onclick="cambiar_check(this)" onkeyup="cambiar_check(this)">
+                            <label class="form-check-label inline-block text-gray-800" for="flexCheckDefault">
+                              Entregado
+                            </label>
+                        </div>
+
+                        {{-- ENCARGADO 2 --}}
+                        <div class="mb-4">
                             <label for="" onclick="ver_encargado(2)">Cedula Encargado 2</label>
                             <input type="text" name="cedula_encargado1" id="cedula_encargado1" class="w-full rounded border-gray-400 enviar text-right" value="0"
                             onkeyup="format(this)" onchange="format(this)">
@@ -241,6 +309,22 @@
                             <input type="text" name="nombre_encargado1" id="nombre_encargado1" class="w-full rounded border-gray-400 enviar" value="SIN ESPECIFICAR" readonly>
                         </div>
 
+                        <div class="mb-4">
+                            <label for="">Fotocopia de Cedula</label>
+                            <input type="file" name="foto_encargado1" id="foto_encargado1" class="w-full rounded border-gray-400 enviar" accept="image/*">
+                        </div>
+
+                        <div class="mb-4" style="margin-top: 25px">
+                            <input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600
+                            focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mt-1 mr-2 cursor-pointer" type="checkbox"
+                            value="0" id="recibido_encargado1" name="recibido_encargado1"
+                            onclick="cambiar_check(this)" onkeyup="cambiar_check(this)">
+                            <label class="form-check-label inline-block text-gray-800" for="flexCheckDefault">
+                              Entregado
+                            </label>
+                        </div>
+
+                        {{-- ENCARGADO 3 --}}
                         <div class="mb-4">
                             <label for="" onclick="ver_encargado(3)">Cedula Encargado 3</label>
                             <input type="text" name="cedula_encargado2" id="cedula_encargado2" class="w-full rounded border-gray-400 enviar text-right" value="0"
@@ -257,6 +341,22 @@
                         </div>
 
                         <div class="mb-4">
+                            <label for="">Fotocopia de Cedula</label>
+                            <input type="file" name="foto_encargado2" id="foto_encargado2" class="w-full rounded border-gray-400 enviar" accept="image/*">
+                        </div>
+
+                        <div class="mb-4" style="margin-top: 25px">
+                            <input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600
+                            focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mt-1 mr-2 cursor-pointer" type="checkbox"
+                            value="0" id="recibido_encargado2" name="recibido_encargado2"
+                            onclick="cambiar_check(this)" onkeyup="cambiar_check(this)">
+                            <label class="form-check-label inline-block text-gray-800" for="flexCheckDefault">
+                              Entregado
+                            </label>
+                        </div>
+
+                        {{-- ENCARGADO 4 --}}
+                        <div class="mb-4">
                             <label for="" onclick="ver_encargado(4)">Cedula Encargado 4</label>
                             <input type="text" name="cedula_encargado3" id="cedula_encargado3" class="w-full rounded border-gray-400 enviar text-right" value="0"
                             onkeyup="format(this)" onchange="format(this)">
@@ -271,6 +371,21 @@
                             <input type="text" name="nombre_encargado3" id="nombre_encargado3" class="w-full rounded border-gray-400 enviar" value="SIN ESPECIFICAR" readonly>
                         </div>
 
+                        <div class="mb-4">
+                            <label for="">Fotocopia de Cedula</label>
+                            <input type="file" name="foto_encargado3" id="foto_encargado3" class="w-full rounded border-gray-400 enviar" accept="image/*">
+                        </div>
+
+                        <div class="mb-4" style="margin-top: 25px">
+                            <input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600
+                            focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mt-1 mr-2 cursor-pointer" type="checkbox"
+                            value="0" id="recibido_encargado3" name="recibido_encargado3"
+                            onclick="cambiar_check(this)" onkeyup="cambiar_check(this)">
+                            <label class="form-check-label inline-block text-gray-800" for="flexCheckDefault">
+                              Entregado
+                            </label>
+                        </div>
+
                     </div>
 
                 </div>
@@ -282,7 +397,9 @@
                 <div class="bg-white rounded overflow-hidden shadow mb-4">
 
                     <div class="md:grid grid-cols-4 gap-1 px-4">
-
+                        @php
+                            $cont = 0;
+                        @endphp
                         @foreach ($documento_concepto as $concepto)
 
                             <div class="mb-4">
@@ -300,16 +417,19 @@
                                 <label for="">Foto Documento</label>
                                 <input type="file" name="foto[]" id="foto[]" class="w-full rounded border-gray-400 enviar" accept="image/*">
                             </div>
-                            <div class="mt-7" style="margin-top: 25px">
+                            <div class="" style="margin-top: 25px">
                                 <input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600
-                                focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox"
-                                value="0" id="recibido" name="recibido[]">
+                                focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mt-1 mr-2 cursor-pointer" type="checkbox"
+                                value="0" id="recibido[{{$cont}}]" name="recibido[{{$cont}}]"
+                                onclick="cambiar_check(this)" onkeyup="cambiar_check(this)">
                                 <label class="form-check-label inline-block text-gray-800" for="flexCheckDefault">
-                                  Recibido
+                                  Entregado
                                 </label>
                             </div>
                             <div></div>
-
+                            @php
+                                $cont = $cont + 1;
+                            @endphp
                         @endforeach
 
                     </div>

@@ -47,6 +47,7 @@ class DatabaseSeeder extends Seeder
             Seguro::class,
             IngregoConcepto::class,
             Ingreso_Estado::class,
+            Enfermedad::class,
         ]);
 
     }

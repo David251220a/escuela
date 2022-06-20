@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('alumno_documento', function (Blueprint $table) {
-            $table->char('recibido', 1)->default(0);
+            $table->char('recibido', 1)->nullable(0);
         });
     }
 

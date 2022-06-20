@@ -44,7 +44,7 @@ class AlumnoDocumentoConcepto extends Seeder
             'estado_id' => 1,
             'usuario_grabacion' => 1,
             'usuario_modificacion' => 1,
-            'orden' => 4,
+            'orden' => 0,
         ]);
 
         DB::table('alumno_documento_concepto')->insert([
@@ -52,7 +52,7 @@ class AlumnoDocumentoConcepto extends Seeder
             'estado_id' => 1,
             'usuario_grabacion' => 1,
             'usuario_modificacion' => 1,
-            'orden' => 5,
+            'orden' => 0,
         ]);
 
         DB::table('alumno_documento_concepto')->insert([
@@ -60,7 +60,7 @@ class AlumnoDocumentoConcepto extends Seeder
             'estado_id' => 1,
             'usuario_grabacion' => 1,
             'usuario_modificacion' => 1,
-            'orden' => 6,
+            'orden' => 4,
         ]);
 
         DB::table('alumno_documento_concepto')->insert([
@@ -68,7 +68,7 @@ class AlumnoDocumentoConcepto extends Seeder
             'estado_id' => 1,
             'usuario_grabacion' => 1,
             'usuario_modificacion' => 1,
-            'orden' => 7,
+            'orden' => 5,
         ]);
 
         DB::table('lugar_nacimiento')->insert([
@@ -76,6 +76,38 @@ class AlumnoDocumentoConcepto extends Seeder
             'estado_id' => 1,
             'usuario_grabacion' => 1,
             'usuario_modificacion' => 1,
+        ]);
+
+        DB::table('alumno_documento_concepto')->insert([
+            'nombre' => 'FOTOCOPIA DE CEDULA - ENCARGADO 1',
+            'estado_id' => 1,
+            'usuario_grabacion' => 1,
+            'usuario_modificacion' => 1,
+            'orden' => 0,
+        ]);
+
+        DB::table('alumno_documento_concepto')->insert([
+            'nombre' => 'FOTOCOPIA DE CEDULA - ENCARGADO 2',
+            'estado_id' => 1,
+            'usuario_grabacion' => 1,
+            'usuario_modificacion' => 1,
+            'orden' => 0,
+        ]);
+
+        DB::table('alumno_documento_concepto')->insert([
+            'nombre' => 'FOTOCOPIA DE CEDULA - ENCARGADO 3',
+            'estado_id' => 1,
+            'usuario_grabacion' => 1,
+            'usuario_modificacion' => 1,
+            'orden' => 0,
+        ]);
+
+        DB::table('alumno_documento_concepto')->insert([
+            'nombre' => 'FOTOCOPIA DE CEDULA - ENCARGADO 4',
+            'estado_id' => 1,
+            'usuario_grabacion' => 1,
+            'usuario_modificacion' => 1,
+            'orden' => 0,
         ]);
 
     }

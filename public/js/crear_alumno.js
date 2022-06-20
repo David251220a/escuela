@@ -190,6 +190,13 @@ document.addEventListener('keydown', (event) => {
             select = document.getElementById('seguro');
 
         }
+
+        if(event.target.id == 'enfermedad'){
+            id_aux = 4;
+            titulo = 'Agregar Enfermedad';
+            select = document.getElementById('enfermedad');
+
+        }
         var siguiente = document.getElementById('datos_formulario').innerHTML;
         if(parseInt(id_aux) == 0){
 
@@ -555,6 +562,12 @@ function crear_opciones(input)
         select = document.getElementById('seguro');
 
     }
+    if(input.id == 'enfermedad_1'){
+        id_aux = 4;
+        titulo = 'Agregar Enfermedad';
+        select = document.getElementById('enfermedad');
+
+    }
     var siguiente = document.getElementById('datos_formulario').innerHTML;
     if(parseInt(id_aux) == 0){
 
@@ -600,5 +613,15 @@ function crear_opciones(input)
         })
 
     }
+}
+
+function cambiar_check(input){
+
+    if(input.checked == true){
+        input.value = 1;
+    }else{
+        input.value = 0;
+    }
+
 }
 
