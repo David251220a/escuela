@@ -48,6 +48,7 @@ class AlumnoController extends Controller
 
     public function store(AlumnoRequest $request)
     {
+        dd($request->all());
         $cedula = str_replace('.', '' ,$request->cedula);
         $validar_cedula = Alumno::where('cedula', $cedula)
         ->where('estado_id', 1)
@@ -270,8 +271,17 @@ class AlumnoController extends Controller
             ->first();
 
             if(!empty($validar_cedula->cedula)){
-                $data['mensaje'] = 'Ya existe una persona con este numero de cedula: ' .$cedula .' - ' .$validar_cedula->nombre .$validar_cedula->apellido;
-                $data['ok'] = 0;
+                // $data['mensaje'] = 'Ya existe una persona con este numero de cedula: ' .$cedula .' - ' .$validar_cedula->nombre .$validar_cedula->apellido;
+                // $data['ok'] = 0;
+                // return response()->json($data);
+                $data['id'] = $validar_cedula->id;
+                $data['nombre'] = $validar_cedula->nombre;
+                $data['apellido'] = $validar_cedula->apellido;
+                $data['cedula'] = $validar_cedula->cedula;
+
+                $data['mensaje'] = 'Guardado con exito!';
+                $data['ok'] = 1;
+
                 return response()->json($data);
             }
         }
@@ -444,8 +454,16 @@ class AlumnoController extends Controller
             ->first();
 
             if(!empty($validar_cedula->cedula)){
-                $data['mensaje'] = 'Ya existe una persona con este numero de cedula: ' .$cedula .' - ' .$validar_cedula->nombre .$validar_cedula->apellido;
-                $data['ok'] = 0;
+                // $data['mensaje'] = 'Ya existe una persona con este numero de cedula: ' .$cedula .' - ' .$validar_cedula->nombre .$validar_cedula->apellido;
+                // $data['ok'] = 0;
+                // return response()->json($data);
+                $data['id'] = $validar_cedula->id;
+                $data['nombre'] = $validar_cedula->nombre;
+                $data['cedula'] = $validar_cedula->cedula;
+
+                $data['mensaje'] = 'Guardado con exito!';
+                $data['ok'] = 1;
+
                 return response()->json($data);
             }
         }

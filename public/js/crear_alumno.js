@@ -412,7 +412,7 @@ function crear_padre(){
 }
 
 function crear_encargado(encar){
-
+    console.log(encar);
     Swal.fire({
         title: 'Desea crear datos para el encargado?',
         text: "No existe coincidencia con este numero de cedula!",
@@ -523,5 +523,82 @@ function mayuscula(input){
 
 function ver(){
     crear_padre();
+}
+
+function ver_madre(){
+    crear_madre();
+}
+
+function ver_encargado(encar){
+    crear_encargado(encar);
+}
+
+function crear_opciones(input)
+{
+    id_aux = 0;
+    if(input.id == 'lugar_nacimiento_1'){
+        id_aux = 1;
+        titulo = 'Agregar Lugar Nacimiento';
+        select = document.getElementById('lugar_nacimiento');
+    }
+
+    if(input.id == 'alergia_1'){
+        id_aux = 2;
+        titulo = 'Agregar Alergia';
+        select = document.getElementById('alergia');
+
+    }
+
+    if(input.id == 'seguro_1'){
+        id_aux = 3;
+        titulo = 'Agregar Seguro';
+        select = document.getElementById('seguro');
+
+    }
+    var siguiente = document.getElementById('datos_formulario').innerHTML;
+    if(parseInt(id_aux) == 0){
+
+    }else{
+
+        Swal.fire({
+            title: titulo,
+            html:
+            siguiente,
+            width: 600,
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Guardar',
+
+        }).then(resultado => {
+            if (resultado.value) {
+                var nombre_aux = Swal.getPopup().querySelector('#nombre_tipo_aux').value;
+                axios.post('/crear_datos',  {
+                    nombre_aux : nombre_aux,
+                    id_aux : id_aux
+                })
+                .then(respuesta => {
+                    for (let i = select.options.length; i >= 0; i--) {
+                        select.remove(i);
+                    }
+
+                    for(var i=0; i < respuesta.data.length; i++){
+                        var option = document.createElement('option');
+                        var valor = respuesta.data[i].id;
+                        var valor2 = respuesta.data[i].nombre;
+                        option.value = valor;
+                        option.text = valor2;
+                        select.appendChild(option);
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+
+            }
+
+        })
+
+    }
 }
 

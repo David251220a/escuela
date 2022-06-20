@@ -57,7 +57,8 @@ Route::middleware([
     Route::post('/crear_ingreso', [CobroController::class, 'nuevo_ingreso'])->name('ingreso.nuevo_ingreso');
     Route::get('/cobros/ingreso_pendiente/{id}', [CobroController::class, 'cobros_pendientes'])->name('ingreso.cobros_pendientes');
     Route::get('/cobros/ingreso_pendiente/{id}/cobro/{id2}', [CobroController::class, 'cobros_pendientes_detalle'])->name('ingreso.cobros_pendientes_detalle');
-    // Route::post('/cobros/ingreso_pendiente/{id}', [CobroController::class, 'store'])->name('ingreso.store');
+    Route::post('/cobros/ingreso_pendiente/{id}/cobro/{id2}', [CobroController::class, 'cobros_pendientes_detalle_store'])->name('ingreso.cobros_pendientes_detalle_store');
+    Route::get('/cobros/ingreso_pendiente/{id}/cobro/{id2}/imprimir', [CobroController::class, 'cobros_pendientes_detalle_imprimir'])->name('ingreso.cobros_pendientes_detalle_imprimir');
 
     Route::post('/madre_consulta', [AlumnoController::class, 'madre_consulta'])->name('madre_consulta');
     Route::post('/madre_crear', [AlumnoController::class, 'madre_crear'])->name('madre_crear');

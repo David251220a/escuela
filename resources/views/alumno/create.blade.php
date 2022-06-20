@@ -55,7 +55,7 @@
 
                 <div class="bg-white rounded overflow-hidden shadow mb-4">
 
-                    <div class="md:grid grid-cols-4 gap-4 px-4 py-6">
+                    <div class="md:grid grid-cols-4 gap-2 px-4">
 
                         <div class="mb-4">
                             <label for="">Cedula</label>
@@ -89,16 +89,15 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="">Lugar Nacimiento</label>
+                            <label for="" onclick="crear_opciones(this)" id="lugar_nacimiento_1">Lugar Nacimiento</label>
                             <select name="lugar_nacimiento" id="lugar_nacimiento" class="w-full rounded border-gray-400 enviar">
-                                <p onclick="lugarnacimiento()" class="text-xl font-medium leading-tight mb-2">Lugar Nacimiento</p>
-                                <input type="file" name="foto_perfil" id="foto_perfil" accept="image/*" hidden>
-
                                 @foreach ($lugar_nacimiento as $item)
                                     <option value="{{ $item->id }}">{{ $item->nombre }}</option>
                                 @endforeach
-
                             </select>
+                            <span>
+                                <p class="text-red-500 text-left text-sm font-semibold">Presione F2 para agregar mas opciones</p>
+                            </span>
                         </div>
 
                         <div class="mb-4">
@@ -118,7 +117,7 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="">Alergia</label>
+                            <label for="" onclick="crear_opciones(this)" id="alergia_1">Alergia</label>
                             <select name="alergia" id="alergia" class="w-full rounded border-gray-400 enviar">
                                 @foreach ($alergia as $item)
                                     <option value="{{ $item->id }}">{{ $item->nombre }}</option>
@@ -130,7 +129,7 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="">Seguro</label>
+                            <label for="" onclick="crear_opciones(this)" id="seguro_1">Seguro</label>
                             <select name="seguro" id="seguro" class="w-full rounded border-gray-400 enviar">
                                 @foreach ($seguro as $item)
                                     <option value="{{ $item->id }}">{{ $item->nombre }}</option>
@@ -180,9 +179,9 @@
 
                 <div class="bg-white rounded overflow-hidden shadow mb-4">
 
-                    <div class="md:grid grid-cols-4 gap-4 px-4 py-6">
+                    <div class="md:grid grid-cols-4 gap-2 px-4">
                         <div class="mb-4">
-                            <label for="">Cedula Madre</label>
+                            <label for="" onclick="ver_madre()">Cedula Madre</label>
                             <input type="text" name="cedula_madre" id="cedula_madre" class="w-full rounded border-gray-400 enviar text-right" value="0"
                             onkeyup="format(this)" onchange="format(this)">
                             <span>
@@ -213,7 +212,7 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="">Cedula Encargado</label>
+                            <label for="" onclick="ver_encargado(1)">Cedula Encargado 1</label>
                             <input type="text" name="cedula_encargado" id="cedula_encargado" class="w-full rounded border-gray-400 enviar text-right" value="0"
                             onkeyup="format(this)" onchange="format(this)">
                             <span>
@@ -223,12 +222,12 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="">Nombre Encargado</label>
+                            <label for="">Nombre Encargado 1</label>
                             <input type="text" name="nombre_encargado" id="nombre_encargado" class="w-full rounded border-gray-400 enviar" value="SIN ESPECIFICAR" readonly>
                         </div>
 
                         <div class="mb-4">
-                            <label for="">Cedula Encargado 1</label>
+                            <label for="" onclick="ver_encargado(2)">Cedula Encargado 2</label>
                             <input type="text" name="cedula_encargado1" id="cedula_encargado1" class="w-full rounded border-gray-400 enviar text-right" value="0"
                             onkeyup="format(this)" onchange="format(this)">
                             <span>
@@ -238,12 +237,12 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="">Nombre Encargado 1</label>
+                            <label for="">Nombre Encargado 2</label>
                             <input type="text" name="nombre_encargado1" id="nombre_encargado1" class="w-full rounded border-gray-400 enviar" value="SIN ESPECIFICAR" readonly>
                         </div>
 
                         <div class="mb-4">
-                            <label for="">Cedula Encargado 2</label>
+                            <label for="" onclick="ver_encargado(3)">Cedula Encargado 3</label>
                             <input type="text" name="cedula_encargado2" id="cedula_encargado2" class="w-full rounded border-gray-400 enviar text-right" value="0"
                             onkeyup="format(this)" onchange="format(this)">
                             <span>
@@ -253,12 +252,12 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="">Nombre Encargado 2</label>
+                            <label for="">Nombre Encargado 3</label>
                             <input type="text" name="nombre_encargado2" id="nombre_encargado2" class="w-full rounded border-gray-400 enviar" value="SIN ESPECIFICAR" readonly>
                         </div>
 
                         <div class="mb-4">
-                            <label for="">Cedula Encargado 3</label>
+                            <label for="" onclick="ver_encargado(4)">Cedula Encargado 4</label>
                             <input type="text" name="cedula_encargado3" id="cedula_encargado3" class="w-full rounded border-gray-400 enviar text-right" value="0"
                             onkeyup="format(this)" onchange="format(this)">
                             <span>
@@ -268,7 +267,7 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="">Nombre Encargado 3</label>
+                            <label for="">Nombre Encargado 4</label>
                             <input type="text" name="nombre_encargado3" id="nombre_encargado3" class="w-full rounded border-gray-400 enviar" value="SIN ESPECIFICAR" readonly>
                         </div>
 
@@ -282,11 +281,11 @@
 
                 <div class="bg-white rounded overflow-hidden shadow mb-4">
 
-                    <div class="md:grid grid-cols-4 gap-4 px-4 py-6">
+                    <div class="md:grid grid-cols-4 gap-1 px-4">
 
                         @foreach ($documento_concepto as $concepto)
 
-                            <div class="col-span-2 mb-4">
+                            <div class="mb-4">
                                 @foreach ($documento_concepto as $item)
 
                                     @if ($item->id == $concepto->id)
@@ -297,10 +296,19 @@
 
                                 @endforeach
                             </div>
-                            <div class="col-span-2 mb-4">
+                            <div class="mb-4">
                                 <label for="">Foto Documento</label>
                                 <input type="file" name="foto[]" id="foto[]" class="w-full rounded border-gray-400 enviar" accept="image/*">
                             </div>
+                            <div class="mt-7" style="margin-top: 25px">
+                                <input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600
+                                focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox"
+                                value="0" id="recibido" name="recibido[]">
+                                <label class="form-check-label inline-block text-gray-800" for="flexCheckDefault">
+                                  Recibido
+                                </label>
+                            </div>
+                            <div></div>
 
                         @endforeach
 

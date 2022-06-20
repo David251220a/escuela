@@ -29,7 +29,7 @@
                                 </td>
                                 @foreach ($cobros_aux as $cobro)
                                     @if ($cobro->alumno_id == $item->id)
-                                        <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-center">{{ date('Y-m-d', strtotime($cobro->fecha_cobro)) }}</td>
+                                        <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-center">{{ date('d/m/Y', strtotime($cobro->fecha_cobro)) }}</td>
                                         <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-left">
                                             {{ $cobro->ingreso_concepto->nombre }}
                                             @php

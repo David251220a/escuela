@@ -100,6 +100,7 @@ class CobroController extends Controller
             ->where('ciclo_id', $aux_ciclo->id)
             ->where('estado_id', 1)
             ->where('alumno_id', $alumno->id)
+            ->where('padre_ingreso_id', 0)
             ->first();
 
             if(!empty($validar_unico)){
@@ -198,7 +199,7 @@ class CobroController extends Controller
         , 'cobro.fecha_cobro', 'cobro_ingreso.ingreso_estado_id')
         ->where('cobro_ingreso.alumno_id', $id)
         ->where('cobro_ingreso.ciclo_id', $ciclo->id)
-        ->where('cobro_ingreso.ingreso_estado_id', 2)
+        ->where('cobro_ingreso.ingreso_estado_id', 1)
         ->where('cobro_ingreso.estado_id', 1)
         ->where('cobro_ingreso.padre_ingreso_id', 0)
         ->groupBy('cobro_ingreso.cobro_id', 'cobro.fecha_cobro', 'cobro_ingreso.ingreso_estado_id')
@@ -217,7 +218,126 @@ class CobroController extends Controller
         $cobros_detalle = CobroIngreso::where('padre_ingreso_id', $id2)
         ->get();
         $tipo_cobro = TipoCobro::all();
-        return view('cobro.cobro_pendiente_detalle', compact('alumno', 'cobros', 'cobros_detalle', 'tipo_cobro'));
+        return view('cobro.cobro_pendiente_detalle', compact('alumno', 'cobros', 'cobros_detalle', 'tipo_cobro', 'id', 'id2'));
+    }
+
+    public function cobros_pendientes_detalle_store(Request $request, $id, $id2)
+    {
+        $request->validate([
+            'total_a_cobrar' => 'required',
+            'total_pagar_completo' => 'required',
+        ]);
+
+        $alumno = Alumno::find($id);
+
+        if(empty($alumno)){
+            return redirect()->route('alumno.index')
+            ->withInput()
+            ->withErrors('No existe Alumno.');
+        }
+        $total_a_cobrar = str_replace('.', '', $request->total_a_cobrar);
+        $total_a_pagar = str_replace('.', '', $request->total_pagar_completo);
+        $tipo_cobro = $request->tipo_cobro;
+
+        if($total_a_pagar > $total_a_cobrar){
+            return redirect()->route('ingreso.cobros_pendientes_detalle', [$id, $id2])
+            ->withInput()
+            ->withErrors('El total a pagar no puede ser mayor al total a pagar.Por favor ingrese un monto valido.');
+        }
+
+        if($total_a_pagar <= 0){
+            return redirect()->route('ingreso.cobros_pendientes_detalle', [$id, $id2])
+            ->withInput()
+            ->withErrors('El total a pagar no puede ser menor o igual a cero!.Por favor ingrese un monto valido!.');
+        }
+
+        $date = Carbon::now();
+        $anio = date("Y",strtotime($date));
+        $ciclo = Ciclo::where('nombre', $anio)->first();
+
+        $id_concepto = $request->id_concepto;
+        $monto_a_cobrar = $request->monto_a_cobrar;
+        $monto_cobrado = $request->monto_cobrado;
+        $saldo = $request->saldo;
+        $cantidad = $request->cantidad;
+
+        if($total_a_pagar == $total_a_cobrar){
+            $cobro_ant = CobroIngreso::where('cobro_id', $id2)->get();
+            foreach ($cobro_ant as $item) {
+                $item->ingreso_estado_id = 2;
+                $item->update();
+            }
+
+        }
+
+        $cobro = Cobro::create([
+            'caja_id' => 1,
+            'sede_id' => 1,
+            'fecha_cobro' => $date,
+            'estado_id' => 1,
+            'cobro_concepto_id' => 3,
+            'total_cobrado' => $total_a_pagar,
+            'observacion' => 'INGRESO VARIOS',
+            'tipo_cobro_id' => $tipo_cobro,
+            'salida_id' => 1,
+            'recibo_id' => 1,
+            'usuario_alta' => auth()->user()->id,
+            'usuario_modificacion' => auth()->user()->id,
+        ]);
+
+        for ($i=0; $i < count($id_concepto); $i++) {
+
+            if($saldo[$i] > 0){
+
+                if($total_a_pagar <= 0){
+                    break;
+                }
+
+                if($total_a_pagar < $saldo[$i]){
+                    $nuevo_saldo = $saldo[$i] - $total_a_pagar;
+                    $pago = $total_a_pagar;
+                }
+                if($total_a_pagar == $saldo[$i]){
+                    $nuevo_saldo = 0;
+                    $pago = $total_a_pagar;
+                }
+                if($total_a_pagar > $saldo[$i]){
+                    $nuevo_saldo = 0;
+                    $pago = $saldo[$i];
+                }
+
+                $cobro->cobro_ingreso()->create([
+                    'factura_sucursal' => '000',
+                    'factura_general' => '000',
+                    'factura_nro' => '000000',
+                    'precio' => str_replace('.', '', $monto_a_cobrar[$i]),
+                    'monto_total_factura' => str_replace('.', '', $saldo[$i]),
+                    'monto_cobrado_factura' => $pago,
+                    'monto_saldo_factura' => $nuevo_saldo,
+                    'cantidad' => $cantidad[$i],
+                    'ciclo_id' => $ciclo->id,
+                    'cobro_ingreso_concepto' => $id_concepto[$i],
+                    'estado_id' => 1,
+                    'ingreso_estado_id' => 2,
+                    'alumno_id' => $alumno->id,
+                    'padre_ingreso_id' => $id2,
+                    'usuario_alta' => auth()->user()->id,
+                    'usuario_modificacion' => auth()->user()->id,
+                ]);
+
+                $total_a_pagar = $total_a_pagar - $pago;
+            }
+
+        }
+
+        return redirect()->route('ingreso.cobros_pendientes_detalle_imprimir', [$id, $cobro->id]);
+
+    }
+
+
+    public function cobros_pendientes_detalle_imprimir($id, $id2)
+    {
+        return view('cobro.cobro_imprimir');
     }
 
 }

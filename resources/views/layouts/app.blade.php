@@ -28,7 +28,7 @@
         {{-- <x-jet-banner /> --}}
         <header>
 
-            <div class="sidebar close">
+            <div class="sidebar ">
 
                 <div class="logo-details">
                     <i class='bx bxs-graduation'></i>
@@ -143,7 +143,7 @@
             @endif --}}
 
             <!-- Page Content -->
-            <main class="body-content close">
+            <main class="body-content ">
                 @if ($errors->any())
                     <div class="bg-red-100 border border-red-200 font-semibold text-red-900 text-sm rounded px-4 py-3 mb-6">
                         <ul>
