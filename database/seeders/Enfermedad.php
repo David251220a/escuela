@@ -15,7 +15,7 @@ class Enfermedad extends Seeder
      */
     public function run()
     {
-        DB::table('grado')->insert([
+        DB::table('enfermedad')->insert([
             'nombre' => 'SIN ESPECIFICAR',
             'usuario_grabacion' => 1,
             'usuario_modificacion' => 1,
