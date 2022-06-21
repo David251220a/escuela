@@ -29,7 +29,7 @@
                             @foreach ($matricula as $item)
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{{ number_format($item->alumnos->cedula, 0, ".", ".") }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{{ $item->alumnos->apellido }}, {{ $item->alumnos->nombre }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-left">{{ $item->alumnos->apellido }}, {{ $item->alumnos->nombre }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{{ $item->grado->nombre }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{{ $item->turno->nombre }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{{ $item->ciclo->año }}</td>

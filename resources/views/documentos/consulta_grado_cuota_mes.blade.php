@@ -176,7 +176,7 @@
                     </tr>
                     <tr>
                         <td style="font-size: 16px" width="80%">SALDO</td>
-                        <td style="font-size: 16px; text-align: right">{{number_format($saldo, 0, ".", ".")}}</td>
+                        <td style="font-size: 16px; text-align: right">{{number_format($total_cobrar - $total_cobrado, 0, ".", ".")}}</td>
                     </tr>
                 </thead>
             </table>

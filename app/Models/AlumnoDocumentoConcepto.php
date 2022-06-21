@@ -12,4 +12,6 @@ class AlumnoDocumentoConcepto extends Model
     protected $table = 'alumno_documento_concepto';
 
     protected $guarded = [];
+
+
 }

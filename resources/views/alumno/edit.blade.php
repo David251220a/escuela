@@ -57,17 +57,20 @@
 
                         <div class="mb-4">
                             <label for="">Cedula</label>
-                            <input type="text" name="cedula" id="cedula"  class="w-full rounded border-gray-400 enviar" value="{{$alumno->cedula}}"  >
+                            <input type="text" name="cedula" id="cedula"  class="w-full rounded border-gray-400 text-right enviar" value="{{number_format($alumno->cedula, 0, ".", ".")}}"
+                            onkeyup="format(this)" onchange="format(this)">
                         </div>
 
                         <div class="mb-4">
                             <label for="">Nombre</label>
-                            <input type="text" name="nombre" id="nombre" class="w-full rounded border-gray-400 enviar" value="{{$alumno->nombre}}">
+                            <input type="text" name="nombre" id="nombre" class="w-full rounded border-gray-400 enviar" value="{{$alumno->nombre}}"
+                            onkeyup="mayuscula(this)" onchange="mayuscula(this)">
                         </div>
 
                         <div class="mb-4">
                             <label for="">Apellido</label>
-                            <input type="text" name="apellido" id="apellido" class="w-full rounded border-gray-400 enviar" value="{{$alumno->apellido}}">
+                            <input type="text" name="apellido" id="apellido" class="w-full rounded border-gray-400 enviar" value="{{$alumno->apellido}}"
+                            onkeyup="mayuscula(this)" onchange="mayuscula(this)">
                         </div>
 
                         <div class="mb-4">
@@ -84,7 +87,7 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="">Lugar Nacimiento</label>
+                            <label for="" onclick="crear_opciones(this)" id="lugar_nacimiento_1">Lugar Nacimiento</label>
                             <select name="lugar_nacimiento" id="lugar_nacimiento" class="w-full rounded border-gray-400 enviar">
 
                                 @foreach ($lugar_nacimiento as $item)
@@ -96,7 +99,8 @@
 
                         <div class="mb-4">
                             <label for="">Dirección</label>
-                            <input type="text" name="direccion" id="direccion" class="w-full rounded border-gray-400 enviar" value="{{$alumno->direccion}}">
+                            <input type="text" name="direccion" id="direccion" class="w-full rounded border-gray-400 enviar" value="{{$alumno->direccion}}"
+                            onkeyup="mayuscula(this)" onchange="mayuscula(this)">
                         </div>
 
                         <div class="mb-4">
@@ -106,16 +110,18 @@
 
                         <div class="mb-4">
                             <label for="">Telefono Baja</label>
-                            <input type="text" name="telefono_baja" id="telefono_baja" class="w-full rounded border-gray-400 enviar" value="{{$alumno->telefono_baja}}">
+                            <input type="text" name="telefono_baja" id="telefono_baja" class="w-full rounded border-gray-400 enviar" value="{{$alumno->telefono_baja}}"
+                            onkeyup="mayuscula(this)" onchange="mayuscula(this)">
                         </div>
 
                         <div class="mb-4">
                             <label for="">Telefono</label>
-                            <input type="text" name="telefono" id="telefono" class="w-full rounded border-gray-400 enviar" value="{{$alumno->telefono}}">
+                            <input type="text" name="telefono" id="telefono" class="w-full rounded border-gray-400 enviar" value="{{$alumno->telefono}}"
+                            onkeyup="mayuscula(this)" onchange="mayuscula(this)">
                         </div>
 
                         <div class="mb-4">
-                            <label for="">Alergia</label>
+                            <label for="" onclick="crear_opciones(this)" id="alergia_1">Alergia</label>
                             <select name="alergia" id="alergia" class="w-full rounded border-gray-400 enviar">
                                 @foreach ($alergia as $item1)
                                     <option {{($alumno->alergia_id == $item1->id ? 'selected' : '')}} value="{{ $item1->id }}">{{ $item1->nombre }}</option>
@@ -124,7 +130,7 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="">Seguro</label>
+                            <label for="" onclick="crear_opciones(this)" id="seguro_1">Seguro</label>
                             <select name="seguro" id="seguro" class="w-full rounded border-gray-400 enviar">
                                 @foreach ($seguro as $item)
                                     <option {{($alumno->seguro_id == $item->id ? 'selected' : '')}} value="{{ $item->id }}">{{ $item->nombre }}</option>
@@ -228,14 +234,16 @@
 
                     <div class="md:grid grid-cols-4 gap-2 px-4">
                         <div class="mb-4">
-                            <label for="">Cedula Madre</label>
-                            <input type="text" name="cedula_madre" id="cedula_madre" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->madre->cedula }}">
+                            <label for="" onclick="ver_madre()">Cedula Madre</label>
+                            <input type="text" name="cedula_madre" id="cedula_madre" class="w-full rounded border-gray-400 text-right enviar" value="{{ number_format($alumno->madre->cedula, 0, ".", ".") }}"
+                            onkeyup="format(this)" onchange="format(this)">
                             <input type="hidden" name="id_madre" id="id_madre" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->madre->id }}">
                         </div>
 
                         <div class="mb-4">
                             <label for="">Nombre Madre</label>
-                            <input type="text" name="nombre_madre" id="nombre_madre" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->madre->nombre }}" readonly>
+                            <input type="text" name="nombre_madre" id="nombre_madre" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->madre->nombre }}" readonly
+                            onkeyup="mayuscula(this)" onchange="mayuscula(this)">
                         </div>
 
                         <div class="mb-4">
@@ -255,14 +263,16 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="">Cedula Padre</label>
-                            <input type="text" name="cedula_padre" id="cedula_padre" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->padre->cedula }}">
+                            <label for="" onclick="ver()">Cedula Padre</label>
+                            <input type="text" name="cedula_padre" id="cedula_padre" class="w-full rounded border-gray-400 text-right enviar" value="{{ number_format($alumno->padre->cedula, 0, ".", ".") }}"
+                            onkeyup="format(this)" onchange="format(this)">
                             <input type="hidden" name="id_padre" id="id_padre" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->padre->id }}">
                         </div>
 
                         <div class="mb-4">
                             <label for="">Nombre Padre</label>
-                            <input type="text" name="nombre_padre" id="nombre_padre" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->padre->nombre }}" readonly>
+                            <input type="text" name="nombre_padre" id="nombre_padre" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->padre->nombre }}" readonly
+                            onkeyup="mayuscula(this)" onchange="mayuscula(this)">
                         </div>
 
                         <div class="mb-4">
@@ -282,14 +292,16 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="">Cedula Encargado 1</label>
-                            <input type="text" name="cedula_encargado" id="cedula_encargado" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado->cedula }}">
+                            <label for="" onclick="ver_encargado(1)">Cedula Encargado 1</label>
+                            <input type="text" name="cedula_encargado" id="cedula_encargado" class="w-full rounded border-gray-400 text-right enviar" value="{{number_format( $alumno->encargado->cedula, 0, ".", ".") }}"
+                            onkeyup="format(this)" onchange="format(this)">
                             <input type="hidden" name="id_encargado" id="id_encargado" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado->id }}">
                         </div>
 
                         <div class="mb-4">
                             <label for="">Nombre Encargado 1</label>
-                            <input type="text" name="nombre_encargado" id="nombre_encargado" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado->nombre }}" readonly>
+                            <input type="text" name="nombre_encargado" id="nombre_encargado" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado->nombre }}" readonly
+                            onkeyup="mayuscula(this)" onchange="mayuscula(this)">
                         </div>
 
                         <div class="mb-4">
@@ -309,14 +321,16 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="">Cedula Encargado 2</label>
-                            <input type="text" name="cedula_encargado1" id="cedula_encargado1" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado1->cedula }}">
+                            <label for="" onclick="ver_encargado(2)">Cedula Encargado 2</label>
+                            <input type="text" name="cedula_encargado1" id="cedula_encargado1" class="w-full rounded border-gray-400 text-right enviar" value="{{ number_format($alumno->encargado1->cedula, 0, ".", ".") }}"
+                            onkeyup="format(this)" onchange="format(this)">
                             <input type="hidden" name="id_encargado1" id="id_encargado1" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado1->id }}">
                         </div>
 
                         <div class="mb-4">
                             <label for="">Nombre Encargado 2</label>
-                            <input type="text" name="nombre_encargado1" id="nombre_encargado1" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado1->nombre }}" readonly>
+                            <input type="text" name="nombre_encargado1" id="nombre_encargado1" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado1->nombre }}" readonly
+                            onkeyup="mayuscula(this)" onchange="mayuscula(this)">
                         </div>
 
                         <div class="mb-4">
@@ -336,14 +350,16 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="">Cedula Encargado 3</label>
-                            <input type="text" name="cedula_encargado2" id="cedula_encargado2" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado2->cedula }}">
+                            <label for="" onclick="ver_encargado(3)">Cedula Encargado 3</label>
+                            <input type="text" name="cedula_encargado2" id="cedula_encargado2" class="w-full rounded border-gray-400 text-right enviar" value="{{ number_format($alumno->encargado2->cedula, 0, ".", ".") }}"
+                            onkeyup="format(this)" onchange="format(this)">
                             <input type="hidden" name="id_encargado2" id="id_encargado2" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado2->id }}">
                         </div>
 
                         <div class="mb-4">
                             <label for="">Nombre Encargado 3</label>
-                            <input type="text" name="nombre_encargado2" id="nombre_encargado2" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado2->nombre }}" readonly>
+                            <input type="text" name="nombre_encargado2" id="nombre_encargado2" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado2->nombre }}" readonly
+                            onkeyup="mayuscula(this)" onchange="mayuscula(this)">
                         </div>
 
                         <div class="mb-4">
@@ -363,14 +379,16 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="">Cedula Encargado 3</label>
-                            <input type="text" name="cedula_encargado3" id="cedula_encargado3" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado3->cedula }}">
+                            <label for="" onclick="ver_encargado(4)">Cedula Encargado 4</label>
+                            <input type="text" name="cedula_encargado3" id="cedula_encargado3" class="w-full rounded border-gray-400 text-right enviar" value="{{ number_format($alumno->encargado3->cedula, 0, ".", ".") }}"
+                            onkeyup="format(this)" onchange="format(this)">
                             <input type="hidden" name="id_encargado3" id="id_encargado3" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado3->id }}">
                         </div>
 
                         <div class="mb-4">
-                            <label for="">Nombre Encargado 3</label>
-                            <input type="text" name="nombre_encargado3" id="nombre_encargado3" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado3->nombre }}" readonly>
+                            <label for="">Nombre Encargado 4</label>
+                            <input type="text" name="nombre_encargado3" id="nombre_encargado3" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado3->nombre }}" readonly
+                            onkeyup="mayuscula(this)" onchange="mayuscula(this)">
                         </div>
 
                         <div class="mb-4">
@@ -399,6 +417,9 @@
                 <div class="bg-white rounded overflow-hidden shadow mb-4">
                     <h2 class="text-gray-500 text-center font-semibold text-xl">Documentos Presentados</h2>
                     <div class="md:grid grid-cols-2 gap-4 px-4 py-6">
+                        @php
+                            $conceptos[] =0;
+                        @endphp
 
                         @foreach ($alumno->documentos as $item)
                             <div class="form-check mb-4">
@@ -409,6 +430,10 @@
                                    {{$item->concepto->nombre}} - <a href="{{ Storage::url($item->imagen) }}" target="__blank"><i class='bx bx-image-alt'></i> Ver</a>
                                 </label>
                             </div>
+                            @php
+                                $conceptos_id[$loop->iteration - 1] = $item->concepto_id;
+                                $recibio[$item->concepto_id] = $item->recibido;
+                            @endphp
                         @endforeach
                     </div>
                 </div>
@@ -422,26 +447,38 @@
                         @foreach ($documento_concepto as $concepto)
 
                             <div class="mb-4">
-                                @foreach ($documento_concepto as $item)
+                                {{-- @foreach ($documento_concepto as $item)
 
-                                    @if ($item->id == $concepto->id)
+                                    @if ($item->id == $concepto->id) --}}
                                         {{-- <option value="{{ $item->id }}">{{ $item->nombre }}</option> --}}
                                         <label for="">Concepto</label>
-                                        <input type="text" name="documento_concepto" id="documento_concepto" class="w-full rounded border-gray-400 enviar" value="{{ $item->nombre }}" readonly >
+                                        <input type="text" name="documento_concepto" id="documento_concepto" class="w-full rounded border-gray-400 enviar" value="{{ $concepto->nombre }}" readonly >
+                                        {{-- @break
                                     @endif
 
-                                @endforeach
+                                @endforeach --}}
                             </div>
                             <div class="mb-4">
                                 <label for="">Foto Documento</label>
                                 <input type="file" name="foto[]" id="foto[]" class="w-full rounded border-gray-400 enviar" accept="image/*">
                             </div>
 
+                            @php
+                                $marca = 0;
+                                foreach ($conceptos_id as $item){
+                                    if($item == $concepto->id){
+                                        if($recibio[$concepto->id] == 1){
+                                            $marca = 1;
+                                        }
+                                        break;
+                                    }
+                                }
+                            @endphp
                             <div class="" style="margin-top: 25px">
                                 <input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600
                                 focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mt-1 mr-2 cursor-pointer" type="checkbox"
-                                value="0" id="recibido[{{$cont}}]" name="recibido[{{$cont}}]"
-                                onclick="cambiar_check(this)" onkeyup="cambiar_check(this)">
+                                value="{{$marca}}" id="recibido[{{$cont}}]" name="recibido[{{$cont}}]"
+                                onclick="cambiar_check(this)" onkeyup="cambiar_check(this)" {{ ($marca == 1 ? 'checked' : '') }}>
                                 <label class="form-check-label inline-block text-gray-800" for="flexCheckDefault">
                                   Entregado
                                 </label>
@@ -590,12 +627,14 @@
 
                 <div class="mb-4">
                     <label for="">Cedula</label>
-                    <input type="text" name="cedula_encargado_aux" id="cedula_encargado_aux" class="w-full rounded border-gray-400 enviar">
+                    <input type="text" name="cedula_encargado_aux" id="cedula_encargado_aux" class="w-full rounded border-gray-400 text-right enviar"
+                    onkeyup="format(this)" onchange="format(this)">
                 </div>
 
                 <div class="mb-4">
                     <label for="">Nombre</label>
-                    <input type="text" name="encargado_nombre_aux" id="encargado_nombre_aux" class="w-full rounded border-gray-400 enviar">
+                    <input type="text" name="encargado_nombre_aux" id="encargado_nombre_aux" class="w-full rounded border-gray-400 enviar"
+                    onkeyup="mayuscula(this)" onchange="mayuscula(this)">
                 </div>
 
                 <div class="mb-4">
@@ -612,7 +651,14 @@
 
                 <div class="mb-4">
                     <label for="">Telefono</label>
-                    <input type="text" name="telefono_encargado_aux" id="telefono_encargado_aux" class="w-full rounded border-gray-400 enviar">
+                    <input type="text" name="telefono_encargado_aux" id="telefono_encargado_aux" class="w-full rounded border-gray-400 enviar"
+                    onkeyup="mayuscula(this)" onchange="mayuscula(this)">
+                </div>
+
+                <div class="col-span-2 mb-4">
+                    <label for="">Observacion</label>
+                    <input type="text" name="observacion_encargado" id="observacion_encargado" class="w-full rounded border-gray-400 enviar"
+                    onkeyup="mayuscula(this)" onchange="mayuscula(this)">
                 </div>
 
             </div>
@@ -628,7 +674,8 @@
 
             <div class="mb-4">
                 <label for="">Nombre</label>
-                <input type="text" name="nombre_tipo_aux" id="nombre_tipo_aux" class="w-full rounded border-gray-400 enviar">
+                <input type="text" name="nombre_tipo_aux" id="nombre_tipo_aux" class="w-full rounded border-gray-400 enviar"
+                onkeyup="mayuscula(this)" onchange="mayuscula(this)">
             </div>
 
         </div>

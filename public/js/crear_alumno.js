@@ -447,12 +447,14 @@ function crear_encargado(encar){
                         var nombre_madre = Swal.getPopup().querySelector('#encargado_nombre_aux').value;
                         var parentezo = Swal.getPopup().querySelector('#encargado_parentezco').value;
                         var telefono = Swal.getPopup().querySelector('#telefono_encargado_aux').value;
+                        var observacion_encargado = Swal.getPopup().querySelector('#observacion_encargado').value;
 
                         axios.post('/encargado_crear',  {
                             cedula_madre : cedula_madre,
                             nombre_madre : nombre_madre,
                             parentezo : parentezo,
                             telefono : telefono,
+                            observacion_encargado : observacion_encargado,
                         })
                         .then(respuesta => {
                             if(respuesta.data.ok == 1){

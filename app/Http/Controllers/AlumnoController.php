@@ -136,7 +136,7 @@ class AlumnoController extends Controller
                 }
                 AlumnoDocumento::create([
                     'alumno_id' => $alumno->id,
-                    'concepto_id' => $i + 1,
+                    'concepto_id' => $documento_concepto[$i]->id,
                     'imagen' => $foto_documento,
                     'recibido' => $recibido,
                     'usuario_grabacion' => auth()->user()->id,
@@ -322,6 +322,7 @@ class AlumnoController extends Controller
             'foto_encargado3' => 'image|mimes:jpeg,png,jpg,gif',
         ]);
 
+        $cedula = str_replace('.', '' ,$request->cedula);
         $fecha_nacimiento_1 = $request->fecha_nacimiento;
         $foto_perfil = "";
         $date = Carbon::now();
@@ -338,7 +339,6 @@ class AlumnoController extends Controller
         }else{
             $foto_perfil = $alumno->foto;
         }
-        $cedula = $request->cedula;
         $alumno->update([
             'nombre' => $request->nombre,
             'apellido' => $request->apellido,
@@ -397,13 +397,14 @@ class AlumnoController extends Controller
                         $recibido = 0;
                     }
                 }
+
                 AlumnoDocumento::updateOrCreate([
                     'alumno_id' => $alumno->id,
-                    'concepto_id' => $i + 1,
+                    'concepto_id' => $documento_concepto[$i]->id,
                 ],
                 [
                     'alumno_id' => $alumno->id,
-                    'concepto_id' => $i + 1,
+                    'concepto_id' => $documento_concepto[$i]->id,
                     'imagen' => $foto_documento,
                     'recibido' => $recibido,
                     'usuario_grabacion' => auth()->user()->id,
@@ -411,6 +412,7 @@ class AlumnoController extends Controller
                 ]);
 
             }
+
         }
 
         if(!empty($request->foto_madre)){
@@ -794,7 +796,7 @@ class AlumnoController extends Controller
                 $data['id'] = $validar_cedula->id;
                 $data['nombre'] = $validar_cedula->nombre;
                 $data['cedula'] = $validar_cedula->cedula;
-
+                $data['observacion'] = $validar_cedula->observacion;
                 $data['mensaje'] = 'Guardado con exito!';
                 $data['ok'] = 1;
 
@@ -813,6 +815,7 @@ class AlumnoController extends Controller
             'cedula' => $cedula,
             'telefono' => $request->telefono,
             'parentezco' => $request->parentezo,
+            'observacion' => $request->observacion_encargado,
             'usuario_grabacion' => auth()->user()->id,
             'usuario_modificacion' => auth()->user()->id,
             'estado_id' => 1,

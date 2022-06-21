@@ -122,7 +122,6 @@
                                                 $pintar = ($cobro->monto_cuota_cobrado == $cobro->monto_cuota_cobrar ? 0 : 1);
                                                 $total_cobrado = $total_cobrado + $cobro->monto_cuota_cobrado;
                                                 $total_cobrar = $total_cobrar + $cobro->monto_cuota_cobrar;
-                                                $saldo = $saldo + $cobro->saldo;
                                             @endphp
                                             <td class="px-6 whitespace-nowrap text-lg text-center text-bold font-semibold" style="{{ ($pintar == 1 ? 'background: rgb(211, 84, 84)' : '') }}">
                                                 {{Str::upper(\Carbon\Carbon::parse($cobro->fecha_vencimiento)->translatedFormat('F'))}}
@@ -162,7 +161,7 @@
                             </tr>
                             <tr>
                                 <td colspan="6" class="text-xl font-semibold">SALDO</td>
-                                <td class="text-xl text-right text-bold font-semibold">{{ number_format($saldo, 0, ".", ".") }}</td>
+                                <td class="text-xl text-right text-bold font-semibold">{{ number_format($total_cobrar - $total_cobrado, 0, ".", ".") }}</td>
                             </tr>
                         </tfoot>
 

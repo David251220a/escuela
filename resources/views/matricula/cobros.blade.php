@@ -391,7 +391,7 @@
                                                 {{ number_format($item->monto_cuota_cobrado, 0, ".", ".") }}
                                             </td>
                                             <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-center font-bold">
-                                                {{ number_format($item->saldo, 0, ".", ".") }}
+                                                {{ number_format($item->monto_cuota_cobrar - $item->monto_cuota_cobrado, 0, ".", ".") }}
                                             </td>
                                         </tr>
 

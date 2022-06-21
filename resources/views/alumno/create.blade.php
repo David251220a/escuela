@@ -582,7 +582,8 @@
 
                 <div class="mb-4">
                     <label for="">Cedula</label>
-                    <input type="text" name="cedula_encargado_aux" id="cedula_encargado_aux" class="w-full rounded border-gray-400 enviar">
+                    <input type="text" name="cedula_encargado_aux" id="cedula_encargado_aux" class="w-full rounded border-gray-400 text-right enviar"
+                    onkeyup="format(this)" onchange="format(this)">
                 </div>
 
                 <div class="mb-4">
@@ -605,7 +606,14 @@
 
                 <div class="mb-4">
                     <label for="">Telefono</label>
-                    <input type="text" name="telefono_encargado_aux" id="telefono_encargado_aux" class="w-full rounded border-gray-400 enviar">
+                    <input type="text" name="telefono_encargado_aux" id="telefono_encargado_aux" class="w-full rounded border-gray-400 enviar"
+                    onkeyup="mayuscula(this)" onchange="mayuscula(this)">
+                </div>
+
+                <div class="col-span-2 mb-4">
+                    <label for="">Observacion</label>
+                    <input type="text" name="observacion_encargado" id="observacion_encargado" class="w-full rounded border-gray-400 enviar"
+                    onkeyup="mayuscula(this)" onchange="mayuscula(this)">
                 </div>
 
             </div>
