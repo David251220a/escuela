@@ -78,5 +78,6 @@ Route::middleware([
     Route::get('/ingreso/matricula', [PDFController::class, 'ingreso_matricula'])->name('pdf.ingreso_matricula');
     Route::get('/ingreso/estado_cuenta/{id}', [PDFController::class, 'estado_cuenta'])->name('pdf.estado_cuenta');
     Route::get('/ingreso/cuota/mes', [PDFController::class, 'cuota_mes'])->name('pdf.cuota_mes');
+    Route::get('/ingreso/recibo_varios/{id}/{id2}', [PDFController::class, 'recibo_varios'])->name('pdf.recibo_varios');
 
 });

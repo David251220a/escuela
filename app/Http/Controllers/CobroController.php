@@ -10,6 +10,7 @@ use App\Models\CobroIngresoConcepto;
 use App\Models\TipoCobro;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Luecano\NumeroALetras\NumeroALetras;
 use Illuminate\Support\Facades\DB;
 
 class CobroController extends Controller
@@ -166,7 +167,7 @@ class CobroController extends Controller
             $total_pagar = $total_pagar - str_replace('.', '', $monto_ingreso[$i]);
         }
 
-        return redirect()->route('ingreso.cobro', $id)->with('message', 'Cobro realizado con exito!!.');
+        return redirect()->route('ingreso.cobros_pendientes_detalle_imprimir', [$id, $cobro->id])->with('message', 'Cobro realizado con exito!!.');
     }
 
     public function nuevo_ingreso(Request $request)
@@ -337,7 +338,12 @@ class CobroController extends Controller
 
     public function cobros_pendientes_detalle_imprimir($id, $id2)
     {
-        return view('cobro.cobro_imprimir');
+        $alumno = Alumno::find($id);
+        $cobros = Cobro::find($id2);
+        $cobros_detalle = CobroIngreso::where('cobro_id', $id2)->get();
+        $formatter = new NumeroALetras();
+
+        return view('cobro.cobro_imprimir', compact('alumno', 'cobros', 'cobros_detalle', 'formatter', 'id', 'id2'));
     }
 
 }

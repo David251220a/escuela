@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Alumno;
 use App\Models\Ciclo;
+use App\Models\Cobro;
 use App\Models\CobroIngreso;
 use App\Models\CobroIngresoConcepto;
 use App\Models\CobroMatricula;
@@ -374,6 +375,18 @@ class PDFController extends Controller
         ->get();
 
         $PDF = PDF::loadView('documentos.consulta_grado_cuota_mes', compact('cobros', 'alumno', 'grado', 'turno'));
+
+        return $PDF->stream();
+    }
+
+    public function recibo_varios($id, $id2)
+    {
+        $alumno = Alumno::find($id);
+        $cobros = Cobro::find($id2);
+        $cobros_detalle = CobroIngreso::where('cobro_id', $id2)->get();
+        $formatter = new NumeroALetras();
+
+        $PDF = PDF::loadView('documentos.recibo_varios', compact('alumno', 'cobros', 'cobros_detalle', 'formatter'));
 
         return $PDF->stream();
     }
