@@ -105,40 +105,52 @@
                         <th>Documento</th>
                         <th>Alumno</th>
                         <th>Fecha</th>
-                        <th>Monto Total</th>
+                        <th>Monto a Pagar</th>
+                        <th>Monto Pagado</th>
                     </tr>
 
                 </thead>
                 @php
                     $suma = 0;
                     $total = 0;
+                    $pagar = 0;
                     $tiene = 0;
                 @endphp
                 <tbody>
                     @foreach ($alumno as $item)
-                        <tr>
+                        @php
+                            $tiene = 0;
+                            $nombre = '';
+                            $monto_total = 0;
+                            $monto_a_pagar = 0;
+                        @endphp
+                        @foreach ($cobros as $cobro)
+                            @if ($cobro->alumno_id == $item->id)
+                                @php
+                                    $tiene = 1;
+                                    $monto_total = $monto_total + $cobro->monto_cobrado_factura;
+                                    $monto_a_pagar = $cobro->precio;
+                                @endphp
+                            @endif
+
+                        @endforeach
+                        @if ($monto_a_pagar == 0)
+                            @php
+                                $monto_a_pagar = $aux_titulo->precio;
+                            @endphp
+                        @endif
+                        <tr style="{{ ($monto_a_pagar != $monto_total ? 'background: rgb(199, 199, 196)' : '') }}">
                             <td style="text-align: right">{{number_format($item->cedula, 0, ".", ".")}}</td>
                             <td style="text-align: left">{{ $item->apellido }}, {{ $item->nombre }}</td>
-                            @foreach ($cobros as $cobro)
-                                @if ($cobro->alumno_id == $item->id)
-                                    <td style="text-align: center">{{ date('d/m/Y', strtotime($cobro->fecha_cobro)) }}</td>
-                                    <td style="text-align: right">{{number_format($cobro->monto_cobrado_factura, 0, ".", ".")}}</td>
-                                    @php
-                                        $tiene = 1;
-                                        $total = $total + $cobro->monto_cobrado_factura;
-                                    @endphp
-                                    @break
-                                @else
-                                    @php
-                                        $tiene = 0;
-                                    @endphp
-                                @endif
-                            @endforeach
-                            @if ($tiene == 0)
-                                <td style="text-align: center"></td>
-                                <td style="text-align: right">0</td>
-                            @endif
+                            <td style="text-align: center">{{ date('d/m/Y', strtotime($cobro->fecha_cobro)) }}</td>
+                            <td style="text-align: right">{{number_format($monto_a_pagar, 0, ".", ".")}}</td>
+                            <td style="text-align: right">{{number_format($monto_total, 0, ".", ".")}}</td>
+                            @php
+                                $total = $total + $monto_total;
+                                $pagar = $pagar + $monto_a_pagar;
+                            @endphp
                         </tr>
+
                     @endforeach
                 </tbody>
             </table>
@@ -149,7 +161,8 @@
 
                 <thead>
                     <tr>
-                        <th style="font-size: 16px" width="80%">TOTAL GENERAL</th>
+                        <th style="font-size: 16px" width="63%">TOTAL GENERAL</th>
+                        <th style="font-size: 16px; text-align: right">{{number_format($pagar, 0, ".", ".")}}</th>
                         <th style="font-size: 16px; text-align: right">{{number_format($total, 0, ".", ".")}}</th>
                     </tr>
                 </thead>

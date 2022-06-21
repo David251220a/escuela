@@ -57,7 +57,7 @@ class Grado extends Seeder
             'estado_id' => 1,
         ]);
         DB::table('grado')->insert([
-            'nombre' => 'CAUARTO GRADO',
+            'nombre' => 'CUARTO GRADO',
             'estado_id' => 1,
         ]);
         DB::table('grado')->insert([
