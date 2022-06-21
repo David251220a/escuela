@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Alumno extends Model
 {
@@ -63,6 +64,22 @@ class Alumno extends Model
 
     public function ciclo(){
         return $this->hasOne(Ciclo::class, 'id','ciclo_id');
+    }
+
+    public function lugar_nacimiento(){
+        return $this->belongsTo(LugarNacimiento::class, 'lugar_nacimiento_id');
+    }
+
+    public function alergia(){
+        return $this->belongsTo(Alergia::class, 'alergia_id');
+    }
+
+    public function seguro(){
+        return $this->belongsTo(Seguro::class, 'seguro_id');
+    }
+
+    public function enfermedad(){
+        return $this->belongsTo(Enfermedad::class, 'enfermedad_id');
     }
 
 }
