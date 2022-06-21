@@ -109,13 +109,13 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="">Telefono Baja</label>
+                            <label for="">Telefono de Linea Baja</label>
                             <input type="text" name="telefono_baja" id="telefono_baja" class="w-full rounded border-gray-400 enviar" value="{{$alumno->telefono_baja}}"
                             onkeyup="mayuscula(this)" onchange="mayuscula(this)">
                         </div>
 
                         <div class="mb-4">
-                            <label for="">Telefono</label>
+                            <label for="">Telefono de Celular</label>
                             <input type="text" name="telefono" id="telefono" class="w-full rounded border-gray-400 enviar" value="{{$alumno->telefono}}"
                             onkeyup="mayuscula(this)" onchange="mayuscula(this)">
                         </div>

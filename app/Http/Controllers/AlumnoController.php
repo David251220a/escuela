@@ -862,4 +862,9 @@ class AlumnoController extends Controller
         return response()->json($data3);
     }
 
+
+    public function show(Alumno $alumno)
+    {
+        return view('alumno.show', compact('alumno'));
+    }
 }

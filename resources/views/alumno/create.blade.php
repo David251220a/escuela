@@ -112,12 +112,12 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="">Telefono Baja</label>
+                            <label for="">Telefono de Linea Baja</label>
                             <input type="text" name="telefono_baja" id="telefono_baja" class="w-full rounded border-gray-400 enviar" placeholder="Telefono Baja...">
                         </div>
 
                         <div class="mb-4">
-                            <label for="">Telefono</label>
+                            <label for="">Telefono Celular</label>
                             <input type="text" name="telefono" id="telefono" class="w-full rounded border-gray-400 enviar" placeholder="Telefono...">
                         </div>
 
