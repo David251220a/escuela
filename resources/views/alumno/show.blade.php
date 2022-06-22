@@ -262,7 +262,7 @@
     <div class="flex justify-center w-full border border-gray-500 mb-6">
         <div class="block rounded-lg shadow-lg bg-white w-full text-center">
             <div class="py-2 px-6 border-b border-gray-600 text-xl font-semibold">
-                Datos Encargados
+                Documentos Presentados
             </div>
 
             <div class="p-2 text-left leading-none">
