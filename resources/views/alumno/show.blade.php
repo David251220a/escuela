@@ -262,7 +262,7 @@
     <div class="flex justify-center w-full border border-gray-500 mb-6">
         <div class="block rounded-lg shadow-lg bg-white w-full text-center">
             <div class="py-2 px-6 border-b border-gray-600 text-xl font-semibold">
-                Datos Encargados
+                Documentos Presentados
             </div>
 
             <div class="p-2 text-left leading-none">
@@ -283,49 +283,45 @@
         </div>
     </div>
 
-    <h2>GALERIA DE IMAGANES</h2>
+    <h2 class="text-gray-600 font-semibold text-2xl">GALERIA DE IMAGANES</h2>
 
     <section class="overflow-hidden text-gray-700 ">
         <div class="container px-5 py-2 mx-auto lg:pt-12 lg:px-32">
-          <div class="flex flex-wrap -m-1 md:-m-2">
-            <div class="flex flex-wrap w-1/3">
-              <div class="w-full p-1 md:p-2">
-                <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                  src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(73).webp">
-              </div>
+            <div class="flex flex-wrap -m-1 md:-m-2">
+
+                @foreach ($alumno->documentos as $item)
+                    <div class="flex flex-wrap w-1/3">
+                        <div class="w-full p-1 md:p-2">
+                            <img alt="gallery" class="object-fill rounded-lg mb-2"
+                            src="{{Storage::url($item->imagen)}}" style="width: 300px; height: 300px">
+                            <p class="text-sm font-semibold text-gray-600 mb-2">{{$item->concepto->nombre}}</p>
+                            <input type="hidden" id="imagen[{{$loop->iteration}}]" value="{{Storage::url($item->imagen)}}">
+                            <input type="hidden" id="imagen_titulo[{{$loop->iteration}}]" value="{{ $item->concepto->nombre}}">
+                            <button type="button" onclick="ver_imagen({{$loop->iteration}})" class="text-center text-blue-600 font-semibold px-2 py-1 border border-blue-500 rounded">Ver</a>
+                        </div>
+
+                    </div>
+
+                @endforeach
+
             </div>
-            <div class="flex flex-wrap w-1/3">
-              <div class="w-full p-1 md:p-2">
-                <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                  src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(74).webp">
-              </div>
-            </div>
-            <div class="flex flex-wrap w-1/3">
-              <div class="w-full p-1 md:p-2">
-                <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                  src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(75).webp">
-              </div>
-            </div>
-            <div class="flex flex-wrap w-1/3">
-              <div class="w-full p-1 md:p-2">
-                <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                  src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(70).webp">
-              </div>
-            </div>
-            <div class="flex flex-wrap w-1/3">
-              <div class="w-full p-1 md:p-2">
-                <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                  src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(76).webp">
-              </div>
-            </div>
-            <div class="flex flex-wrap w-1/3">
-              <div class="w-full p-1 md:p-2">
-                <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                  src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(72).webp">
-              </div>
-            </div>
-          </div>
         </div>
     </section>
 
+    <script>
+
+        function ver_imagen(posicion){
+            var imagen = document.getElementById('imagen['+posicion+']');
+            var imagen_titulo = document.getElementById('imagen_titulo['+posicion+']').value;
+            Swal.fire({
+                title: imagen_titulo,
+                imageUrl: imagen.value,
+                width: 800,
+                imageWidth: 650,
+                imageHeight: 700,
+                imageAlt: 'Custom image',
+            })
+        }
+
+    </script>
 </x-app-layout>

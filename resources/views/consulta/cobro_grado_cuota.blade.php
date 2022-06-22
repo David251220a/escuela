@@ -73,18 +73,18 @@
             $nombre_grado = '';
             $nombre_turno = '';
             foreach($grado as $item){
-                if($search_grado = $item->id){
+                if($search_grado == $item->id){
                     $nombre_grado = $item->nombre;
                 }
             }
 
             foreach($turno as $item){
-                if($search_turno = $item->id){
+                if($search_turno == $item->id){
                     $nombre_turno = $item->nombre;
                 }
             }
         @endphp
-        <h2 class="text-lg text-gray-500 font-bold text-center">{{$nombre_grado}} - Turno {{$nombre_turno}}</h2>
+        <h2 class="text-lg text-gray-500 font-bold text-center">{{$nombre_grado}} {{ (empty($nombre_turno) ? '' : ' - TURNO '.$nombre_turno) }}</h2>
     </div>
 
     <div class="flex flex-col mb-4">
