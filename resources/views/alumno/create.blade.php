@@ -60,7 +60,7 @@
                         <div class="mb-4">
                             <label for="">Cedula</label>
                             <input type="text" name="cedula" id="cedula"
-                            class="w-full rounded border-gray-400 enviar text-right" placeholder="Cedula..." onkeyup="format(this)" onchange="format(this)">
+                            class="w-full rounded border-gray-400 enviar text-right" placeholder="Cedula..." onkeyup="punto_decimal(this)" onchange="punto_decimal(this)">
                         </div>
 
                         <div class="mb-4">
@@ -87,9 +87,9 @@
                                 <option value="2">FEMENINO</option>
                             </select>
                         </div>
-
+                         {{-- Lleva a la carpeta public/js.crear_alumno --}}
                         <div class="mb-4">
-                            <label for="" onclick="crear_opciones(this)" id="lugar_nacimiento_1">Lugar Nacimiento</label>
+                            <label for="" onclick="crear_opciones(this)" id="lugar_nacimiento_crear_titulo">Lugar Nacimiento</label>
                             <select name="lugar_nacimiento" id="lugar_nacimiento" class="w-full rounded border-gray-400 enviar">
                                 @foreach ($lugar_nacimiento as $item)
                                     <option value="{{ $item->id }}">{{ $item->nombre }}</option>
@@ -122,7 +122,7 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="" onclick="crear_opciones(this)" id="alergia_1">Alergia</label>
+                            <label for="" onclick="crear_opciones(this)" id="alergia_crear_titulo">Alergia</label>
                             <select name="alergia" id="alergia" class="w-full rounded border-gray-400 enviar">
                                 @foreach ($alergia as $item)
                                     <option value="{{ $item->id }}">{{ $item->nombre }}</option>
@@ -134,7 +134,8 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="" onclick="crear_opciones(this)" id="seguro_1">Seguro</label>
+
+                            <label for="" onclick="crear_opciones(this)" id="seguro_crear_titulo">Seguro</label>
                             <select name="seguro" id="seguro" class="w-full rounded border-gray-400 enviar">
                                 @foreach ($seguro as $item)
                                     <option value="{{ $item->id }}">{{ $item->nombre }}</option>
@@ -146,7 +147,7 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="" onclick="crear_opciones(this)" id="enfermedad_1">Enfermedad</label>
+                            <label for="" onclick="crear_opciones(this)" id="enfermedad_crear_titulo">Enfermedad</label>
                             <select name="enfermedad" id="enfermedad" class="w-full rounded border-gray-400 enviar">
                                 @foreach ($enfermedad as $item)
                                     <option value="{{ $item->id }}">{{ $item->nombre }}</option>
@@ -204,7 +205,7 @@
                         <div class="mb-4">
                             <label for="" onclick="ver_madre()">Cedula Madre</label>
                             <input type="text" name="cedula_madre" id="cedula_madre" class="w-full rounded border-gray-400 enviar text-right" value="0"
-                            onkeyup="format(this)" onchange="format(this)">
+                            onkeyup="punto_decimal(this)" onchange="punto_decimal(this)">
                             <span>
                                 <p class="text-red-500 text-left text-sm font-semibold">Presione ENTER para verificar cedula madre</p>
                             </span>
@@ -233,9 +234,9 @@
                         </div>
                         {{-- PADRE --}}
                         <div class="mb-4">
-                            <label for="" onclick="ver()">Cedula Padre</label>
+                            <label for="" onclick="ver_padre()">Cedula Padre</label>
                             <input type="text" name="cedula_padre" id="cedula_padre" class="w-full rounded border-gray-400 enviar text-right" value="0"
-                            onkeyup="format(this)" onchange="format(this)">
+                            onkeyup="punto_decimal(this)" onchange="punto_decimal(this)">
                             <span>
                                 <p class="text-red-500 text-left text-sm font-semibold">Presione ENTER para verificar cedula padre</p>
                             </span>
@@ -266,7 +267,7 @@
                         <div class="mb-4">
                             <label for="" onclick="ver_encargado(1)">Cedula Encargado 1</label>
                             <input type="text" name="cedula_encargado" id="cedula_encargado" class="w-full rounded border-gray-400 enviar text-right" value="0"
-                            onkeyup="format(this)" onchange="format(this)">
+                            onkeyup="punto_decimal(this)" onchange="punto_decimal(this)">
                             <span>
                                 <p class="text-red-500 text-left text-sm font-semibold">Presione ENTER para verificar cedula encargado</p>
                             </span>
@@ -297,7 +298,7 @@
                         <div class="mb-4">
                             <label for="" onclick="ver_encargado(2)">Cedula Encargado 2</label>
                             <input type="text" name="cedula_encargado1" id="cedula_encargado1" class="w-full rounded border-gray-400 enviar text-right" value="0"
-                            onkeyup="format(this)" onchange="format(this)">
+                            onkeyup="punto_decimal(this)" onchange="punto_decimal(this)">
                             <span>
                                 <p class="text-red-500 text-left text-sm font-semibold">Presione ENTER para verificar cedula encargado</p>
                             </span>
@@ -328,7 +329,7 @@
                         <div class="mb-4">
                             <label for="" onclick="ver_encargado(3)">Cedula Encargado 3</label>
                             <input type="text" name="cedula_encargado2" id="cedula_encargado2" class="w-full rounded border-gray-400 enviar text-right" value="0"
-                            onkeyup="format(this)" onchange="format(this)">
+                            onkeyup="punto_decimal(this)" onchange="punto_decimal(this)">
                             <span>
                                 <p class="text-red-500 text-left text-sm font-semibold">Presione ENTER para verificar cedula encargado</p>
                             </span>
@@ -359,7 +360,7 @@
                         <div class="mb-4">
                             <label for="" onclick="ver_encargado(4)">Cedula Encargado 4</label>
                             <input type="text" name="cedula_encargado3" id="cedula_encargado3" class="w-full rounded border-gray-400 enviar text-right" value="0"
-                            onkeyup="format(this)" onchange="format(this)">
+                            onkeyup="punto_decimal(this)" onchange="punto_decimal(this)">
                             <span>
                                 <p class="text-red-500 text-left text-sm font-semibold">Presione ENTER para verificar cedula encargado</p>
                             </span>
@@ -455,7 +456,7 @@
                 <div class="mb-4">
                     <label for="">Cedula</label>
                     <input type="text" name="cedula_madre_aux" id="cedula_madre_aux" class="w-full rounded border-gray-400 enviar text-right"
-                    onkeyup="format(this)" onchange="format(this)">
+                    onkeyup="punto_decimal(this)" onchange="punto_decimal(this)">
                 </div>
 
                 <div class="mb-4">
@@ -519,7 +520,7 @@
                 <div class="mb-4">
                     <label for="">Cedula</label>
                     <input type="text" name="cedula_padre_aux" id="cedula_padre_aux" class="w-full rounded border-gray-400 enviar text-right"
-                    onkeyup="format(this)" onchange="format(this)">
+                    onkeyup="punto_decimal(this)" onchange="punto_decimal(this)">
                 </div>
 
                 <div class="mb-4">
@@ -583,7 +584,7 @@
                 <div class="mb-4">
                     <label for="">Cedula</label>
                     <input type="text" name="cedula_encargado_aux" id="cedula_encargado_aux" class="w-full rounded border-gray-400 text-right enviar"
-                    onkeyup="format(this)" onchange="format(this)">
+                    onkeyup="punto_decimal(this)" onchange="punto_decimal(this)">
                 </div>
 
                 <div class="mb-4">

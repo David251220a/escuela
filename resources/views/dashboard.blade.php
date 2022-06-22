@@ -6,7 +6,9 @@
 
     <div class="mb-4 font-bold uppercase text-2xl text-gray-700">
 
-        Inicio
+        <div class="header">
+            <h1>"ESCUELA HUERTO GETSEMANI"</h1>
+        </div>
 
     </div>
 

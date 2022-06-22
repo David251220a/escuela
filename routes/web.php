@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InicioController;
 use App\Http\Controllers\LimpiarController;
 use App\Http\Controllers\MatriculaController;
+use App\Http\Controllers\AlergiaController;
 use App\Http\Controllers\PDFController;
 use Illuminate\Support\Facades\Route;
 
@@ -80,4 +81,11 @@ Route::middleware([
     Route::get('/ingreso/cuota/mes', [PDFController::class, 'cuota_mes'])->name('pdf.cuota_mes');
     Route::get('/ingreso/recibo_varios/{id}/{id2}', [PDFController::class, 'recibo_varios'])->name('pdf.recibo_varios');
 
+    //Tablas Secundarias
+    // Route::get('/secundaria/alergia', [AlergiaController::class, 'index'])->name('alergia.index');
+    // Route::get('/secundaria/alergia/{alergia}', [AlergiaController::class, 'edit'])->name('alergia.edit');
+    // Route::put('/secundaria/alergia/{alergia}', [AlergiaController::class, 'update'])->name('alergia.update');
+    // Route::get('/secundaria/alergia/create', [AlergiaController::class, 'create'])->name('alergia.create');
+    // Route::post('/secundaria/alergia', [AlergiaController::class, 'store'])->name('alergia.store');
+    Route::resource('/alergias', AlergiaController::class)->names('alergia');
 });

@@ -12,4 +12,9 @@ class Alergia extends Model
     protected $table = 'alergia';
 
     protected $guarded = [];
+
+public function estado(){
+    return $this->belongsTo(Estado::class, 'estado_id');
+}
+
 }

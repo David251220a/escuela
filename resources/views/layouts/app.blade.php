@@ -99,6 +99,38 @@
                     </li>
 
                     <li>
+                        <div class="icon_link">
+                            <a href="#">
+                                <i class='bx bx-book-reader'></i>
+                                <span class="link_name">Tablas Secundarias</span>
+                            </a>
+                            <i class='bx bx-chevrons-down arrow'></i>
+                        </div>
+                        <ul class="sub-menu">
+                            <li>
+                                <a class="" href="{{ route('alergia.index') }}">Alergia</a>
+                            </li>
+                            {{-- <li>
+                                <a class="" href="{{ route('consulta.cobros_varios') }}">Ingreso Varios - Fecha</a>
+                            </li> --}}
+                            {{-- <li>
+                                <a class="" href="{{ route('consulta.cobros_varios_alumno') }}">Ingreso Alumno</a>
+                            </li> --}}
+                            {{-- <li>
+                                <a class="" href="{{ route('consulta.cobros_varios_grado') }}">Ingre. Varios Grado/Turno</a>
+                            </li>
+                            <li>
+                                <a class="" href="{{ route('consulta.cobros_cuota') }}">Ingresos Cuota-Fecha</a>
+                            </li>
+                            <li>
+                                <a class="" href="{{ route('consulta.grado_consulta') }}">Ingresos Cuota-Grado</a>
+                            </li> --}}
+
+                        </ul>
+                    </li>
+
+
+                    <li>
                         <div class="profile-details">
                             <div class="profile-content">
                                 <img src="{{ Storage::url('user.png') }}" alt="user">

@@ -268,6 +268,7 @@ function cambio(){
     $('#foto_perfil').click();
 }
 
+// Formulario Modal para Agregar la Madre.
 function crear_madre(){
 
     Swal.fire({
@@ -343,6 +344,7 @@ function crear_madre(){
         })
 }
 
+//Formulario Modal para Agregar el Padre.
 function crear_padre(){
 
     Swal.fire({
@@ -418,6 +420,7 @@ function crear_padre(){
         })
 }
 
+//Formulario Modal para Crear el Encargado.
 function crear_encargado(encar){
     console.log(encar);
     Swal.fire({
@@ -508,7 +511,8 @@ function crear_encargado(encar){
 }
 
 
-function format(input){
+//Donde coloca los puntos(Separador de miles) a las Variables Numericas.
+function punto_decimal(input){
     var num = input.value.replace(/\./g,'');
     if(!isNaN(num)){
         if(num == ''){
@@ -526,45 +530,50 @@ function format(input){
     }
 }
 
+//Donde se Colocan los textos en mayuscula
 function mayuscula(input){
     input.value = input.value.toUpperCase();
 }
 
-function ver(){
+//Donde se Crear el Padre
+function ver_padre(){
     crear_padre();
 }
 
+//Donde se Crear la Madre
 function ver_madre(){
     crear_madre();
 }
 
+//Donde se Crear el Encagado
 function ver_encargado(encar){
     crear_encargado(encar);
 }
 
+//Para Cargar las Tablas Secundarias al darle Click en el Titulo.
 function crear_opciones(input)
 {
     id_aux = 0;
-    if(input.id == 'lugar_nacimiento_1'){
+    if(input.id == 'lugar_nacimiento_crear_titulo'){
         id_aux = 1;
         titulo = 'Agregar Lugar Nacimiento';
         select = document.getElementById('lugar_nacimiento');
     }
 
-    if(input.id == 'alergia_1'){
+    if(input.id == 'alergia_crear_titulo'){
         id_aux = 2;
         titulo = 'Agregar Alergia';
         select = document.getElementById('alergia');
 
     }
 
-    if(input.id == 'seguro_1'){
+    if(input.id == 'seguro_1crear_titulo'){
         id_aux = 3;
         titulo = 'Agregar Seguro';
         select = document.getElementById('seguro');
 
     }
-    if(input.id == 'enfermedad_1'){
+    if(input.id == 'enfermedad_crear_titulo'){
         id_aux = 4;
         titulo = 'Agregar Enfermedad';
         select = document.getElementById('enfermedad');
@@ -617,6 +626,7 @@ function crear_opciones(input)
     }
 }
 
+//Para cambiar el Valor del Check
 function cambiar_check(input){
 
     if(input.checked == true){

@@ -6,6 +6,7 @@
         @method('PUT')
         @csrf
 
+        {{-- Para anexar al Avatar del Alumno --}}
         <div class="mb-4 mt-4 text-center">
             <img
                 src="{{ Storage::url($alumno->foto) }}"
@@ -15,6 +16,7 @@
                 id="avatar"
             />
 
+            {{-- PARA CAMBIAR LA FOTO DEL ALUMNO --}}
             <p onclick="cambio()" class="text-xl font-medium leading-tight mb-2">Agregar Foto</p>
             <input type="file" name="foto_perfil" id="foto_perfil" accept="image/*" hidden>
 
@@ -121,7 +123,7 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="" onclick="crear_opciones(this)" id="alergia_1">Alergia</label>
+                            <label for="" onclick="crear_opciones(this)" id="alergia_crear_titulo">Alergia</label>
                             <select name="alergia" id="alergia" class="w-full rounded border-gray-400 enviar">
                                 @foreach ($alergia as $item1)
                                     <option {{($alumno->alergia_id == $item1->id ? 'selected' : '')}} value="{{ $item1->id }}">{{ $item1->nombre }}</option>
@@ -130,7 +132,7 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="" onclick="crear_opciones(this)" id="seguro_1">Seguro</label>
+                            <label for="" onclick="crear_opciones(this)" id="seguro_crear_titulo">Seguro</label>
                             <select name="seguro" id="seguro" class="w-full rounded border-gray-400 enviar">
                                 @foreach ($seguro as $item)
                                     <option {{($alumno->seguro_id == $item->id ? 'selected' : '')}} value="{{ $item->id }}">{{ $item->nombre }}</option>
@@ -139,7 +141,7 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="" onclick="crear_opciones(this)" id="enfermedad_1">Enfermedad</label>
+                            <label for="" onclick="crear_opciones(this)" id="enfermedad_crear_titulo">Enfermedad</label>
                             <select name="enfermedad" id="enfermedad" class="w-full rounded border-gray-400 enviar">
                                 @foreach ($enfermedad as $item)
                                     <option {{($alumno->enfermedad_id == $item->id ? 'selected' : '')}} value="{{ $item->id }}">{{ $item->nombre }}</option>
@@ -232,11 +234,13 @@
 
                 <div class="bg-white rounded overflow-hidden shadow mb-4">
 
+
+                    {{-- Datos de la Madre como se muestra en la vista Alumno--}}
                     <div class="md:grid grid-cols-4 gap-2 px-4">
                         <div class="mb-4">
                             <label for="" onclick="ver_madre()">Cedula Madre</label>
                             <input type="text" name="cedula_madre" id="cedula_madre" class="w-full rounded border-gray-400 text-right enviar" value="{{ number_format($alumno->madre->cedula, 0, ".", ".") }}"
-                            onkeyup="format(this)" onchange="format(this)">
+                            onkeyup="punto_decimal(this)" onchange="punto_decimal(this)">
                             <input type="hidden" name="id_madre" id="id_madre" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->madre->id }}">
                         </div>
 
@@ -262,10 +266,11 @@
                             </label>
                         </div>
 
+                        {{-- Datos del Padre como se muestra en la vista Alumno--}}
                         <div class="mb-4">
                             <label for="" onclick="ver()">Cedula Padre</label>
                             <input type="text" name="cedula_padre" id="cedula_padre" class="w-full rounded border-gray-400 text-right enviar" value="{{ number_format($alumno->padre->cedula, 0, ".", ".") }}"
-                            onkeyup="format(this)" onchange="format(this)">
+                            onkeyup="punto_decimal(this)" onchange="punto_decimal(this)">
                             <input type="hidden" name="id_padre" id="id_padre" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->padre->id }}">
                         </div>
 
@@ -294,7 +299,7 @@
                         <div class="mb-4">
                             <label for="" onclick="ver_encargado(1)">Cedula Encargado 1</label>
                             <input type="text" name="cedula_encargado" id="cedula_encargado" class="w-full rounded border-gray-400 text-right enviar" value="{{number_format( $alumno->encargado->cedula, 0, ".", ".") }}"
-                            onkeyup="format(this)" onchange="format(this)">
+                            onkeyup="punto_decimal(this)" onchange="punto_decimal(this)">
                             <input type="hidden" name="id_encargado" id="id_encargado" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado->id }}">
                         </div>
 
@@ -323,7 +328,7 @@
                         <div class="mb-4">
                             <label for="" onclick="ver_encargado(2)">Cedula Encargado 2</label>
                             <input type="text" name="cedula_encargado1" id="cedula_encargado1" class="w-full rounded border-gray-400 text-right enviar" value="{{ number_format($alumno->encargado1->cedula, 0, ".", ".") }}"
-                            onkeyup="format(this)" onchange="format(this)">
+                            onkeyup="punto_decimal(this)" onchange="punto_decimal(this)">
                             <input type="hidden" name="id_encargado1" id="id_encargado1" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado1->id }}">
                         </div>
 
@@ -352,7 +357,7 @@
                         <div class="mb-4">
                             <label for="" onclick="ver_encargado(3)">Cedula Encargado 3</label>
                             <input type="text" name="cedula_encargado2" id="cedula_encargado2" class="w-full rounded border-gray-400 text-right enviar" value="{{ number_format($alumno->encargado2->cedula, 0, ".", ".") }}"
-                            onkeyup="format(this)" onchange="format(this)">
+                            onkeyup="punto_decimal(this)" onchange="punto_decimal(this)">
                             <input type="hidden" name="id_encargado2" id="id_encargado2" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado2->id }}">
                         </div>
 
@@ -381,7 +386,7 @@
                         <div class="mb-4">
                             <label for="" onclick="ver_encargado(4)">Cedula Encargado 4</label>
                             <input type="text" name="cedula_encargado3" id="cedula_encargado3" class="w-full rounded border-gray-400 text-right enviar" value="{{ number_format($alumno->encargado3->cedula, 0, ".", ".") }}"
-                            onkeyup="format(this)" onchange="format(this)">
+                            onkeyup="punto_decimal(this)" onchange="punto_decimal(this)">
                             <input type="hidden" name="id_encargado3" id="id_encargado3" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->encargado3->id }}">
                         </div>
 
@@ -463,22 +468,12 @@
                                 <input type="file" name="foto[]" id="foto[]" class="w-full rounded border-gray-400 enviar" accept="image/*">
                             </div>
 
-                            @php
-                                $marca = 0;
-                                foreach ($conceptos_id as $item){
-                                    if($item == $concepto->id){
-                                        if($recibio[$concepto->id] == 1){
-                                            $marca = 1;
-                                        }
-                                        break;
-                                    }
-                                }
-                            @endphp
+
                             <div class="" style="margin-top: 25px">
                                 <input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600
                                 focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mt-1 mr-2 cursor-pointer" type="checkbox"
-                                value="{{$marca}}" id="recibido[{{$cont}}]" name="recibido[{{$cont}}]"
-                                onclick="cambiar_check(this)" onkeyup="cambiar_check(this)" {{ ($marca == 1 ? 'checked' : '') }}>
+                                value="0" id="recibido[{{$cont}}]" name="recibido[{{$cont}}]"
+                                onclick="cambiar_check(this)" onkeyup="cambiar_check(this)" >
                                 <label class="form-check-label inline-block text-gray-800" for="flexCheckDefault">
                                   Entregado
                                 </label>

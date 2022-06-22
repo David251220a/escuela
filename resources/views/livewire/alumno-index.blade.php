@@ -1,6 +1,6 @@
 <div class="mt-4">
 
-    <h2 class="font-bold text-2xl">Listado de Alumnos</h2>
+    <h2 class="font-bold text-gray-500 text-2xl">Listado de Alumnos</h2>
     <div class="mt-4 mb-4">
         <input type="text" wire:model="search" class="w-full border-gray-300 rounded">
     </div>
@@ -15,7 +15,7 @@
                         <thead class="bg-gray-50">
                             <tr>
                                 <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Documento</th>
-                                <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Apellido y Nombre</th>
+                                <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-left">Apellido y Nombre</th>
                                 <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Grado</th>
                                 <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Turno</th>
                                 <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-right"></th>
@@ -26,11 +26,11 @@
 
                             @foreach ($alumnos as $item)
                                 <tr>
-                                    <td class="px-6 whitespace-nowrap text-xl text-gray-500 text-center">{{ number_format($item->cedula, 0, ".", ".") }}</td>
-                                    <td class="px-6 whitespace-nowrap text-xl text-gray-500 text-left">{{ $item->apellido }}, {{ $item->nombre }}</td>
-                                    <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-center">{{ $item->grado->nombre }}</td>
-                                    <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-center">{{ $item->turno->nombre }}</td>
-                                    <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-right">
+                                    <td class="px-6 whitespace-nowrap text-sm text-black font-semibold text-center">{{ number_format($item->cedula, 0, ".", ".") }}</td>
+                                    <td class="px-6 whitespace-nowrap text-sm text-black font-semibold text-left">{{ $item->apellido }}, {{ $item->nombre }}</td>
+                                    <td class="px-6 whitespace-nowrap text-sm text-black font-semibold text-center">{{ $item->grado->nombre }}</td>
+                                    <td class="px-6 whitespace-nowrap text-sm text-black font-semibold text-center">{{ $item->turno->nombre }}</td>
+                                    <td class="px-6 whitespace-nowrap text-sm text-black font-semibold text-right">
                                         <a href="{{ route('alumno.show', $item) }}" class="whitespace-nowrap text-2xl mr-2"><i class='bx bx-user-pin'></i></a>
                                         <a href="{{ route('alumno.edit', $item) }}" class="whitespace-nowrap text-2xl mr-2"><i class='bx bx-edit-alt'></i></a>
                                         <a href="{{ route('matricula.create', [ "id" => $item->id]) }}" class="whitespace-nowrap text-2xl mr-2"><i class='bx bx-user-plus'></i></a>
