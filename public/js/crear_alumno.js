@@ -11,6 +11,10 @@ function checkSubmit() {
     }
 }
 
+
+
+
+
 var element = document.querySelectorAll('.enviar');
 document.addEventListener('keydown', (event) => {
     const keyName = event.key;

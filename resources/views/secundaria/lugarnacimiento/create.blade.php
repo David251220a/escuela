@@ -3,10 +3,10 @@
 <h2 class="text-gray-600 font-semibold text-xl mb-6" >Crear Alergia</h2>
 
     {{-- todo lo que esta ak adentro va a el controlador update --}}
-    <form action="{{route('alergia.store')}}" method="POST"  onsubmit="return checkSubmit();">
+    <form action="{{route('lugarnacimiento.store')}}" method="POST"  onsubmit="return checkSubmit();">
        @csrf
 
-     <div name="Datos_de_la_tabla_Alergia">
+     <div name="Datos_de_la_tabla_lugarnacimiento">
        {{-- El Mb-4 es el espacio entre los campos --}}
        <div class="mb-4">
            <label for="" class="text-gray-500 mb-1 text-lg" >Nombre</label>

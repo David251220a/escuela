@@ -24,16 +24,28 @@
         </div>
       </div>
 
-     <div name="Botones">
+      <div name="Botones">
         <button type="submit" class="bg-blue-500 text-white mr-2 py-2 px-6 text-lg font-bold rounded">
             Actualizar
         </button>
+    </form>
 
 
 
-     </div>
+
+
+
+    <form action="{{route('alergia.index', $alergia)}}" method="POST">
+        @method('get')
+        @csrf
+
+        <div name="Botones">
+            <button type="submit" class="bg-red-500 text-white mr-2 py-2 px-6 text-lg font-bold rounded">
+                Cancelar
+            </button>
 
     </form>
+
 
 </x-app-layout>
 

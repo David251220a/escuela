@@ -8,6 +8,7 @@ use App\Http\Controllers\InicioController;
 use App\Http\Controllers\LimpiarController;
 use App\Http\Controllers\MatriculaController;
 use App\Http\Controllers\AlergiaController;
+use App\Http\Controllers\LugarNacimientoController;
 use App\Http\Controllers\PDFController;
 use Illuminate\Support\Facades\Route;
 
@@ -87,5 +88,7 @@ Route::middleware([
     // Route::put('/secundaria/alergia/{alergia}', [AlergiaController::class, 'update'])->name('alergia.update');
     // Route::get('/secundaria/alergia/create', [AlergiaController::class, 'create'])->name('alergia.create');
     // Route::post('/secundaria/alergia', [AlergiaController::class, 'store'])->name('alergia.store');
+
     Route::resource('/alergias', AlergiaController::class)->names('alergia');
+    Route::resource('/lugarnacimiento', LugarNacimientoController::class)->names('lugarnacimiento');
 });

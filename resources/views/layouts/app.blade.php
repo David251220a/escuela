@@ -110,21 +110,9 @@
                             <li>
                                 <a class="" href="{{ route('alergia.index') }}">Alergia</a>
                             </li>
-                            {{-- <li>
-                                <a class="" href="{{ route('consulta.cobros_varios') }}">Ingreso Varios - Fecha</a>
-                            </li> --}}
-                            {{-- <li>
-                                <a class="" href="{{ route('consulta.cobros_varios_alumno') }}">Ingreso Alumno</a>
-                            </li> --}}
-                            {{-- <li>
-                                <a class="" href="{{ route('consulta.cobros_varios_grado') }}">Ingre. Varios Grado/Turno</a>
-                            </li>
                             <li>
-                                <a class="" href="{{ route('consulta.cobros_cuota') }}">Ingresos Cuota-Fecha</a>
+                                <a class="" href="{{ route('alergia.index') }}">Lugar de Nacimiento</a>
                             </li>
-                            <li>
-                                <a class="" href="{{ route('consulta.grado_consulta') }}">Ingresos Cuota-Grado</a>
-                            </li> --}}
 
                         </ul>
                     </li>
