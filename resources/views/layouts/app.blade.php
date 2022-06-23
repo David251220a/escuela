@@ -95,6 +95,10 @@
                                 <a class="" href="{{ route('consulta.grado_consulta') }}">Ingresos Cuota-Grado</a>
                             </li>
 
+                            <li>
+                                <a class="" href="{{ route('consulta.alumno_cuota_meses') }}">Cuotas Meses Pagados</a>
+                            </li>
+
                         </ul>
                     </li>
 

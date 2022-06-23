@@ -55,6 +55,8 @@ Route::middleware([
     Route::get('/consultas/cobros_cuota', [ConsultaController::class, 'cobros_cuota'])->name('consulta.cobros_cuota');
     Route::get('/consultas/cobros_cuota/{id}', [ConsultaController::class, 'cobros_cuota_ver'])->name('consulta.cobros_cuota_ver');
     Route::get('/consultas/grado_cuota', [ConsultaController::class, 'grado_consulta'])->name('consulta.grado_consulta');
+    Route::get('/consultas/alumno_cuota_meses', [ConsultaController::class, 'alumno_cuota_meses'])->name('consulta.alumno_cuota_meses');
+Route::get('/consultas/alumno_cuota_meses/{alumno}', [ConsultaController::class, 'ver_alumno_cuota_meses'])->name('consulta.ver_alumno_cuota_meses');
 
     Route::get('/cobros/ingreso/{id}', [CobroController::class, 'cobros_varios'])->name('ingreso.cobro');
     Route::post('/cobros/ingreso/{id}', [CobroController::class, 'store'])->name('ingreso.store');
@@ -83,6 +85,7 @@ Route::middleware([
     Route::get('/ingreso/estado_cuenta/{id}', [PDFController::class, 'estado_cuenta'])->name('pdf.estado_cuenta');
     Route::get('/ingreso/cuota/mes', [PDFController::class, 'cuota_mes'])->name('pdf.cuota_mes');
     Route::get('/ingreso/recibo_varios/{id}/{id2}', [PDFController::class, 'recibo_varios'])->name('pdf.recibo_varios');
+    Route::get('/pdf/alumno_cuota_meses/grado/{grado}/turno/{turno}', [PDFController::class, 'grado_cuota_meses'])->name('pdf.grado_cuota_meses');
 
     //Tablas Secundarias
     // Route::get('/secundaria/alergia', [AlergiaController::class, 'index'])->name('alergia.index');

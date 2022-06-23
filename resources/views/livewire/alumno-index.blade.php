@@ -23,9 +23,11 @@
                         </thead>
 
                         <tbody class="bg-white divide-y divide-gray-200">
-
+                            @php
+                                $si = 0;
+                            @endphp
                             @foreach ($alumnos as $item)
-                                <tr>
+                                <tr class="{{ ($si == 1 ? 'bg-blue-100' : '') }}">
                                     <td class="px-6 whitespace-nowrap text-sm text-black font-semibold text-center">{{ number_format($item->cedula, 0, ".", ".") }}</td>
                                     <td class="px-6 whitespace-nowrap text-sm text-black font-semibold text-left">{{ $item->apellido }}, {{ $item->nombre }}</td>
                                     <td class="px-6 whitespace-nowrap text-sm text-black font-semibold text-center">{{ $item->grado->nombre }}</td>
@@ -40,6 +42,13 @@
                                         <a href="{{ route('consulta.cobros_varios_alumno', [ "cedula" => $item->cedula]) }}" class="whitespace-nowrap text-2xl mr-2"><i class='bx bx-search-alt-2'></i></a>
                                     </td>
                                 </tr>
+                                @php
+                                    if($si == 0){
+                                        $si = 1;
+                                    }else {
+                                        $si = 0;
+                                    }
+                                @endphp
                             @endforeach
 
                         </tbody>

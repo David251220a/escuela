@@ -390,4 +390,28 @@ class PDFController extends Controller
 
         return $PDF->stream();
     }
+
+    public function grado_cuota_meses(Grado $grado, Turno $turno)
+    {
+        $date = Carbon::now();
+        $ciclo = Ciclo::where('nombre', date("Y",strtotime($date)))->first();
+        $alumnos = Alumno::where('grado_id', $grado->id)
+        ->where('turno_id', $turno->id)
+        ->where('ciclo_id', $ciclo->id)
+        ->orderBy('apellido', 'ASC')
+        ->orderBy('nombre', 'ASC')
+        ->get();
+
+        $matriculas = Matricula::where('ciclo_id', $ciclo->id)
+        ->where('estado_id' , 1)
+        ->where('grado_id', $grado->id)
+        ->where('turno_id', $turno->id)
+        ->get();
+
+        $PDF = PDF::loadView('documentos.grado_cuota_meses', compact('alumnos'
+        , 'matriculas', 'grado', 'turno', 'ciclo'))
+        ->setPaper('a4', 'landscape');
+
+        return $PDF->stream();
+    }
 }

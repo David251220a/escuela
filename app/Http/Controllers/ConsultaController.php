@@ -523,4 +523,68 @@ class ConsultaController extends Controller
         , 'search_mes'));
     }
 
+    public function alumno_cuota_meses(Request $request){
+
+        $ver = 0;
+        $grado = Grado::where('estado_id', 1)->get();
+        $turno = Turno::where('estado_id', 1)->get();
+        $search_grado = 0;
+        $search_turno = 0;
+        if(!empty($request->turno)){
+            $search_turno = $request->turno;
+        }
+
+        if(!empty($request->grado)){
+            $search_grado = $request->grado;
+        }
+
+        if(!empty($request->checkeado)){
+            $ver = $request->checkeado;
+        }
+
+        $date = Carbon::now();
+        $ciclo = Ciclo::where('nombre', date("Y",strtotime($date)))->first();
+        $alumnos = Alumno::where('grado_id', $search_grado)
+        ->where('turno_id', $search_turno)
+        ->where('ciclo_id', $ciclo->id)
+        ->orderBy('apellido', 'ASC')
+        ->orderBy('nombre', 'ASC')
+        ->get();
+
+        $matriculas = Matricula::where('ciclo_id', $ciclo->id)
+        ->where('estado_id' , 1)
+        ->where('grado_id', $search_grado)
+        ->where('turno_id', $search_turno)
+        ->get();
+
+        // dd($alumnos[0]->matricula[0]->cuotas);
+
+        return view('consulta.alumno_cuota_meses', compact('ver'
+        , 'grado'
+        , 'search_grado'
+        , 'alumnos'
+        , 'matriculas'
+        , 'ver'
+        , 'search_turno'
+        , 'turno'));
+    }
+
+    public function ver_alumno_cuota_meses(Alumno $alumno){
+        $date = Carbon::now();
+        $ciclo = Ciclo::where('nombre', date("Y",strtotime($date)))->first();
+        $matricula = Matricula::where('alumno_id', $alumno->id)
+        ->where('ciclo_id', $ciclo->id)
+        ->where('estado_id' , 1)
+        ->first();
+
+        if(empty($matricula)){
+            return redirect()->route('consulta.alumno_cuota_meses')
+            ->withInput()
+            ->withErrors('El alumno no esta matriculado!.');
+        }
+
+
+        return view('consulta.ver_alumno_cuota_meses', compact('alumno', 'matricula'));
+    }
+
 }

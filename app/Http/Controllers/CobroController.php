@@ -105,17 +105,19 @@ class CobroController extends Controller
             ->first();
 
             if(!empty($validar_unico)){
-                $eliminar_cobro_ingreso = CobroIngreso::where('cobro_id', $cobro->id)
-                ->get();
-                if(!empty($eliminar_cobro_ingreso)){
-                    foreach($eliminar_cobro_ingreso as $eliminar){
-                        $eliminar->delete();
+                if($validar_unico->ingreso_concepto->unico == 1){
+                    $eliminar_cobro_ingreso = CobroIngreso::where('cobro_id', $cobro->id)
+                    ->get();
+                    if(!empty($eliminar_cobro_ingreso)){
+                        foreach($eliminar_cobro_ingreso as $eliminar){
+                            $eliminar->delete();
+                        }
                     }
+                    $cobro->delete();
+                    return redirect()->route('ingreso.cobro', $id)
+                    ->withInput()
+                    ->withErrors('Ya existe un pago de este ingreso unico. En Fecha : '. date('d/m/Y', strtotime($validar_unico->cobros->fecha_cobro)));
                 }
-                $cobro->delete();
-                return redirect()->route('ingreso.cobro', $id)
-                ->withInput()
-                ->withErrors('Ya existe un pago de este ingreso unico. En Fecha : '. date('d/m/Y', strtotime($validar_unico->cobros->fecha_cobro)));
             }
 
             if($pago_parcial == 2){
@@ -135,7 +137,7 @@ class CobroController extends Controller
                     }
 
                     if($total_pagar > $aux_ingre){
-                        $pagado = $total_pagar - $aux_ingre;
+                        $pagado = $aux_ingre;
                         $saldo = 0;
                     }
                 }else{
