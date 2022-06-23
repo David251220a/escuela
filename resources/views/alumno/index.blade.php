@@ -5,8 +5,14 @@
          href="{{ route('alumno.create') }}">Agregar Alumno</a>
     </div>
 
-    @livewire('alumno-index')
+    <div class="mb-4">
+        @livewire('alumno-index')
+    </div>
 
-    <a href="{{route('dashboard')}}"" class="px-4 py-3 bg-red-600 text-white font-bold rounded">Cancelar</a>
+    <br>
+    <div class="mb-4">
+        <a href="{{route('dashboard')}}" class="px-4 py-3 bg-red-600 text-white font-bold rounded">Cancelar</a>
+    </div>
+
 
 </x-app-layout>
