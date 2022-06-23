@@ -111,7 +111,7 @@
                                 <a class="" href="{{ route('alergia.index') }}">Alergia</a>
                             </li>
                             <li>
-                                <a class="" href="{{ route('alergia.index') }}">Lugar de Nacimiento</a>
+                                <a class="" href="{{ route('lugarnacimiento.index') }}">Lugar de Nacimiento</a>
                             </li>
 
                         </ul>

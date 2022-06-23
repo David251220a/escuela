@@ -12,4 +12,8 @@ class LugarNacimiento extends Model
     protected $table = 'lugar_nacimiento';
 
     protected $guarded = [];
+
+    public function estado(){
+        return $this->belongsTo(Estado::class, 'estado_id');
+    }
 }

@@ -2,7 +2,7 @@
 
     <div class="mb-6">
         <a class="text-sm px-4 py-2 mb-4 border rounded  text-white font-bold" style="border-color: blue; background : rgb(7, 101, 189);"
-        href="{{ route('alergia.create') }}">Agregar Alergia</a>
+        href="{{ route('alergia.create') }}">Agregar Lugar Nacimiento</a>
     </div>
 
     {{-- @livewire('alergia-index') --}}
@@ -35,13 +35,13 @@
                             <tbody class="bg-white divide-y divide-gray-200">
 
                                {{-- EL foreach se utiliza cuando tenes una consulta tipo get --}}
-                                @foreach ($lugarnacimiento as $lugarnacimiento)
+                                @foreach ($lugar_nacimiento as $lugarnacimiento)
                                     <tr>
                                         <td class="px-6 py-2 whitespace-nowrap text-sm text-black font-semibold text-center">{{$lugarnacimiento->id }}</td>
                                         <td class="px-6 py-2 whitespace-nowrap text-sm text-black font-semibold text-left">{{ $lugarnacimiento->nombre }}</td>
                                         <td class="px-6 py-2 whitespace-nowrap text-sm text-black font-semibold text-center">{{ $lugarnacimiento->estado->nombre }}</td>
                                         <td class="px-6 py-2 whitespace-nowrap text-sm text-black font-semibold text-right">
-                                        {{-- <a href="{{ route('lugarnacimiento.edit',$lugarnacimiento) }}" class="text-sm px-4 py-2 mb-4 border rounded  text-white font-bold" style="border-color: rgb(255, 136, 0); background : orange;"> Editar</a> --}}
+                                        <a href="{{ route('lugarnacimiento.edit',$lugarnacimiento) }}" class="text-sm px-4 py-2 mb-4 border rounded  text-white font-bold" style="border-color: rgb(255, 136, 0); background : orange;"> Editar</a>
                                         </td>
                                     </tr>
                                 @endforeach

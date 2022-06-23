@@ -28,6 +28,7 @@
         <button type="submit" class="bg-blue-500 text-white mr-2 py-2 px-6 text-lg font-bold rounded">
             Actualizar
         </button>
+        <a href="javascript:history.back()" class="px-4 py-3 bg-red-600 text-white font-bold rounded">Volver</a>
     </form>
 
 
@@ -35,7 +36,7 @@
 
 
 
-    <form action="{{route('alergia.index', $alergia)}}" method="POST">
+    {{-- <form action="{{route('alergia.index', $alergia)}}" method="POST">
         @method('get')
         @csrf
 
@@ -44,7 +45,7 @@
                 Cancelar
             </button>
 
-    </form>
+    </form> --}}
 
 
 </x-app-layout>
