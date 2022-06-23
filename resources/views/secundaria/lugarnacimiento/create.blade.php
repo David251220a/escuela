@@ -1,6 +1,6 @@
 <x-app-layout>
     {{-- para hacer una prueba --}}
-<h2 class="text-gray-600 font-semibold text-xl mb-6" >Crear Alergia</h2>
+<h2 class="text-gray-600 font-semibold text-xl mb-6" >Crear Lugar de Nacimiento</h2>
 
     {{-- todo lo que esta ak adentro va a el controlador update --}}
     <form action="{{route('lugarnacimiento.store')}}" method="POST"  onsubmit="return checkSubmit();">
@@ -30,8 +30,7 @@
            Guardar
        </button>
 
-       <button type="submit" class="bg-red-500 text-white mr-2 py-2 px-6 text-lg font-bold rounded">
-        Cancelar</button>
+       <a href="{{route('lugarnacimiento.index')}}"" class="px-4 py-3 bg-red-600 text-white font-bold rounded">Cancelar</a>
     </div>
 
    </form>

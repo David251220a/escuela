@@ -188,19 +188,13 @@
 
                     <div class="mb-4 pl-4">
                         <button type="submit"
-                        class="inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded
-                        shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700
+                        class="inline-block px-6 py-2.5 bg-blue-700 text-white font-medium text-xs leading-tight uppercase rounded
+                        shadow-md hover:bg-blue-600 hover:shadow-lg focus:bg-blue-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-700
                         active:shadow-lg transition duration-150 ease-in-out"
                          value="" id="btn_procesar">Guardar</button>
+                         <a href="javascript:history.back()" class="px-6 py-2.5 bg-red-600 text-white font-bold rounded">Cancelar</a>
                     </div>
-                </div>
 
-                <div class="mb-4 pl-4">
-                    <button type="reset"
-                    class="inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded
-                    shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700
-                    active:shadow-lg transition duration-150 ease-in-out"
-                     value="" id="btn_cancelar">cancelar</button>
                 </div>
 
             </div>
@@ -240,6 +234,9 @@
                             <label class="form-check-label inline-block text-gray-800" for="flexCheckDefault">
                               Entregado
                             </label>
+
+                             {{-- boton para editar la madre --}}
+                             <a href="javascript:history.back()" class="px-4 py-3 bg-red-600 text-white font-bold rounded">Volver</a>
                         </div>
                         {{-- PADRE --}}
                         <div class="mb-4">
@@ -301,6 +298,9 @@
                             <label class="form-check-label inline-block text-gray-800" for="flexCheckDefault">
                               Entregado
                             </label>
+
+
+
                         </div>
 
                         {{-- ENCARGADO 2 --}}
@@ -512,7 +512,6 @@
                     <label for="">Telefono Laboral</label>
                     <input type="text" name="telefono_trabajo_madre_aux" id="telefono_trabajo_madre_aux" class="w-full rounded border-gray-400 enviar">
                 </div>
-
             </div>
 
         </div>

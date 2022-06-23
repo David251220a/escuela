@@ -1,6 +1,6 @@
 <x-app-layout>
      {{-- para hacer una prueba --}}
- <h2 class="text-gray-600 font-semibold text-xl mb-6" >Editar Alergia : {{$alergia->nombre}}</h2>
+ <h2 class="text-gray-600 font-semibold text-xl mb-6" >EDITAR ALERGIA  :      {{$alergia->nombre}}</h2>
 
      {{-- todo lo que esta ak adentro va a el controlador update --}}
      <form action="{{route('alergia.update', $alergia)}}" method="POST">
@@ -30,23 +30,6 @@
         </button>
         <a href="javascript:history.back()" class="px-4 py-3 bg-red-600 text-white font-bold rounded">Volver</a>
     </form>
-
-
-
-
-
-
-    {{-- <form action="{{route('alergia.index', $alergia)}}" method="POST">
-        @method('get')
-        @csrf
-
-        <div name="Botones">
-            <button type="submit" class="bg-red-500 text-white mr-2 py-2 px-6 text-lg font-bold rounded">
-                Cancelar
-            </button>
-
-    </form> --}}
-
 
 </x-app-layout>
 

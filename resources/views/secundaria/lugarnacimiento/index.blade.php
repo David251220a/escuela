@@ -2,13 +2,14 @@
 
     <div class="mb-6">
         <a class="text-sm px-4 py-2 mb-4 border rounded  text-white font-bold" style="border-color: blue; background : rgb(7, 101, 189);"
-        href="{{ route('alergia.create') }}">Agregar Lugar Nacimiento</a>
+        href="{{ route('lugarnacimiento.create') }}">AGREGAR LUGAR DE NACIMIENTO</a>
+
     </div>
 
     {{-- @livewire('alergia-index') --}}
     <div class="mt-4">
 
-        <h2 class="font-bold text-gray-500 text-2xl mb-4">Listado de Lugar de Nacimiento</h2>
+        <h2 class="font-bold text-gray-500 text-2xl mb-4">LISTADOS DE TODOS LOS LUGARES DE NACIMIENTO</h2>
 
 
         {{-- <div class="mt-4 mb-4">
@@ -35,13 +36,13 @@
                             <tbody class="bg-white divide-y divide-gray-200">
 
                                {{-- EL foreach se utiliza cuando tenes una consulta tipo get --}}
-                                @foreach ($lugar_nacimiento as $lugarnacimiento)
+                                @foreach ($lugar_nacimiento as $lugar_nacimiento)
                                     <tr>
-                                        <td class="px-6 py-2 whitespace-nowrap text-sm text-black font-semibold text-center">{{$lugarnacimiento->id }}</td>
-                                        <td class="px-6 py-2 whitespace-nowrap text-sm text-black font-semibold text-left">{{ $lugarnacimiento->nombre }}</td>
-                                        <td class="px-6 py-2 whitespace-nowrap text-sm text-black font-semibold text-center">{{ $lugarnacimiento->estado->nombre }}</td>
+                                        <td class="px-6 py-2 whitespace-nowrap text-sm text-black font-semibold text-center">{{$lugar_nacimiento->id }}</td>
+                                        <td class="px-6 py-2 whitespace-nowrap text-sm text-black font-semibold text-left">{{ $lugar_nacimiento->nombre }}</td>
+                                        <td class="px-6 py-2 whitespace-nowrap text-sm text-black font-semibold text-center">{{ $lugar_nacimiento->estado->nombre }}</td>
                                         <td class="px-6 py-2 whitespace-nowrap text-sm text-black font-semibold text-right">
-                                        <a href="{{ route('lugarnacimiento.edit',$lugarnacimiento) }}" class="text-sm px-4 py-2 mb-4 border rounded  text-white font-bold" style="border-color: rgb(255, 136, 0); background : orange;"> Editar</a>
+                                        <a href="{{ route('lugarnacimiento.edit',$lugar_nacimiento) }}" class="text-sm px-4 py-2 mb-4 border rounded  text-white font-bold" style="border-color: rgb(255, 136, 0); background : orange;"> Editar</a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -54,6 +55,8 @@
                 </div>
             </div>
         </div>
+
+        <a href="{{route('dashboard')}}"" class="px-4 py-3 bg-red-600 text-white font-bold rounded">Cancelar</a>
 
         {{-- <div class="">
             {{$alumnos->links()}}

@@ -1,12 +1,12 @@
 <x-app-layout>
     {{-- para hacer una prueba --}}
-<h2 class="text-gray-600 font-semibold text-xl mb-6" >Crear Alergia</h2>
+<h2 class="text-gray-600 font-semibold text-xl mb-6" >CREAR ENFERMEDAD</h2>
 
     {{-- todo lo que esta ak adentro va a el controlador update --}}
-    <form action="{{route('alergia.store')}}" method="POST"  onsubmit="return checkSubmit();">
+    <form action="{{route('enfermedad.store')}}" method="POST"  onsubmit="return checkSubmit();">
        @csrf
 
-     <div name="Datos_de_la_tabla_Alergia">
+     <div name="Datos_de_la_tabla_enfermedad">
        {{-- El Mb-4 es el espacio entre los campos --}}
        <div class="mb-4">
            <label for="" class="text-gray-500 mb-1 text-lg" >Nombre</label>
@@ -30,7 +30,7 @@
            Guardar
        </button>
 
-       <a href="{{route('alergia.index')}}"" class="px-4 py-3 bg-red-600 text-white font-bold rounded">Cancelar</a>
+       <a href="{{route('enfermedad.index')}}"" class="px-4 py-3 bg-red-600 text-white font-bold rounded">Cancelar</a>
 
    </form>
 

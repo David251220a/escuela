@@ -86,5 +86,6 @@
         @include('ui.ingresos_unico')
     @endif
 
+    <a href="{{route('dashboard')}}"" class="px-4 py-3 bg-red-600 text-white font-bold rounded">Cancelar</a>
 
 </x-app-layout>

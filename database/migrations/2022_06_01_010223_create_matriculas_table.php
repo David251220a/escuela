@@ -18,6 +18,11 @@ return new class extends Migration
             $table->integer('id', true);
             $table->integer('monto_multa');
             $table->integer('cantidad_dias_gracia');
+            $table->unsignedInteger('estado_id');
+            $table->foreignId('usuario_grabacion')->references('id')->on('users');
+            $table->timestamps();
+
+            $table->foreign('estado_id')->references('id')->on('estado');
         });
 
         Schema::create('matricula_estado', function (Blueprint $table) {

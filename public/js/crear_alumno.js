@@ -571,7 +571,7 @@ function crear_opciones(input)
 
     }
 
-    if(input.id == 'seguro_1crear_titulo'){
+    if(input.id == 'seguro_crear_titulo'){
         id_aux = 3;
         titulo = 'Agregar Seguro';
         select = document.getElementById('seguro');

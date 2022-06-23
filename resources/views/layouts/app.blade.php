@@ -113,6 +113,12 @@
                             <li>
                                 <a class="" href="{{ route('lugarnacimiento.index') }}">Lugar de Nacimiento</a>
                             </li>
+                            <li>
+                                <a class="" href="{{ route('seguro.index') }}">Seguro</a>
+                            </li>
+                            <li>
+                                <a class="" href="{{ route('enfermedad.index') }}">Enfermedad</a>
+                            </li>
 
                         </ul>
                     </li>

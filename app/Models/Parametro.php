@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Seguro extends Model
+class Alergia extends Model
 {
     use HasFactory;
 
-    protected $table = 'seguro';
+    protected $table = 'parametro_general';
 
     protected $guarded = [];
 
-    public function estado(){
-        return $this->belongsTo(Estado::class, 'estado_id');
-    }
+public function estado(){
+    return $this->belongsTo(Estado::class, 'estado_id');
+}
 
 }

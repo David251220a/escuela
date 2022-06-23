@@ -9,6 +9,8 @@ use App\Http\Controllers\LimpiarController;
 use App\Http\Controllers\MatriculaController;
 use App\Http\Controllers\AlergiaController;
 use App\Http\Controllers\LugarNacimientoController;
+use App\Http\Controllers\SeguroController;
+use App\Http\Controllers\EnfermedadController;
 use App\Http\Controllers\PDFController;
 use Illuminate\Support\Facades\Route;
 
@@ -91,4 +93,6 @@ Route::middleware([
 
     Route::resource('/alergias', AlergiaController::class)->names('alergia');
     Route::resource('/lugarnacimiento', LugarNacimientoController::class)->names('lugarnacimiento');
+    Route::resource('/seguro', SeguroController::class)->names('seguro');
+    Route::resource('/enfermedad', EnfermedadController::class)->names('enfermedad');
 });
