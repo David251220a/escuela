@@ -414,4 +414,33 @@ class PDFController extends Controller
 
         return $PDF->stream();
     }
+
+    public function alumno_cuota_meses(Alumno $alumno)
+    {
+        $date = Carbon::now();
+        $ciclo = Ciclo::where('nombre', date("Y",strtotime($date)))->first();
+        $matricula = Matricula::where('alumno_id', $alumno->id)
+        ->where('ciclo_id', $ciclo->id)
+        ->where('estado_id' , 1)
+        ->first();
+
+        if(empty($matricula)){
+            return redirect()->route('consulta.alumno_cuota_meses')
+            ->withInput()
+            ->withErrors('El alumno no esta matriculado!.');
+        }
+
+        $PDF = PDF::loadView('documentos.alumno_cuota_meses', compact('alumno'
+        , 'matricula'))
+        ->setPaper('a4', 'landscape');
+
+        return $PDF->stream();
+    }
+
+    public function ficha(Alumno $alumno)
+    {
+
+        $PDF = PDF::loadView('documentos.ficha', compact('alumno'));
+        return $PDF->stream();
+    }
 }

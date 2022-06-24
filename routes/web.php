@@ -86,6 +86,8 @@ Route::get('/consultas/alumno_cuota_meses/{alumno}', [ConsultaController::class,
     Route::get('/ingreso/cuota/mes', [PDFController::class, 'cuota_mes'])->name('pdf.cuota_mes');
     Route::get('/ingreso/recibo_varios/{id}/{id2}', [PDFController::class, 'recibo_varios'])->name('pdf.recibo_varios');
     Route::get('/pdf/alumno_cuota_meses/grado/{grado}/turno/{turno}', [PDFController::class, 'grado_cuota_meses'])->name('pdf.grado_cuota_meses');
+    Route::get('/pdf/alumno_cuota_meses/alumno/{alumno}', [PDFController::class, 'alumno_cuota_meses'])->name('pdf.alumno_cuota_meses');
+    Route::get('/pdf/alumno/ficha/{alumno}', [PDFController::class, 'ficha'])->name('pdf.ficha');
 
     //Tablas Secundarias
     // Route::get('/secundaria/alergia', [AlergiaController::class, 'index'])->name('alergia.index');

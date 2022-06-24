@@ -6,7 +6,10 @@
           alt="Avatar"
         />
         <h5 class="text-xl font-medium leading-tight mb-2">{{$alumno->nombre}} {{ $alumno->apellido}}</h5>
-        <p class="text-gray-500">Alumno de <b>{{ $alumno->grado->nombre }}</b> - <b> TURNO {{ $alumno->turno->nombre }}</b></p>
+        <p class="text-gray-500 mb-2">Alumno de <b>{{ $alumno->grado->nombre }}</b> - <b> TURNO {{ $alumno->turno->nombre }}</b></p>
+        <div>
+            <a href="{{ route('pdf.ficha', $alumno) }}" class="px-4 py-2 border border-blue-500 text-blue-500 font-semibold text-lg rounded" target="__blank">PDF</a>
+        </div>
 
     </div>
 

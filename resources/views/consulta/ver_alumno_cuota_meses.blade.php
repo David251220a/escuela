@@ -16,7 +16,7 @@
         <label for="">Estado: <b class="{{($matricula->matricula_estado->id == 2 ? 'text-green-500' : 'text-red-500') }}">{{ $matricula->matricula_estado->nombre }}</b></label>
     </div>
     <div class="mb-4">
-        <a href="#" class="border border-blue-500 text-blue-500 text-lg font-bold rounded py-2 px-4 mr-2">PDF</a>
+        <a href="{{ route('pdf.alumno_cuota_meses', $alumno) }}" class="border border-blue-500 text-blue-500 text-lg font-bold rounded py-2 px-4 mr-2" target="__blank">PDF</a>
         <a href="{{ route('consulta.alumno_cuota_meses') }}" class="border border-red-500 text-red-500 text-lg font-bold rounded py-2 px-4 mr-2">Volver</a>
     </div>
 
