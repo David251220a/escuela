@@ -8,7 +8,16 @@ use App\Models\LugarNacimiento;
 
 class LugarnacimientoController extends Controller
 {
-    //
+    public function __construct()
+    {
+        $this->middleware('permission:lugarnacimiento.index')->only('index');
+        $this->middleware('permission:lugarnacimiento.create')->only('create');
+        $this->middleware('permission:lugarnacimiento.store')->only('store');
+        $this->middleware('permission:lugarnacimiento.show')->only('show');
+        $this->middleware('permission:lugarnacimiento.edit')->only('edit');
+        $this->middleware('permission:lugarnacimiento.update')->only('update');
+    }
+
     public function index(Request $request)
     {
         //consulta a la Base de Datos

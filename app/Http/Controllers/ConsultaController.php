@@ -20,6 +20,20 @@ use Illuminate\Support\Facades\DB;
 
 class ConsultaController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('permission:consulta.index')->only('consulta.index');
+        $this->middleware('permission:consulta.cobros_varios')->only('consulta.cobros_varios');
+        $this->middleware('permission:consulta.cobros_varios_alumno')->only('consulta.cobros_varios_alumno');
+        $this->middleware('permission:consulta.cobros_varios_grado')->only('consulta.cobros_varios_grado');
+        $this->middleware('permission:consulta.cobros_cuota')->only('consulta.cobros_cuota');
+        $this->middleware('permission:consulta.cobros_cuota_ver')->only('consulta.cobros_cuota_ver');
+        $this->middleware('permission:consulta.grado_consulta')->only('consulta.grado_consulta');
+        $this->middleware('permission:consulta.alumno_cuota_meses')->only('consulta.alumno_cuota_meses');
+        $this->middleware('permission:consulta.ver_alumno_cuota_meses')->only('consulta.ver_alumno_cuota_meses');
+    }
+
     public function index(Request $request)
     {
 

@@ -8,7 +8,16 @@ use Illuminate\Http\Request;
 
 class EnfermedadController extends Controller
 {
-    //
+    public function __construct()
+    {
+        $this->middleware('permission:enfermedad.index')->only('index');
+        $this->middleware('permission:enfermedad.create')->only('create');
+        $this->middleware('permission:enfermedad.store')->only('store');
+        $this->middleware('permission:enfermedad.show')->only('show');
+        $this->middleware('permission:enfermedad.edit')->only('edit');
+        $this->middleware('permission:enfermedad.update')->only('update');
+    }
+
     public function index(Request $request)
     {
         //consulta a la Base de Datos

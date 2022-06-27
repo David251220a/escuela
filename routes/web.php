@@ -11,7 +11,9 @@ use App\Http\Controllers\AlergiaController;
 use App\Http\Controllers\LugarnacimientoController;
 use App\Http\Controllers\SeguroController;
 use App\Http\Controllers\EnfermedadController;
+use App\Http\Controllers\GrupoUsuarioController;
 use App\Http\Controllers\PDFController;
+use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -56,7 +58,7 @@ Route::middleware([
     Route::get('/consultas/cobros_cuota/{id}', [ConsultaController::class, 'cobros_cuota_ver'])->name('consulta.cobros_cuota_ver');
     Route::get('/consultas/grado_cuota', [ConsultaController::class, 'grado_consulta'])->name('consulta.grado_consulta');
     Route::get('/consultas/alumno_cuota_meses', [ConsultaController::class, 'alumno_cuota_meses'])->name('consulta.alumno_cuota_meses');
-Route::get('/consultas/alumno_cuota_meses/{alumno}', [ConsultaController::class, 'ver_alumno_cuota_meses'])->name('consulta.ver_alumno_cuota_meses');
+    Route::get('/consultas/alumno_cuota_meses/{alumno}', [ConsultaController::class, 'ver_alumno_cuota_meses'])->name('consulta.ver_alumno_cuota_meses');
 
     Route::get('/cobros/ingreso/{id}', [CobroController::class, 'cobros_varios'])->name('ingreso.cobro');
     Route::post('/cobros/ingreso/{id}', [CobroController::class, 'store'])->name('ingreso.store');
@@ -95,6 +97,11 @@ Route::get('/consultas/alumno_cuota_meses/{alumno}', [ConsultaController::class,
     // Route::put('/secundaria/alergia/{alergia}', [AlergiaController::class, 'update'])->name('alergia.update');
     // Route::get('/secundaria/alergia/create', [AlergiaController::class, 'create'])->name('alergia.create');
     // Route::post('/secundaria/alergia', [AlergiaController::class, 'store'])->name('alergia.store');
+    Route::resource('/grupo_usuario', GrupoUsuarioController::class, ['parameters' => [
+    'grupo_usuario' => 'rol' ]])->names('rol');
+
+    Route::resource('/usuarios', UsuarioController::class)->names('usuario');
+    Route::get('/account', [UsuarioController::class, 'resetear_pass'])->name('resetear_pass');
 
     Route::resource('/alergias', AlergiaController::class)->names('alergia');
     Route::resource('/lugarnacimiento', LugarNacimientoController::class)->names('lugarnacimiento');

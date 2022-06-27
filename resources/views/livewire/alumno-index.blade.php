@@ -33,35 +33,55 @@
                                     <td class="px-6 whitespace-nowrap text-sm text-black font-semibold text-center">{{ $item->grado->nombre }}</td>
                                     <td class="px-6 whitespace-nowrap text-sm text-black font-semibold text-center">{{ $item->turno->nombre }}</td>
                                     <td class="px-6 whitespace-nowrap text-sm text-black font-semibold text-right">
+                                        @can('alumno.show')
+                                            <a href="{{ route('alumno.show', $item) }}" class="whitespace-nowrap text-2xl mr-2 tip">
+                                                <i class='bx bx-user-pin'></i>
+                                                <span>Ficha</span>
+                                            </a>
+                                        @endcan
 
-                                        <a href="{{ route('alumno.show', $item) }}" class="whitespace-nowrap text-2xl mr-2 tip">
-                                            <i class='bx bx-user-pin'></i>
-                                            <span>Ficha</span>
-                                        </a>
-                                        <a href="{{ route('alumno.edit', $item) }}" class="whitespace-nowrap text-2xl mr-2 tip">
-                                            <i class='bx bx-edit-alt'></i>
-                                            <span>Editar</span>
-                                        </a>
-                                        <a href="{{ route('matricula.create', [ "id" => $item->id]) }}" class="whitespace-nowrap text-2xl mr-2 tip">
-                                            <i class='bx bx-user-plus'></i>
-                                            <span>Matricula</span>
-                                        </a>
-                                        <a href="{{ route('matricula.cobro', $item->id) }}" class="whitespace-nowrap text-2xl mr-2 tip">
-                                            <i class='bx bx-coin-stack'></i>
-                                            <span>Cobro Cuota</span>
-                                        </a>
-                                        <a href="{{ route('ingreso.cobro', $item->id) }}" class="whitespace-nowrap text-2xl mr-2 tip">
-                                            <i class='bx bx-cart-add'></i>
-                                            <span>Nuevo Ingreso</span>
-                                        </a>
-                                        <a href="{{ route('ingreso.cobros_pendientes', $item->id) }}" class="whitespace-nowrap text-2xl mr-2 tip-left">
-                                            <i class='bx bxs-bank'></i>
-                                            <span>Ingreso Pendiente</span>
-                                        </a>
-                                        <a href="{{ route('consulta.cobros_varios_alumno', [ "cedula" => $item->cedula]) }}" class="whitespace-nowrap text-2xl mr-2 tip-left">
-                                            <i class='bx bx-search-alt-2'></i>
-                                            <span>Consulta Ingreso</span>
-                                        </a>
+                                        @can('alumno.edit', $post)
+                                            <a href="{{ route('alumno.edit', $item) }}" class="whitespace-nowrap text-2xl mr-2 tip">
+                                                <i class='bx bx-edit-alt'></i>
+                                                <span>Editar</span>
+                                            </a>
+                                        @endcan
+
+                                        @can('matricula.create')
+                                            <a href="{{ route('matricula.create', [ "id" => $item->id]) }}" class="whitespace-nowrap text-2xl mr-2 tip">
+                                                <i class='bx bx-user-plus'></i>
+                                                <span>Matricula</span>
+                                            </a>
+                                        @endcan
+
+                                        @can('matricula.cobro')
+                                            <a href="{{ route('matricula.cobro', $item->id) }}" class="whitespace-nowrap text-2xl mr-2 tip">
+                                                <i class='bx bx-coin-stack'></i>
+                                                <span>Cobro Cuota</span>
+                                            </a>
+                                        @endcan
+
+                                        @can('ingreso.cobro')
+                                            <a href="{{ route('ingreso.cobro', $item->id) }}" class="whitespace-nowrap text-2xl mr-2 tip">
+                                                <i class='bx bx-cart-add'></i>
+                                                <span>Nuevo Ingreso</span>
+                                            </a>
+                                        @endcan
+
+                                        @can('ingreso.cobros_pendientes')
+                                            <a href="{{ route('ingreso.cobros_pendientes', $item->id) }}" class="whitespace-nowrap text-2xl mr-2 tip-left">
+                                                <i class='bx bxs-bank'></i>
+                                                <span>Ingreso Pendiente</span>
+                                            </a>
+                                        @endcan
+
+                                        @can('consulta.cobros_varios_alumno')
+                                            <a href="{{ route('consulta.cobros_varios_alumno', [ "cedula" => $item->cedula]) }}" class="whitespace-nowrap text-2xl mr-2 tip-left">
+                                                <i class='bx bx-search-alt-2'></i>
+                                                <span>Consulta Ingreso</span>
+                                            </a>
+                                        @endcan
+
                                     </td>
                                 </tr>
                                 @php

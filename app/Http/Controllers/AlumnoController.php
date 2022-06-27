@@ -22,6 +22,26 @@ use Illuminate\Support\Facades\Storage;
 
 class AlumnoController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('permission:alumno.index')->only('index');
+        $this->middleware('permission:alumno.create')->only('create');
+        $this->middleware('permission:alumno.store')->only('store');
+        $this->middleware('permission:alumno.show')->only('show');
+        $this->middleware('permission:alumno.edit')->only('edit');
+        $this->middleware('permission:alumno.update')->only('update');
+
+        $this->middleware('permission:madre_crear')->only('madre_crear');
+        $this->middleware('permission:padre_crear')->only('padre_crear');
+        $this->middleware('permission:encargado_crear')->only('encargado_crear');
+        $this->middleware('permission:crear_datos')->only('crear_datos');
+        $this->middleware('permission:madre_consulta')->only('madre_consulta');
+        $this->middleware('permission:padre_consulta')->only('padre_consulta');
+        $this->middleware('permission:encargado_consulta')->only('encargado_consulta');
+
+    }
+
     public function index(Request $request)
     {
         return view('alumno.index');

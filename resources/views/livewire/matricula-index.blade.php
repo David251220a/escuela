@@ -40,7 +40,10 @@
                                         >  {{ $item->estado->nombre }}</a>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">
-                                        <a href="{{ route('matricula.show', $item) }}" class="whitespace-nowrap text-sm mr-2"><i class='bx bx-coin-stack'></i></a>
+                                        @can('matricula.show')
+                                            <a href="{{ route('matricula.show', $item) }}" class="whitespace-nowrap text-sm mr-2"><i class='bx bx-coin-stack'></i></a>
+                                        @endcan
+
                                     </td>
                                 </tr>
                             @endforeach

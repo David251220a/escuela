@@ -15,6 +15,17 @@ use Illuminate\Support\Facades\DB;
 
 class CobroController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:ingreso.cobro')->only('ingreso.cobro');
+        $this->middleware('permission:ingreso.store')->only('ingreso.store');
+        $this->middleware('permission:ingreso.nuevo_ingreso')->only('ingreso.nuevo_ingreso');
+        $this->middleware('permission:ingreso.cobros_pendientes')->only('ingreso.cobros_pendientes');
+        $this->middleware('permission:ingreso.cobros_pendientes_detalle')->only('ingreso.cobros_pendientes_detalle');
+        $this->middleware('permission:ingreso.cobros_pendientes_detalle_store')->only('ingreso.cobros_pendientes_detalle_store');
+        $this->middleware('permission:ingreso.cobros_pendientes_detalle_imprimir')->only('ingreso.cobros_pendientes_detalle_imprimir');
+    }
+
     public function cobros_varios(Request $request, $id)
     {
         $alumno = Alumno::find($id);

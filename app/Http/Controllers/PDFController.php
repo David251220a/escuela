@@ -22,6 +22,24 @@ use Luecano\NumeroALetras\NumeroALetras;
 class PDFController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware('permission:pdf.alumno_grado_turno')->only('pdf.alumno_grado_turno');
+        $this->middleware('permission:pdf.ingreso_grado_turno')->only('pdf.ingreso_grado_turno');
+        $this->middleware('permission:pdf.ingreso_alumno')->only('pdf.ingreso_alumno');
+        $this->middleware('permission:pdf.imprimir_cobro_matricula')->only('pdf.imprimir_cobro_matricula');
+        $this->middleware('permission:pdf.ingreso_varios')->only('pdf.ingreso_varios');
+        $this->middleware('permission:pdf.ingreso_cuota')->only('pdf.ingreso_cuota');
+        $this->middleware('permission:pdf.ingreso_matricula')->only('pdf.ingreso_matricula');
+        $this->middleware('permission:pdf.estado_cuenta')->only('pdf.estado_cuenta');
+        $this->middleware('permission:pdf.cuota_mes')->only('pdf.cuota_mes');
+        $this->middleware('permission:pdf.recibo_varios')->only('pdf.recibo_varios');
+        $this->middleware('permission:pdf.grado_cuota_meses')->only('pdf.grado_cuota_meses');
+        $this->middleware('permission:pdf.alumno_cuota_meses')->only('pdf.alumno_cuota_meses');
+        $this->middleware('permission:pdf.ficha')->only('pdf.ficha');
+        $this->middleware('permission:imprimir_cobro_cuota')->only('imprimir_cobro_cuota');
+    }
+
     public function imprimir_cobro_cuota($id){
 
         $cobro = CobroMatriculaCuota::find($id);

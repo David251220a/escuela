@@ -8,7 +8,17 @@ use Illuminate\Http\Request;
 
 class AlergiaController extends Controller
 {
-    //
+
+    public function __construct()
+    {
+        $this->middleware('permission:alergia.index')->only('index');
+        $this->middleware('permission:alergia.create')->only('create');
+        $this->middleware('permission:alergia.store')->only('store');
+        $this->middleware('permission:alergia.show')->only('show');
+        $this->middleware('permission:alergia.edit')->only('edit');
+        $this->middleware('permission:alergia.update')->only('update');
+    }
+
     public function index(Request $request)
     {
         //consulta a la Base de Datos

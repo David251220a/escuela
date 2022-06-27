@@ -38,95 +38,133 @@
 
                 <ul class="nav-links">
 
-                    <li>
-                        <a href="{{ route('alumno.index') }}">
-                            <i class='bx bx-id-card'></i>
-                            <span class="link_name">Alumnos</span>
-                        </a>
-                        <ul class="sub-menu blank">
-                            <li>
-                                <a class="link_name" href="{{ route('alumno.index') }}">Alumnos</a>
-                            </li>
-                        </ul>
-
-                    </li>
-
-                    <li>
-                        <a href="{{ route('matricula.index') }}">
-                            <i class='bx bx-task'></i>
-                            <span class="link_name">Matricula</span>
-                        </a>
-                        <ul class="sub-menu blank">
-                            <li>
-                                <a class="link_name" href="{{ route('matricula.index') }}">Matricula</a>
-                            </li>
-                        </ul>
-
-                    </li>
-
-                    <li>
-                        <div class="icon_link">
-                            <a href="#">
-                                <i class='bx bx-book-reader'></i>
-                                <span class="link_name">Consultas</span>
+                    @can('alumno.index')
+                        <li>
+                            <a href="{{ route('alumno.index') }}">
+                                <i class='bx bx-id-card'></i>
+                                <span class="link_name">Alumnos</span>
                             </a>
-                            <i class='bx bx-chevrons-down arrow'></i>
-                        </div>
-                        <ul class="sub-menu">
-                            <li>
-                                <a class="link_name font-bold text-sm" href="#">Consultas</a>
-                            </li>
-                            <li>
-                                <a class="" href="{{ route('consulta.index') }}">Grado - Turno</a>
-                            </li>
-                            <li>
-                                <a class="" href="{{ route('consulta.cobros_varios') }}">Ingreso Varios - Fecha</a>
-                            </li>
-                            {{-- <li>
-                                <a class="" href="{{ route('consulta.cobros_varios_alumno') }}">Ingreso Alumno</a>
-                            </li> --}}
-                            <li>
-                                <a class="" href="{{ route('consulta.cobros_varios_grado') }}">Ingre. Varios Grado/Turno</a>
-                            </li>
-                            <li>
-                                <a class="" href="{{ route('consulta.cobros_cuota') }}">Ingresos Cuota-Fecha</a>
-                            </li>
-                            <li>
-                                <a class="" href="{{ route('consulta.grado_consulta') }}">Ingresos Cuota-Grado</a>
-                            </li>
+                            <ul class="sub-menu blank">
+                                <li>
+                                    <a class="link_name" href="{{ route('alumno.index') }}">Alumnos</a>
+                                </li>
+                            </ul>
 
-                            <li>
-                                <a class="" href="{{ route('consulta.alumno_cuota_meses') }}">Cuotas Meses Pagados</a>
-                            </li>
+                        </li>
+                    @endcan
 
-                        </ul>
-                    </li>
-
-                    <li>
-                        <div class="icon_link">
-                            <a href="#">
-                                <i class='bx bx-book-reader'></i>
-                                <span class="link_name">Tablas Secundarias</span>
+                    @can('matricula.index')
+                        <li>
+                            <a href="{{ route('matricula.index') }}">
+                                <i class='bx bx-task'></i>
+                                <span class="link_name">Matricula</span>
                             </a>
-                            <i class='bx bx-chevrons-down arrow'></i>
-                        </div>
-                        <ul class="sub-menu">
-                            <li>
-                                <a class="" href="{{ route('alergia.index') }}">Alergia</a>
-                            </li>
-                            <li>
-                                <a class="" href="{{ route('lugarnacimiento.index') }}">Lugar de Nacimiento</a>
-                            </li>
-                            <li>
-                                <a class="" href="{{ route('seguro.index') }}">Seguro</a>
-                            </li>
-                            <li>
-                                <a class="" href="{{ route('enfermedad.index') }}">Enfermedad</a>
-                            </li>
+                            <ul class="sub-menu blank">
+                                <li>
+                                    <a class="link_name" href="{{ route('matricula.index') }}">Matricula</a>
+                                </li>
+                            </ul>
 
-                        </ul>
-                    </li>
+                        </li>
+                    @endcan
 
+                    @can('consulta')
+
+                        <li>
+                            <div class="icon_link">
+                                <a href="#">
+                                    <i class='bx bx-book-reader'></i>
+                                    <span class="link_name">Consultas</span>
+                                </a>
+                                <i class='bx bx-chevrons-down arrow'></i>
+                            </div>
+                            <ul class="sub-menu">
+                                <li>
+                                    <a class="link_name font-bold text-sm" href="#">Consultas</a>
+                                </li>
+                                @can('consulta.index')
+                                    <li>
+                                        <a class="" href="{{ route('consulta.index') }}">Grado - Turno</a>
+                                    </li>
+                                @endcan
+
+                                @can('consulta.cobros_varios')
+                                    <li>
+                                        <a class="" href="{{ route('consulta.cobros_varios') }}">Ingreso Varios - Fecha</a>
+                                    </li>
+                                @endcan
+
+                                {{-- <li>
+                                    <a class="" href="{{ route('consulta.cobros_varios_alumno') }}">Ingreso Alumno</a>
+                                </li> --}}
+                                @can('consulta.cobros_varios_grado')
+                                    <li>
+                                        <a class="" href="{{ route('consulta.cobros_varios_grado') }}">Ingre. Varios Grado/Turno</a>
+                                    </li>
+                                @endcan
+
+                                @can('consulta.cobros_cuota')
+                                    <li>
+                                        <a class="" href="{{ route('consulta.cobros_cuota') }}">Ingresos Cuota-Fecha</a>
+                                    </li>
+                                @endcan
+
+                                @can('consulta.grado_consulta')
+                                    <li>
+                                        <a class="" href="{{ route('consulta.grado_consulta') }}">Ingresos Cuota-Grado</a>
+                                    </li>
+                                @endcan
+
+                                @can('consulta.alumno_cuota_meses')
+                                    <li>
+                                        <a class="" href="{{ route('consulta.alumno_cuota_meses') }}">Cuotas Meses Pagados</a>
+                                    </li>
+                                @endcan
+
+                            </ul>
+                        </li>
+
+                    @endcan
+
+                    @can('tablasecundaria')
+
+                        <li>
+                            <div class="icon_link">
+                                <a href="#">
+                                    <i class='bx bx-book-reader'></i>
+                                    <span class="link_name">Tablas Secundarias</span>
+                                </a>
+                                <i class='bx bx-chevrons-down arrow'></i>
+                            </div>
+                            <ul class="sub-menu">
+                                @can('alergia.index')
+                                    <li>
+                                        <a class="" href="{{ route('alergia.index') }}">Alergia</a>
+                                    </li>
+                                @endcan
+
+                                @can('lugarnacimiento.index')
+                                    <li>
+                                        <a class="" href="{{ route('lugarnacimiento.index') }}">Lugar de Nacimiento</a>
+                                    </li>
+                                @endcan
+
+                                @can('seguro.index')
+                                    <li>
+                                        <a class="" href="{{ route('seguro.index') }}">Seguro</a>
+                                    </li>
+                                @endcan
+
+                                @can('enfermedad.index')
+                                    <li>
+                                        <a class="" href="{{ route('enfermedad.index') }}">Enfermedad</a>
+                                    </li>
+                                @endcan
+
+                            </ul>
+                        </li>
+
+                    @endcan
 
                     <li>
                         <div class="profile-details">
@@ -146,6 +184,32 @@
                             </form>
 
                         </div>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('rol.index') }}">
+                            <i class='bx bxs-group'></i>
+                            <span class="link_name">Grupo de Usuario</span>
+                        </a>
+                        <ul class="sub-menu blank">
+                            <li>
+                                <a class="link_name" href="{{ route('rol.index') }}">Grupo de Usuario</a>
+                            </li>
+                        </ul>
+
+                    </li>
+
+                    <li>
+                        <a href="{{ route('usuario.index') }}">
+                            <i class='bx bxs-user-circle'></i>
+                            <span class="link_name">Usuarios</span>
+                        </a>
+                        <ul class="sub-menu blank">
+                            <li>
+                                <a class="link_name" href="{{ route('usuario.index') }}">Usuarios</a>
+                            </li>
+                        </ul>
+
                     </li>
 
                 </ul>

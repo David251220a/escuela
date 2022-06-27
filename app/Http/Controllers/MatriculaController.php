@@ -18,6 +18,18 @@ use Illuminate\Http\Request;
 class MatriculaController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware('permission:matricula.index')->only('index');
+        $this->middleware('permission:matricula.create')->only('create');
+        $this->middleware('permission:matricula.store')->only('store');
+        $this->middleware('permission:matricula.show')->only('show');
+        $this->middleware('permission:matricula.edit')->only('edit');
+        $this->middleware('permission:matricula.update')->only('update');
+        $this->middleware('permission:matricula.cobro')->only('matricula.cobro');
+        $this->middleware('permission:matricula.buscar_alumno')->only('matricula.buscar_alumno');
+    }
+
     public function index(Request $request)
     {
         return view('matricula.index');

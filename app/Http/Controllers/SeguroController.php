@@ -8,7 +8,17 @@ use Illuminate\Http\Request;
 
 class SeguroController extends Controller
 {
-    //
+
+    public function __construct()
+    {
+        $this->middleware('permission:seguro.index')->only('index');
+        $this->middleware('permission:seguro.create')->only('create');
+        $this->middleware('permission:seguro.store')->only('store');
+        $this->middleware('permission:seguro.show')->only('show');
+        $this->middleware('permission:seguro.edit')->only('edit');
+        $this->middleware('permission:seguro.update')->only('update');
+    }
+
     public function index(Request $request)
     {
         //consulta a la Base de Datos
