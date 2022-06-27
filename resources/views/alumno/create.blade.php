@@ -236,7 +236,7 @@
                             </label>
 
                              {{-- boton para editar la madre --}}
-                             <a href="javascript:history.back()" class="px-4 py-3 bg-red-600 text-white font-bold rounded">Volver</a>
+                             {{-- <a href="javascript:history.back()" class="px-4 py-3 bg-red-600 text-white font-bold rounded">Volver</a> --}}
                         </div>
                         {{-- PADRE --}}
                         <div class="mb-4">

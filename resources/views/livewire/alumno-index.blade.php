@@ -40,7 +40,7 @@
                                             </a>
                                         @endcan
 
-                                        @can('alumno.edit', $post)
+                                        @can('alumno.edit')
                                             <a href="{{ route('alumno.edit', $item) }}" class="whitespace-nowrap text-2xl mr-2 tip">
                                                 <i class='bx bx-edit-alt'></i>
                                                 <span>Editar</span>
