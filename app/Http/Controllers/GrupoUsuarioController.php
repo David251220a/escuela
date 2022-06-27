@@ -11,12 +11,12 @@ class GrupoUsuarioController extends Controller
 {
     public function __construct()
     {
-        // $this->middleware('permission:rol.index')->only('index');
-        // $this->middleware('permission:rol.create')->only('create');
-        // $this->middleware('permission:rol.store')->only('store');
-        // $this->middleware('permission:rol.show')->only('show');
-        // $this->middleware('permission:rol.edit')->only('edit');
-        // $this->middleware('permission:rol.update')->only('update');
+        $this->middleware('permission:rol.index')->only('index');
+        $this->middleware('permission:rol.create')->only('create');
+        $this->middleware('permission:rol.store')->only('store');
+        $this->middleware('permission:rol.show')->only('show');
+        $this->middleware('permission:rol.edit')->only('edit');
+        $this->middleware('permission:rol.update')->only('update');
     }
 
     public function index()

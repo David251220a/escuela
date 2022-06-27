@@ -167,26 +167,6 @@
                     @endcan
 
                     <li>
-                        <div class="profile-details">
-                            <div class="profile-content">
-                                <img src="{{ Storage::url('user.png') }}" alt="user">
-                            </div>
-                            <div class="name-job">
-                                <div class="profile_name">{{Auth::user()->name}}</div>
-                                <div class="job">Programador</div>
-                            </div>
-
-                            <form method="post" action="{{ route('logout') }}">
-                                @csrf
-                                @method('post')
-                                {{-- <a href="{{ route('logout') }}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2"><i class='bx bx-log-out'></i></a> --}}
-                                <button  type="submit" class="block px-4 py-2 text-sm text-gray-700"><i class='bx bx-log-out'></i></button>
-                            </form>
-
-                        </div>
-                    </li>
-
-                    <li>
                         <a href="{{ route('rol.index') }}">
                             <i class='bx bxs-group'></i>
                             <span class="link_name">Grupo de Usuario</span>
@@ -210,6 +190,26 @@
                             </li>
                         </ul>
 
+                    </li>
+
+                    <li>
+                        <div class="profile-details">
+                            <div class="profile-content">
+                                <img src="{{ Storage::url('user.png') }}" alt="user">
+                            </div>
+                            <div class="name-job">
+                                <div class="profile_name">{{Auth::user()->name}}</div>
+                                <div class="job">Programador</div>
+                            </div>
+
+                            <form method="post" action="{{ route('logout') }}">
+                                @csrf
+                                @method('post')
+                                {{-- <a href="{{ route('logout') }}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2"><i class='bx bx-log-out'></i></a> --}}
+                                <button  type="submit" class="block px-4 py-2 text-sm text-gray-700"><i class='bx bx-log-out'></i></button>
+                            </form>
+
+                        </div>
                     </li>
 
                 </ul>

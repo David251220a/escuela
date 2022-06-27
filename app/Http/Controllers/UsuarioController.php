@@ -12,14 +12,14 @@ class UsuarioController extends Controller
 
     public function __construct()
     {
-        // $this->middleware('permission:usuario.index')->only('index');
-        // $this->middleware('permission:usuario.create')->only('create');
-        // $this->middleware('permission:usuario.store')->only('store');
-        // $this->middleware('permission:usuario.show')->only('show');
-        // $this->middleware('permission:usuario.edit')->only('edit');
-        // $this->middleware('permission:usuario.update')->only('update');
+        $this->middleware('permission:usuario.index')->only('index');
+        $this->middleware('permission:usuario.create')->only('create');
+        $this->middleware('permission:usuario.store')->only('store');
+        $this->middleware('permission:usuario.show')->only('show');
+        $this->middleware('permission:usuario.edit')->only('edit');
+        $this->middleware('permission:usuario.update')->only('update');
 
-        // $this->middleware('permission:resetear_pass')->only('resetear_pass');
+        $this->middleware('permission:resetear_pass')->only('resetear_pass');
     }
 
     public function index()
@@ -40,6 +40,8 @@ class UsuarioController extends Controller
             'email' => 'required|email',
             'password' => 'required'
         ]);
+
+        $data['password'] = bcrypt($request->password);
 
         User::create($data);
 
