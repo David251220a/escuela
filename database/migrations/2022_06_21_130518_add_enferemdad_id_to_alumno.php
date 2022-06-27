@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('alumno', function (Blueprint $table) {
-            $table->integer('enfermedad_id')->default(1);
+            $table->integer('enfermedad_id')->default(0);
             $table->string('observacion_enfermedad', 255)->nullable();
 
             $table->foreign('enfermedad_id')->references('id')->on('enfermedad');

@@ -268,7 +268,6 @@
                              {{-- BOTON PARA EDITAR LA MADRE--}}
                             {{-- <a href="{{ route('alergia.edit',$alergia) }}" class="text-sm px-4 py-2 mb-4 border rounded  text-white font-bold" style="border-color: rgb(255, 136, 0); background : orange;"> Editar</a> --}}
 
-
                         </div>
 
                         {{-- Datos del Padre como se muestra en la vista Alumno--}}

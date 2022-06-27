@@ -24,10 +24,7 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('admin123456'),
         ]);
 
-        DB::table('paramentro_general')->insert([
-            'monto_multa' => 0,
-            'cantidad_dias_gracia' => 0
-        ]);
+
 
         $this->call([
             Estado::class,
@@ -48,6 +45,14 @@ class DatabaseSeeder extends Seeder
             IngregoConcepto::class,
             Ingreso_Estado::class,
             Enfermedad::class,
+        ]);
+
+        DB::table('paramentro_general')->insert([
+            'monto_multa' => 0,
+            'cantidad_dias_gracia' => 0,
+            'estado_id' => 1,
+            'usuario_grabacion' => 1,
+            'usuario_modificacion' => 1,
         ]);
 
     }

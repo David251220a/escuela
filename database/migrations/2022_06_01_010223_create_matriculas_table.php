@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('cantidad_dias_gracia');
             $table->unsignedInteger('estado_id');
             $table->foreignId('usuario_grabacion')->references('id')->on('users');
+            $table->integer('usuario_modificacion')->default(1);
             $table->timestamps();
 
             $table->foreign('estado_id')->references('id')->on('estado');
