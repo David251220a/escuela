@@ -46,6 +46,7 @@ function cal_total_pagar(input){
     dias_gracia = parseInt(document.getElementById('dias_gracia').value);
     fecha_vencimiento = moment(fecha_vencimiento).add(dias_gracia, 'days').format('DD-MM-YYYY');
     cuota_seleccionada = document.getElementById('cuota_seleccionada[' +index+']');
+    aplica_multa = document.getElementById('aplica_multa[' +index+']').value;
     if(const_total > 0){
         total_cobrar = const_total;
     }
@@ -58,7 +59,9 @@ function cal_total_pagar(input){
         total_cobrar = total_cobrar.split('').reverse().join('').replace(/^[\.]/,'');
         document.getElementById('total_cobrar').value = total_cobrar;
         document.getElementById('total_pagar').value = total_cobrar;
-        cant_cuotas = cant_cuotas + 1;
+        if(aplica_multa == 1){
+            cant_cuotas = cant_cuotas + 1;
+        }
         cuota_seleccionada.value = 1;
     }else{
         input.value = 0;
@@ -71,7 +74,12 @@ function cal_total_pagar(input){
         total_cobrar = total_cobrar.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
         total_cobrar = total_cobrar.split('').reverse().join('').replace(/^[\.]/,'');
         document.getElementById('total_cobrar').value = total_cobrar;
-        cant_cuotas = cant_cuotas - 1;
+        if(aplica_multa == 1){
+            cant_cuotas = cant_cuotas - 1;
+        }
+        if(cant_cuotas <= 0){
+            cant_cuotas = 0;
+        }
         cuota_seleccionada.value = 0;
     }
 
@@ -85,6 +93,56 @@ function cal_total_pagar(input){
 function recalcular(){
 
     multa = parseInt(document.getElementById('multa').value.replace(/\./g,''));
+    multa_total_cobrar = 0;
+    total_cobrar = 0;
+    if(cant_cuotas > 0){
+
+        multa_total_cobrar = multa * cant_cuotas;
+
+    }else{
+        multa_total_cobrar = 0
+        document.getElementById('total_cobrar').value = 0;
+    }
+
+    total_cobrar = const_total + multa_total_cobrar;
+    total_cobrar = total_cobrar.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
+    total_cobrar = total_cobrar.split('').reverse().join('').replace(/^[\.]/,'');
+    document.getElementById('total_cobrar').value = total_cobrar;
+    document.getElementById('total_pagar').value = total_cobrar;
+
+}
+
+function recalcular_disminuir_multa(input){
+
+    index = input.id;
+    cuota_seleccionada = document.getElementById('cuota_seleccionada[' +index+']');
+    aplica_multa = document.getElementById('aplica_multa[' +index+']');
+    multa = parseInt(document.getElementById('multa').value.replace(/\./g,''));
+    if(cuota_seleccionada.value == 0){
+        input.checked = true;
+        input.value = 1;
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'La aplicación o no de la multa debe corresponder a una cuota seleccionada.',
+        })
+    }else{
+        input.value = 0;
+    }
+
+    if(input.checked == true){
+        input.value = 1;
+        aplica_multa.value = 1;
+        cant_cuotas = cant_cuotas + 1;
+        if(cant_cuotas <= 0){
+            cant_cuotas = 0;
+        }
+    }else{
+        input.value = 0;
+        cant_cuotas = cant_cuotas - 1;
+        aplica_multa.value = 0;
+    }
+
     multa_total_cobrar = 0;
     total_cobrar = 0;
     if(cant_cuotas > 0){
