@@ -123,14 +123,14 @@ function btn_generar(){
     }
     fecha_inicio = moment(fecha_inicio);
     var now = moment();
-    if(fecha_inicio.year() != now.year()){
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'La año de la fecha de inicio deberia ser de este año.',
-        })
-        return false;
-    }
+    // if(fecha_inicio.year() != now.year()){
+    //     Swal.fire({
+    //         icon: 'error',
+    //         title: 'Oops...',
+    //         text: 'La año de la fecha de inicio deberia ser de este año.',
+    //     })
+    //     return false;
+    // }
 
     if(cantidad_cuota <= 0){
         Swal.fire({

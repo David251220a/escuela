@@ -126,6 +126,7 @@ function recalcular_disminuir_multa(input){
             title: 'Oops...',
             text: 'La aplicación o no de la multa debe corresponder a una cuota seleccionada.',
         })
+        return false;
     }else{
         input.value = 0;
     }

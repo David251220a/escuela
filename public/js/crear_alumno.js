@@ -426,7 +426,6 @@ function crear_padre(){
 
 //Formulario Modal para Crear el Encargado.
 function crear_encargado(encar){
-    console.log(encar);
     Swal.fire({
         title: 'Desea crear datos para el encargado?',
         text: "No existe coincidencia con este numero de cedula!",
@@ -641,3 +640,201 @@ function cambiar_check(input){
 
 }
 
+function editar_padre(padres){
+    if(padres == 1){
+        var titulo = 'Editar Padre';
+        var pregunta = 'Desea editar los datos del padre?';
+        var titulo2 = 'Datos del Padre';
+        var siguiente = document.getElementById('editar_padre').innerHTML;
+    }else{
+        var titulo = 'Editar Madre';
+        var pregunta = 'Desea editar los datos de la madre?';
+        var titulo2 = 'Datos de la Madre';
+        var siguiente = document.getElementById('editar_madre').innerHTML;
+    }
+    Swal.fire({
+        title: titulo,
+        text: pregunta,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si'
+    }).then(resultado => {
+        if (resultado.value) {
+            Swal.fire({
+                title: '<u>'+ titulo2+'</u>',
+                html:
+                siguiente,
+                width: 800,
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Guardar',
+
+                }).then(resultado => {
+                    if (resultado.value) {
+                        var id = padres;
+                        var edit_id = Swal.getPopup().querySelector('#edit_id').value;
+                        var edit_cedula = Swal.getPopup().querySelector('#edit_cedula').value;
+                        var edit_nombre = Swal.getPopup().querySelector('#edit_nombre').value;
+                        var edit_apellido = Swal.getPopup().querySelector('#edit_apellido').value;
+                        var edit_telef_particular = Swal.getPopup().querySelector('#edit_telef_particular').value;
+                        var edit_telefono = Swal.getPopup().querySelector('#edit_telefono').value;
+                        var edit_direccion = Swal.getPopup().querySelector('#edit_direccion').value;
+                        var edit_trabajo = Swal.getPopup().querySelector('#edit_trabajo').value;
+                        var edit_dias = Swal.getPopup().querySelector('#edit_dias').value;
+                        var edit_telef_laboral = Swal.getPopup().querySelector('#edit_telef_laboral').value;
+
+                        axios.post('/editar_padres',  {
+                            id : id,
+                            edit_id : edit_id,
+                            edit_cedula : edit_cedula,
+                            edit_nombre : edit_nombre,
+                            edit_apellido : edit_apellido,
+                            edit_telef_particular : edit_telef_particular,
+                            edit_telefono : edit_telefono,
+                            edit_direccion : edit_direccion,
+                            edit_dias : edit_dias,
+                            edit_trabajo : edit_trabajo,
+                            edit_telef_laboral : edit_telef_laboral,
+                        })
+                        .then(respuesta => {
+                            if(respuesta.data.ok == 1){
+                                // LO QUE MUESTRA
+                                if(respuesta.data.padres == 1){
+                                    document.getElementById('id_padre').value = respuesta.data.id;
+                                    document.getElementById('cedula_padre').value = respuesta.data.cedula;
+                                    document.getElementById('nombre_padre').value = respuesta.data.nombre +' '+respuesta.data.apellido;
+                                }
+
+                                if(respuesta.data.padres == 2){
+                                    document.getElementById('id_madre').value = respuesta.data.id;
+                                    document.getElementById('cedula_madre').value = respuesta.data.cedula;
+                                    document.getElementById('nombre_madre').value = respuesta.data.nombre +' '+respuesta.data.apellido;
+                                }
+
+                                Swal.fire(
+                                    titulo2,
+                                    respuesta.data.mensaje,
+                                    'success'
+                                )
+                            }else{
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: respuesta.data.mensaje,
+                                })
+                            }
+
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        })
+                    }
+
+            })
+        }
+    })
+}
+
+function editar_encargado(encargado){
+    if(encargado == 1){
+        var siguiente = document.getElementById('editar_encargado1').innerHTML;
+    }
+    if(encargado == 2){
+        var siguiente = document.getElementById('editar_encargado2').innerHTML;
+    }
+    if(encargado == 3){
+        var siguiente = document.getElementById('editar_encargado3').innerHTML;
+    }
+    if(encargado == 4){
+        var siguiente = document.getElementById('editar_encargado4').innerHTML;
+    }
+    Swal.fire({
+        title: 'Editar Datos del Encargado',
+        text: "Desea editar datos del encargado?.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si'
+    }).then(resultado => {
+        if (resultado.value) {
+            Swal.fire({
+                title: '<u>Datos del Encargado</u>',
+                html:
+                siguiente,
+                width: 800,
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Guardar',
+
+                }).then(resultado => {
+                    if (resultado.value) {
+                        var cedula = Swal.getPopup().querySelector('#edit_cedula_en').value;
+                        var nombre = Swal.getPopup().querySelector('#edit_nombre_en').value;
+                        var parentezo = Swal.getPopup().querySelector('#endit_parentezco_en').value;
+                        var telefono = Swal.getPopup().querySelector('#edit_telef_en').value;
+                        var observacion_encargado = Swal.getPopup().querySelector('#edit_observacion_en').value;
+                        var edit_id = Swal.getPopup().querySelector('#edit_id').value;
+
+                        axios.post('/editar_encargados',  {
+                            cedula : cedula,
+                            edit_id : edit_id,
+                            nombre : nombre,
+                            parentezo : parentezo,
+                            telefono : telefono,
+                            observacion_encargado : observacion_encargado,
+                        })
+                        .then(respuesta => {
+                            if(respuesta.data.ok == 1){
+
+                                if(encargado == 1){
+                                    document.getElementById('id_encargado').value = respuesta.data.id;
+                                    document.getElementById('cedula_encargado').value = respuesta.data.cedula;
+                                    document.getElementById('nombre_encargado').value = respuesta.data.nombre;
+                                }
+
+                                if(encargado == 2){
+                                    document.getElementById('id_encargado1').value = respuesta.data.id;
+                                    document.getElementById('cedula_encargado1').value = respuesta.data.cedula;
+                                    document.getElementById('nombre_encargado1').value = respuesta.data.nombre;
+                                }
+
+                                if(encargado == 3){
+                                    document.getElementById('id_encargado2').value = respuesta.data.id;
+                                    document.getElementById('cedula_encargado2').value = respuesta.data.cedula;
+                                    document.getElementById('nombre_encargado2').value = respuesta.data.nombre;
+                                }
+
+                                if(encargado == 4){
+                                    document.getElementById('id_encargado3').value = respuesta.data.id;
+                                    document.getElementById('cedula_encargado3').value = respuesta.data.cedula;
+                                    document.getElementById('nombre_encargado3').value = respuesta.data.nombre;
+                                }
+
+                                Swal.fire(
+                                    'Datos del Encargado',
+                                    respuesta.data.mensaje,
+                                    'success'
+                                )
+                            }else{
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: respuesta.data.mensaje,
+                                })
+                            }
+
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        })
+                    }
+
+            })
+        }
+    })
+}

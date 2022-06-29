@@ -194,7 +194,7 @@ class MatriculaController extends Controller
 
     public function update(Request  $request, Matricula $matricula)
     {
-        dd($request->all());
+        // dd($request->all());
         $cuota_selecionada = $request->cuota_seleccionada;
         $fecha = Carbon::now();
         $total_pagar = str_replace('.', '', $request->total_pagar);
@@ -268,21 +268,53 @@ class MatriculaController extends Controller
             ]);
 
             for ($i=0; $i < count($cuota_selecionada); $i++) {
+                if($total_pagar <= 0){
+                    break;
+                }
                 if($cuota_selecionada[$i] == 1){
+                    $cobrar_multa = 0;
                     $multa = str_replace('.', '', $request->multa);
                     $monto_cuota = $request->cuota_cobrar[$i];
                     $monto_cuota_saldo = str_replace('.', '', $request->cuota_saldo[$i]);
                     $monto_cuota_cobrado = str_replace('.', '', $request->cuota_cobrado[$i]);
-                    if($aplica_multa[$i] == 1){
-                        $multa = 0;
-                    }
-                    $monto_cuota_real = (($monto_cuota - $monto_cuota_cobrado) + $multa);
                     $matricula_cuota_id = $request->cuota[$i];
-                    if($total_pagar >= $monto_cuota_real){
-                        $monto_total_pagar = $monto_cuota_real;
+
+                    if($aplica_multa[$i] == 0){
+                        $multa = 0;
+                        $cobrar_multa = 0;
                     }else{
-                        $monto_total_pagar = $total_pagar;
+                        if($multa <= $total_pagar){
+                            $cobrar_multa = 1;
+                        }else{
+                            $cobrar_multa = 0;
+                            $multa = 0;
+                        }
                     }
+
+                    if($cobrar_multa == 0){
+                        $monto_cuota_real = $monto_cuota - $monto_cuota_cobrado;
+                        if($total_pagar >= $monto_cuota_real){
+                            $monto_total_pagar = $monto_cuota_real;
+                        }else{
+                            $monto_total_pagar = $total_pagar;
+                        }
+                    }else{
+                        $aux_total_pagar = 0;
+                        $aux_total_pagar = $total_pagar;
+                        $aux_total_pagar = $aux_total_pagar - $multa;
+                        $monto_cuota_real = $monto_cuota - $monto_cuota_cobrado;
+                        if($aux_total_pagar <= 0){
+                            $monto_total_pagar = 0;
+                        }else{
+                            if($aux_total_pagar >= $monto_cuota_real){
+                                $monto_total_pagar = $monto_cuota_real;
+                            }else{
+                                $monto_total_pagar = $aux_total_pagar;
+                            }
+                        }
+
+                    }
+
 
                     if($total_pagar > 0){
                         $cobro->cobro_matricula_cuota()->create([
@@ -294,6 +326,8 @@ class MatriculaController extends Controller
                             'monto_cobrado_cuota' => $monto_total_pagar,
                             'matricula_cuota_id' => $matricula_cuota_id,
                             'matricula_id' => $matricula->id,
+                            'monto_multa_a_cobrar' => $multa,
+                            'monto_multa_a_cobrado' => $multa,
                             'estado_id' => 1,
                             'usuario_alta' => auth()->user()->id,
                             'usuario_modificacion' => auth()->user()->id,
@@ -315,9 +349,12 @@ class MatriculaController extends Controller
                         }
 
                         $matricula_cuota->update([
-                            'monto_cuota_cobrado' => $matricula_cuota->monto_cuota_cobrado +$monto_total_pagar,
-                            'monto_cobrado' => $matricula_cuota->monto_cuota_cobrado +$monto_total_pagar,
+                            'monto_cuota_cobrado' => $matricula_cuota->monto_cuota_cobrado + $monto_total_pagar,
+                            'monto_cobrado' => $matricula_cuota->monto_cuota_cobrado + $monto_total_pagar + $matricula_cuota->monto_multa_cobrado + $multa,
                             'saldo' => $monto_cuota_real - $monto_total_pagar,
+                            'monto_multa_cobrar' => $matricula_cuota->monto_multa_cobrar + $multa,
+                            'monto_multa_cobrado' => $matricula_cuota->monto_multa_cobrado + $multa,
+                            'total_cuota' => $matricula_cuota->monto_cuota_cobrar + $matricula_cuota->monto_multa_cobrado + $multa,
                             'usuario_modificacion' => auth()->user()->id,
                             'updated_at' => $fecha,
                         ]);
@@ -325,8 +362,8 @@ class MatriculaController extends Controller
                     }
 
 
-                    if($total_pagar >= ($total_pagar -$monto_cuota_real)){
-                        $total_pagar = $total_pagar - $monto_cuota_real;
+                    if($total_pagar >= ($total_pagar - ($monto_cuota_real + $multa))){
+                        $total_pagar = ($total_pagar - ($monto_cuota_real + $multa));
                     }else{
                         $total_pagar = 0;
                     }

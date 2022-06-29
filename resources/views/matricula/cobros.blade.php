@@ -85,6 +85,7 @@
                                             <th scope="col" class="px-6 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Monto Cuota</th>
                                             <th scope="col" class="px-6 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Monto Saldo</th>
                                             <th scope="col" class="px-6 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Monto Cobrado</th>
+                                            <th scope="col" class="px-6 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Aplica Multa</th>
                                             <th scope="col" class="px-6 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Seleccionar</th>
                                         </tr>
                                     </thead>
@@ -93,33 +94,55 @@
                                         @php
                                             $cont = 0;
                                         @endphp
+
                                         @foreach ($matricula_cuota as $item)
 
                                             @if ($item->monto_cuota_cobrado < $item->monto_cuota_cobrar)
+                                                @php
+                                                    $aplica_multa = 0;
+                                                    $dias_gracia = $paramentro_general->cantidad_dias_gracia;
+                                                    $fecha_limite = date('Y-m-d', strtotime($item->fecha_vencimiento."+ " .$dias_gracia."days"));
+                                                    $fecha_vencimiento = date('Y-m-d', strtotime($item->fecha_vencimiento));
+                                                    $fecha_actual = date('Y-m-d', strtotime(\Carbon\Carbon::now()));
+                                                    if($fecha_limite < $fecha_actual){
+                                                        if($item->monto_multa_cobrar == 0){
+                                                            $aplica_multa = 1;
+                                                        }
+                                                    }
+                                                @endphp
+
                                                 <tr>
-                                                    <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-center">
+                                                    <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-center font-semibold {{ ($aplica_multa == 1 ? 'text-red-600' : '') }}">
                                                         {{ number_format($item->cuota, 0, ".", ".") }}
                                                     </td>
-                                                    <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-center">
+                                                    <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-center font-semibold {{ ($aplica_multa == 1 ? 'text-red-600' : '') }}">
                                                         <input type="date" name="fecha_vencimiento[{{$cont}}]" id="fecha_vencimiento[{{$cont}}]"
-                                                        value="{{ $item->fecha_vencimiento }}" class=" text-center border-gray-100" readonly>
+                                                        value="{{ $item->fecha_vencimiento }}" class=" text-center border-gray-100 font-semibold" readonly>
+                                                        <input type="hidden" name="fecha_limite[{{$cont}}]" id="fecha_limite[{{$cont}}]" value="">
                                                     </td>
-                                                    <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-center">
+                                                    <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-center font-semibold {{ ($aplica_multa == 1 ? 'text-red-600' : '') }}">
                                                         {{ number_format($item->monto_cuota_cobrar, 0, ".", ".") }}
                                                         <input type="hidden" name="cuota_cobrar[{{$cont}}]" id="cuota_cobrar[{{$cont}}]"
                                                         value="{{$item->monto_cuota_cobrar}}">
                                                     </td>
-                                                    <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-center">
-                                                        <input type="text" name="cuota_saldo[{{$cont}}]" id="cuota_saldo[{{$cont}}]"
+                                                    <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-center font-semibold {{ ($aplica_multa == 1 ? 'text-red-600' : '') }}">
+                                                        {{ number_format($item->saldo, 0, ".", ".") }}
+                                                        <input type="hidden" name="cuota_saldo[{{$cont}}]" id="cuota_saldo[{{$cont}}]"
                                                         value="{{ number_format($item->saldo, 0, ".", ".") }}"
                                                         class="border border-gray-100 rounded w-full text-center" readonly>
                                                     </td>
-                                                    <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-center">
+                                                    <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-center font-semibold {{ ($aplica_multa == 1 ? 'text-red-600' : '') }}">
                                                         {{ number_format($item->monto_cuota_cobrado, 0, ".", ".") }}
                                                         <input type="hidden" name="cuota_cobrado[{{$cont}}]" id="cuota_cobrado[{{$cont}}]"
                                                         value="{{$item->monto_cuota_cobrado}}">
+                                                        <input type="hidden" name="aplica_multa[{{$cont}}]" id="aplica_multa[{{$cont}}]"
+                                                        value="{{$aplica_multa}}">
                                                     </td>
-                                                    <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-center">
+                                                    <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-center font-semibold">
+                                                        <input type="checkbox" name="{{$cont}}" id="{{$cont}}" value="{{$aplica_multa}}" {{ ($aplica_multa == 1 ? 'checked' : '') }}
+                                                        {{ $aplica_multa == 1 ? '' : 'disabled' }} onclick="recalcular_disminuir_multa(this)">
+                                                    </td>
+                                                    <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-center font-semibold">
                                                         <input type="checkbox" name="{{$cont}}" id="{{$cont}}" value="0"
                                                         onclick="cal_total_pagar(this)">
                                                         <input type="hidden" name="cuota[]" id="cuota[]" value="{{$item->id}}">
@@ -191,9 +214,9 @@
                 <div class="mt-4">
 
                     <div class="md:grid grid-cols-4 gap-4 px-4 py-6">
-                        <div class="mb-2" style="display: none">
+                        <div class="mb-2">
                             <label for="">Aplicar Multa</label>
-                            <input type="text" name="multa" id="multa" value="{{ $paramentro_general->monto_multa }}"
+                            <input type="text" name="multa" id="multa" value="{{ number_format($paramentro_general->monto_multa, 0, ".", ".") }}"
                             onkeyup="format(this)" onchange="format(this)"
                             class="border-gray-500 rounded w-full text-right">
                         </div>
@@ -240,6 +263,7 @@
                 $saldo = $matricula->monto_matricula;
                 $total_matricula_1 = 0;
                 $total_cuota_1 = 0;
+                $multa = 0;
             @endphp
             <div class="flex flex-col mb-4">
                 <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -252,11 +276,13 @@
                                     <tr>
                                         <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Concepto</th>
                                         <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Fecha Vencimiento</th>
-                                        <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Mes</th>
+                                        <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-left">Mes</th>
                                         <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Fecha Cobrado</th>
-                                        <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Monto a Pagar</th>
-                                        <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Monto Cobrado</th>
-                                        <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Monto Saldo</th>
+                                        <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-right">Monto a Pagar</th>
+                                        <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-right">Monto Cobrado</th>
+                                        <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-right">Monto Saldo</th>
+                                        <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-right">Multa</th>
+                                        <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-right">Total Cobrado</th>
                                         <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center"></th>
                                     </tr>
                                 </thead>
@@ -277,14 +303,20 @@
                                             <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-center">
                                                 {{ date('d/m/Y', strtotime($item->cobros->fecha_cobro)) }}
                                             </td>
-                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-center">
+                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-right">
                                                 {{ number_format($matricula->monto_matricula, 0, ".", ".") }}
                                             </td>
-                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-center">
+                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-right">
                                                 {{ number_format($item->monto_cobrado_factura, 0, ".", ".") }}
                                             </td>
-                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-center">
+                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-right">
                                                 {{ number_format($saldo, 0, ".", ".") }}
+                                            </td>
+                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-right">
+                                                0
+                                            </td>
+                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-right">
+                                                {{ number_format($item->monto_cobrado_factura, 0, ".", ".") }}
                                             </td>
                                             <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-center">
                                                 <a href="{{ route('pdf.imprimir_cobro_matricula', ['id'=>$item->id]) }}" target="__blank"><i class='bx bxs-printer'></i></a>
@@ -293,8 +325,9 @@
                                     @endforeach
 
                                     <tr>
-                                        <td colspan="6" class="px-6 py-2 whitespace-nowrap text-gray-500 text-left font-bold text-xl">TOTAL COBRO MATRICULA:</td>
+                                        <td colspan="4" class="px-6 py-2 whitespace-nowrap text-gray-500 text-left font-bold text-xl">TOTALES COBRO MATRICULA:</td>
                                         <td colspan="2" class="px-6 py-2 whitespace-nowrap text-gray-500 text-right font-bold text-xl">{{ number_format($total_matricula_1, 0, ".", ".") }}</td>
+                                        <td colspan="3" class="px-6 py-2 whitespace-nowrap text-gray-500 text-right font-bold text-xl">{{ number_format($total_matricula_1, 0, ".", ".") }}</td>
                                     </tr>
 
                                     @foreach ($matricula->cobro_matricula_cuota as $item)
@@ -308,20 +341,29 @@
                                             <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-center">
                                                 {{ date('d-m-Y', strtotime($item->matricula_cuota->fecha_vencimiento)) }}
                                             </td>
-                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-center">
+                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-left">
                                                 {{Str::upper(\Carbon\Carbon::parse($item->matricula_cuota->fecha_vencimiento)->translatedFormat('F'))}}
                                             </td>
                                             <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-center">
                                                 {{ date('d/m/Y', strtotime($item->cobros->fecha_cobro)) }}
                                             </td>
-                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-center">
+                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-right">
                                                 {{ number_format($item->matricula_cuota->monto_cuota_cobrar, 0, ".", ".") }}
                                             </td>
-                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-center">
+                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-right">
                                                 {{ number_format($item->monto_cobrado_cuota, 0, ".", ".") }}
                                             </td>
-                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-center">
+                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-right">
                                                 {{ number_format($item->monto_saldo_cuota, 0, ".", ".") }}
+                                            </td>
+                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-right">
+                                                {{ number_format($item->monto_multa_a_cobrado, 0, ".", ".") }}
+                                                @php
+                                                    $multa = $multa + $item->monto_multa_a_cobrado;
+                                                @endphp
+                                            </td>
+                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-right">
+                                                {{ number_format($item->monto_multa_a_cobrado + $item->monto_cobrado_cuota, 0, ".", ".") }}
                                             </td>
                                             <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-center">
                                                 <a href="{{ route('imprimir_cobro_cuota', ['id'=>$item->id]) }}" target="__blank"><i class='bx bxs-printer'></i></a>
@@ -331,8 +373,10 @@
                                     @endforeach
 
                                     <tr>
-                                        <td colspan="6" class="px-6 py-2 whitespace-nowrap text-gray-500 text-left font-bold text-xl">TOTAL COBRO CUOTA:</td>
-                                        <td colspan="2" class="px-6 py-2 whitespace-nowrap text-gray-500 text-right font-bold text-xl">{{ number_format($total_cuota_1, 0, ".", ".") }}</td>
+                                        <td colspan="4" class="px-6 py-2 whitespace-nowrap text-gray-500 text-left font-bold text-lg">TOTALES:</td>
+                                        <td colspan="2" class="px-6 py-2 whitespace-nowrap text-gray-500 text-right font-bold text-lg">{{ number_format($total_cuota_1, 0, ".", ".") }}</td>
+                                        <td colspan="2" class="px-6 py-2 whitespace-nowrap text-gray-500 text-right font-bold text-lg">{{ number_format($multa, 0, ".", ".") }}</td>
+                                        <td class="px-6 py-2 whitespace-nowrap text-gray-500 text-right font-bold text-lg">{{ number_format($total_cuota_1 + $multa, 0, ".", ".") }}</td>
                                     </tr>
 
                                 </tbody>
@@ -362,42 +406,81 @@
                                         <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Mes</th>
                                         <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Fecha Vencimiento</th>
                                         <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Fecha Cobrado</th>
-                                        <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Monto Cuota</th>
-                                        <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Monto Cobrado</th>
-                                        <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Monto Saldo</th>
+                                        <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-right">Monto Cuota</th>
+                                        <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-right">Monto Cobrado</th>
+                                        <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-right">Monto Saldo</th>
+                                        <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-right">Multa</th>
+                                        <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-right">Total Cobrado</th>
                                     </tr>
                                 </thead>
-
+                                @php
+                                    $cobrar = 0;
+                                    $cobrado = 0;
+                                    $multa = 0;
+                                    $saldo = 0;
+                                @endphp
                                 <tbody class="bg-white divide-y divide-gray-200">
 
                                     @foreach ($matricula_cuota as $item)
                                         @php
                                             $pintar = ($item->saldo > 0 ? 1 : ($item->monto_cuota_cobrado == 0 ? 1 : 0)  );
                                         @endphp
-                                        <tr style="{{ ($pintar == 1 ? 'background: #c0c0c0  ' : '') }}">
-                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-left font-bold">
+                                        <tr>
+                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-left font-bold {{ ($pintar == 1 ? 'text-red-600' : '') }}">
                                                 {{Str::upper(\Carbon\Carbon::parse($item->fecha_vencimiento)->translatedFormat('F'))}}
                                             </td>
-                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-center font-bold">
+                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-center font-bold {{ ($pintar == 1 ? 'text-red-600' : '') }}">
                                                 {{ date('d-m-Y', strtotime($item->fecha_vencimiento)) }}
                                             </td>
-                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-center font-bold">
+                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-center font-bold {{ ($pintar == 1 ? 'text-red-600' : '') }}">
                                                 {{ ( empty($item->cobro_cuota->cobros) ? '' : date('d/m/Y', strtotime($item->cobro_cuota->cobros->fecha_cobro)) )}}
                                             </td>
-                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-center font-bold">
+                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-right font-bold {{ ($pintar == 1 ? 'text-red-600' : '') }}">
                                                 {{ number_format($item->monto_cuota_cobrar, 0, ".", ".") }}
                                             </td>
-                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-center font-bold">
+                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-right font-bold {{ ($pintar == 1 ? 'text-red-600' : '') }}">
                                                 {{ number_format($item->monto_cuota_cobrado, 0, ".", ".") }}
                                             </td>
-                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-center font-bold">
+                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-right font-bold {{ ($pintar == 1 ? 'text-red-600' : '') }}">
                                                 {{ number_format($item->monto_cuota_cobrar - $item->monto_cuota_cobrado, 0, ".", ".") }}
                                             </td>
+                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-right font-bold {{ ($pintar == 1 ? 'text-red-600' : '') }}">
+                                                {{ number_format($item->monto_multa_cobrado, 0, ".", ".") }}
+                                            </td>
+                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-right font-bold {{ ($pintar == 1 ? 'text-red-600' : '') }}">
+                                                {{ number_format($item->monto_multa_cobrado + $item->monto_cuota_cobrado , 0, ".", ".") }}
+                                            </td>
+                                            @php
+                                                $cobrar = $cobrar + $item->monto_cuota_cobrar;
+                                                $cobrado = $cobrado + $item->monto_cuota_cobrado;
+                                                $multa = $multa + $item->monto_multa_cobrado;
+                                                $saldo = ($saldo + ($item->monto_cuota_cobrar - $item->monto_cuota_cobrado));
+                                            @endphp
                                         </tr>
 
                                     @endforeach
 
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="3" class="px-6 py-2 whitespace-nowrap text-base text-black text-left font-bold">Totales</td>
+                                        <td class="px-6 py-2 whitespace-nowrap text-base text-black text-right font-bold">
+                                            {{ number_format($cobrar , 0, ".", ".") }}
+                                        </td>
+                                        <td class="px-6 py-2 whitespace-nowrap text-base text-black text-right font-bold">
+                                            {{ number_format($cobrado , 0, ".", ".") }}
+                                        </td>
+                                        <td class="px-6 py-2 whitespace-nowrap text-base text-black text-right font-bold">
+                                            {{ number_format($saldo , 0, ".", ".") }}
+                                        </td>
+                                        <td class="px-6 py-2 whitespace-nowrap text-base text-black text-right font-bold">
+                                            {{ number_format($multa , 0, ".", ".") }}
+                                        </td>
+                                        <td class="px-6 py-2 whitespace-nowrap text-base text-black text-right font-bold">
+                                            {{ number_format($multa + $cobrado , 0, ".", ".") }}
+                                        </td>
+                                    </tr>
+                                </tfoot>
 
 
                             </table>

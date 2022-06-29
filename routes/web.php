@@ -13,6 +13,7 @@ use App\Http\Controllers\SeguroController;
 use App\Http\Controllers\EnfermedadController;
 use App\Http\Controllers\PaisController;
 use App\Http\Controllers\GrupoUsuarioController;
+use App\Http\Controllers\PadresController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
@@ -76,6 +77,8 @@ Route::middleware([
     Route::post('/encargado_consulta', [AlumnoController::class, 'encargado_consulta'])->name('encargado_consulta');
     Route::post('/encargado_crear', [AlumnoController::class, 'encargado_crear'])->name('encargado_crear');
     Route::post('/crear_datos', [AlumnoController::class, 'crear_datos'])->name('crear_datos');
+    Route::post('/editar_padres', [PadresController::class, 'editar_padres'])->name('editar_padre');
+    Route::post('/editar_encargados', [PadresController::class, 'editar_encargado'])->name('editar_encargado');
     Route::post('/buscar_alumno', [MatriculaController::class, 'buscar_alumno'])->name('matricula.buscar_alumno');
     Route::get('/consulta/grado/{search_grado}/turno/{search_turno}/{ciclo}', [PDFController::class, 'alumno_grado_turno'])->name('pdf.alumno_grado_turno');
     Route::get('/matricula/comprobante/{id}', [PDFController::class, 'imprimir_cobro_cuota'])->name('imprimir_cobro_cuota');

@@ -179,6 +179,15 @@
                             </select>
                         </div>
 
+                        <div class="mb-4">
+                            <label for="">Turno</label>
+                            <select name="turno" id="turno" class="w-full rounded border-gray-400 enviar">
+                                @foreach ($turno as $item)
+                                    <option {{($alumno->turno_id == $item->id ? 'selected' : '')}} value="{{ $item->id }}">{{ $item->nombre }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
                     </div>
 
                     <div class="mb-4 pl-4">
@@ -257,16 +266,19 @@
 
                         <div class="mb-4" style="margin-top: 25px">
                             <input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600
-                            focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mt-1 mr-2 cursor-pointer" type="checkbox"
+                            focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mt-3 mr-2 cursor-pointer" type="checkbox"
                             value="{{ $presento_madre }}" id="recibido_madre" name="recibido_madre"
                             onclick="cambiar_check(this)" onkeyup="cambiar_check(this)"
                             {{ ($presento_madre == 1 ? 'checked' : '') }}>
-                            <label class="form-check-label inline-block text-gray-800" for="flexCheckDefault">
+                            <label class="form-check-label inline-block text-gray-800 mb-4 {{ ($alumno->madre->cedula != 0 ? '' : 'mt-2') }}" for="flexCheckDefault">
                               Entregado
                             </label>
-
-                             {{-- BOTON PARA EDITAR LA MADRE--}}
-                            {{-- <a href="{{ route('alergia.edit',$alergia) }}" class="text-sm px-4 py-2 mb-4 border rounded  text-white font-bold" style="border-color: rgb(255, 136, 0); background : orange;"> Editar</a> --}}
+                            @if ($alumno->madre->cedula != 0)
+                                {{-- BOTON PARA EDITAR LA MADRE--}}
+                                <button type="button" class="px-2 py-2 border text-orange-500 font-semibold text-sm rounded" style="border-color: rgb(255, 136, 0)" onclick="editar_padre(2)">
+                                    Editar
+                                </button>
+                            @endif
 
                         </div>
 
@@ -280,7 +292,7 @@
 
                         <div class="mb-4">
                             <label for="">Nombre Padre</label>
-                            <input type="text" name="nombre_padre" id="nombre_padre" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->padre->nombre }}" readonly
+                            <input type="text" name="nombre_padre" id="nombre_padre" class="w-full rounded border-gray-400 enviar" value="{{ $alumno->padre->nombre }} {{ $alumno->padre->apellido }}" readonly
                             onkeyup="mayuscula(this)" onchange="mayuscula(this)">
                         </div>
 
@@ -291,13 +303,21 @@
 
                         <div class="mb-4" style="margin-top: 25px">
                             <input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600
-                            focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mt-1 mr-2 cursor-pointer" type="checkbox"
+                            focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mt-3 mr-2 cursor-pointer" type="checkbox"
                             value="{{ $presento_padre }}" id="recibido_padre" name="recibido_padre"
                             onclick="cambiar_check(this)" onkeyup="cambiar_check(this)"
                             {{ ($presento_padre == 1 ? 'checked' : '') }}>
-                            <label class="form-check-label inline-block text-gray-800" for="flexCheckDefault">
+                            <label class="form-check-label inline-block text-gray-800 mb-4 {{ ($alumno->padre->cedula != 0 ? '' : 'mt-2') }}" for="flexCheckDefault">
                               Entregado
                             </label>
+
+                            @if ($alumno->padre->cedula != 0)
+                                <button type="button" class="px-2 py-2 border text-orange-500 font-semibold text-sm rounded" style="border-color: rgb(255, 136, 0)"
+                                onclick="editar_padre(1)">
+                                    Editar
+                                </button>
+                            @endif
+
                         </div>
 
                         <div class="mb-4">
@@ -320,13 +340,19 @@
 
                         <div class="mb-4" style="margin-top: 25px">
                             <input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600
-                            focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mt-1 mr-2 cursor-pointer" type="checkbox"
+                            focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mt-3 mr-2 cursor-pointer" type="checkbox"
                             value="{{ $presento_encargado }}" id="recibido_encargado" name="recibido_encargado"
                             onclick="cambiar_check(this)" onkeyup="cambiar_check(this)"
                             {{ ($presento_encargado == 1 ? 'checked' : '') }}>
-                            <label class="form-check-label inline-block text-gray-800" for="flexCheckDefault">
+                            <label class="form-check-label inline-block text-gray-800 mb-4 {{ ($alumno->encargado->cedula != 0 ? '' : 'mt-2') }}" for="flexCheckDefault">
                               Entregado
                             </label>
+                            @if ($alumno->encargado->cedula != 0)
+                                <button type="button" class="px-2 py-2 border text-orange-500 font-semibold text-sm rounded" style="border-color: rgb(255, 136, 0)" onclick="editar_encargado(1)">
+                                    Editar
+                                </button>
+                            @endif
+
                         </div>
 
                         <div class="mb-4">
@@ -349,13 +375,18 @@
 
                         <div class="mb-4" style="margin-top: 25px">
                             <input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600
-                            focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mt-1 mr-2 cursor-pointer" type="checkbox"
+                            focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mt-3 mr-2 cursor-pointer" type="checkbox"
                             value="{{ $presento_encargado_1 }}" id="recibido_encargado1" name="recibido_encargado1"
                             onclick="cambiar_check(this)" onkeyup="cambiar_check(this)"
                             {{ ($presento_encargado_1 == 1 ? 'checked' : '') }}>
-                            <label class="form-check-label inline-block text-gray-800" for="flexCheckDefault">
+                            <label class="form-check-label inline-block text-gray-800 mb-4 {{ ($alumno->encargado1->cedula != 0 ? '' : 'mt-2') }}" for="flexCheckDefault">
                               Entregado
                             </label>
+                            @if ($alumno->encargado1->cedula != 0)
+                                <button type="button" class="px-2 py-2 border text-orange-500 font-semibold text-sm rounded" style="border-color: rgb(255, 136, 0)" onclick="editar_encargado(2)">
+                                    Editar
+                                </button>
+                            @endif
                         </div>
 
                         <div class="mb-4">
@@ -378,13 +409,18 @@
 
                         <div class="mb-4" style="margin-top: 25px">
                             <input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600
-                            focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mt-1 mr-2 cursor-pointer" type="checkbox"
+                            focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mt-3 mr-2 cursor-pointer" type="checkbox"
                             value="{{ $presento_encargado_2 }}" id="recibido_encargado2" name="recibido_encargado2"
                             onclick="cambiar_check(this)" onkeyup="cambiar_check(this)"
                             {{ ($presento_encargado_2 == 1 ? 'checked' : '') }}>
-                            <label class="form-check-label inline-block text-gray-800" for="flexCheckDefault">
+                            <label class="form-check-label inline-block text-gray-800 mb-4 {{ ($alumno->encargado2->cedula != 0 ? '' : 'mt-2') }}" for="flexCheckDefault">
                               Entregado
                             </label>
+                            @if ($alumno->encargado2->cedula != 0)
+                                <button type="button" class="px-2 py-2 border text-orange-500 font-semibold text-sm rounded" style="border-color: rgb(255, 136, 0)" onclick="editar_encargado(3)">
+                                    Editar
+                                </button>
+                            @endif
                         </div>
 
                         <div class="mb-4">
@@ -407,13 +443,18 @@
 
                         <div class="mb-4" style="margin-top: 25px">
                             <input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600
-                            focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mt-1 mr-2 cursor-pointer" type="checkbox"
+                            focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mt-3 mr-2 cursor-pointer" type="checkbox"
                             value="{{ $presento_encargado_3 }}" id="recibido_encargado3" name="recibido_encargado3"
                             onclick="cambiar_check(this)" onkeyup="cambiar_check(this)"
                             {{ ($presento_encargado_3 == 1 ? 'checked' : '') }}>
-                            <label class="form-check-label inline-block text-gray-800" for="flexCheckDefault">
+                            <label class="form-check-label inline-block text-gray-800 mb-4 {{ ($alumno->encargado3->cedula != 0 ? '' : 'mt-2') }}" for="flexCheckDefault">
                               Entregado
                             </label>
+                            @if ($alumno->encargado3->cedula != 0)
+                                <button type="button" class="px-2 py-2 border text-orange-500 font-semibold text-sm rounded" style="border-color: rgb(255, 136, 0)" onclick="editar_encargado(4)">
+                                    Editar
+                                </button>
+                            @endif
                         </div>
 
                     </div>
@@ -504,6 +545,12 @@
     @include('ui.crear_padre')
     @include('ui.crear_encargado')
     @include('ui.crear_opciones')
+    @include('ui.editar_padre')
+    @include('ui.editar_madre')
+    @include('ui.editar_encargado1')
+    @include('ui.editar_encargado2')
+    @include('ui.editar_encargado3')
+    @include('ui.editar_encargado4')
 
     <script src="{{ asset('js/crear_alumno.js ') }}"></script>
 
