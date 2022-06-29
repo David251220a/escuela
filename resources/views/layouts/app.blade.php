@@ -161,6 +161,10 @@
                                     </li>
                                 @endcan
 
+                                <li>
+                                    <a class="" href="{{ route('pais.index') }}">Pais</a>
+                                </li>
+
                             </ul>
                         </li>
 

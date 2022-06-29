@@ -49,6 +49,8 @@ class AlumnoController extends Controller
 
     public function create()
     {
+
+        //$Variable = Modelo::condicion.
         $lugar_nacimiento = LugarNacimiento::where('estado_id', 1)->get();
         $seguro = Seguro::where('estado_id', 1)->get();
         $alergia = Alergia::where('estado_id', 1)->get();

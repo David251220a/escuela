@@ -1,6 +1,7 @@
 <x-app-layout>
     {{-- para hacer una prueba --}}
-<h2 class="text-gray-600 font-semibold text-xl mb-6" >Crear Alergia</h2>
+    {{-- TITULO DE CABECERA. --}}
+<h2 class="text-gray-600 font-semibold text-xl mb-6" >Crear Alergias</h2>
 
     {{-- todo lo que esta ak adentro va a el controlador update --}}
     <form action="{{route('alergia.store')}}" method="POST"  onsubmit="return checkSubmit();">
@@ -25,8 +26,8 @@
        </div>
      </div>
 
-    <div name="Botones">
-       <button type="submit" class="bg-blue-500 text-white mr-2 py-2 px-6 text-lg font-bold rounded">
+        <div name="Botones">
+            <button type="submit" class="bg-blue-500 text-white mr-2 py-2 px-6 text-lg font-bold rounded">
            Guardar
        </button>
 

@@ -11,8 +11,10 @@ class Alergia extends Model
 
     protected $table = 'alergia';
 
+    //ASIGNACIÓN MASIVA. TIENE QUE ESTAR TODOS LOS CAMPOS DE ESA TABLA.
     protected $guarded = [];
 
+//ESTO ES PORQUE TIENE UN FOREIGN KEY CON ESTADO. OSEA TIENE UNA RELACIÓN CON OTRA TABLA.
 public function estado(){
     return $this->belongsTo(Estado::class, 'estado_id');
 }

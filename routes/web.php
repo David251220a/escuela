@@ -11,6 +11,7 @@ use App\Http\Controllers\AlergiaController;
 use App\Http\Controllers\LugarnacimientoController;
 use App\Http\Controllers\SeguroController;
 use App\Http\Controllers\EnfermedadController;
+use App\Http\Controllers\PaisController;
 use App\Http\Controllers\GrupoUsuarioController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\UsuarioController;
@@ -107,4 +108,7 @@ Route::middleware([
     Route::resource('/lugarnacimiento', LugarNacimientoController::class)->names('lugarnacimiento');
     Route::resource('/seguro', SeguroController::class)->names('seguro');
     Route::resource('/enfermedad', EnfermedadController::class)->names('enfermedad');
+
+    Route::resource('/pais', PaisController::class, ['parameters' => [
+        'pai' => 'pais' ]])->names('pais');
 });
