@@ -104,5 +104,6 @@
 
     <div class="">
         {{$alumnos->links()}}
+        {{-- $data->withQueryString()->links() --}}
     </div>
 </div>
