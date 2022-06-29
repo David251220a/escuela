@@ -169,32 +169,35 @@
                         </li>
 
                     @endcan
+                    @can('rol.index')
+                        <li>
+                            <a href="{{ route('rol.index') }}">
+                                <i class='bx bxs-group'></i>
+                                <span class="link_name">Grupo de Usuario</span>
+                            </a>
+                            <ul class="sub-menu blank">
+                                <li>
+                                    <a class="link_name" href="{{ route('rol.index') }}">Grupo de Usuario</a>
+                                </li>
+                            </ul>
 
-                    <li>
-                        <a href="{{ route('rol.index') }}">
-                            <i class='bx bxs-group'></i>
-                            <span class="link_name">Grupo de Usuario</span>
-                        </a>
-                        <ul class="sub-menu blank">
-                            <li>
-                                <a class="link_name" href="{{ route('rol.index') }}">Grupo de Usuario</a>
-                            </li>
-                        </ul>
+                        </li>
+                    @endcan
 
-                    </li>
+                    @can('usuario.index')
+                        <li>
+                            <a href="{{ route('usuario.index') }}">
+                                <i class='bx bxs-user-circle'></i>
+                                <span class="link_name">Usuarios</span>
+                            </a>
+                            <ul class="sub-menu blank">
+                                <li>
+                                    <a class="link_name" href="{{ route('usuario.index') }}">Usuarios</a>
+                                </li>
+                            </ul>
 
-                    <li>
-                        <a href="{{ route('usuario.index') }}">
-                            <i class='bx bxs-user-circle'></i>
-                            <span class="link_name">Usuarios</span>
-                        </a>
-                        <ul class="sub-menu blank">
-                            <li>
-                                <a class="link_name" href="{{ route('usuario.index') }}">Usuarios</a>
-                            </li>
-                        </ul>
-
-                    </li>
+                        </li>
+                    @endcan
 
                     <li>
                         <div class="profile-details">
