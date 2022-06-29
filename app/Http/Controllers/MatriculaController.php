@@ -194,12 +194,14 @@ class MatriculaController extends Controller
 
     public function update(Request  $request, Matricula $matricula)
     {
+        dd($request->all());
         $cuota_selecionada = $request->cuota_seleccionada;
         $fecha = Carbon::now();
         $total_pagar = str_replace('.', '', $request->total_pagar);
         $total_cobrar = str_replace('.', '', $request->total_cobrar);
         $matricula_cobrar = str_replace('.', '', $request->matricula_cobrar);
         $monto_matricula = str_replace('.', '', $request->monto_matricula);
+        $aplica_multa = $request->aplica_multa;
 
         if($matricula_cobrar > 0){
 
@@ -271,6 +273,9 @@ class MatriculaController extends Controller
                     $monto_cuota = $request->cuota_cobrar[$i];
                     $monto_cuota_saldo = str_replace('.', '', $request->cuota_saldo[$i]);
                     $monto_cuota_cobrado = str_replace('.', '', $request->cuota_cobrado[$i]);
+                    if($aplica_multa[$i] == 1){
+                        $multa = 0;
+                    }
                     $monto_cuota_real = (($monto_cuota - $monto_cuota_cobrado) + $multa);
                     $matricula_cuota_id = $request->cuota[$i];
                     if($total_pagar >= $monto_cuota_real){
@@ -278,6 +283,7 @@ class MatriculaController extends Controller
                     }else{
                         $monto_total_pagar = $total_pagar;
                     }
+
                     if($total_pagar > 0){
                         $cobro->cobro_matricula_cuota()->create([
                             'factura_sucursal' => '000',
