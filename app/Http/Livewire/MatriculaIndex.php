@@ -4,11 +4,16 @@ namespace App\Http\Livewire;
 
 use App\Models\Matricula;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class MatriculaIndex extends Component
 {
-
+    use WithPagination;
     public $search = "";
+
+    public function updatingSearch(){
+        $this->resetPage();
+    }
 
     public function render()
     {

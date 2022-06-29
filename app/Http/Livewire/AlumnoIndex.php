@@ -28,7 +28,7 @@ class AlumnoIndex extends Component
         ->where('estado_id', 1)
         ->orderBy('apellido', 'ASC')
         ->orderBy('nombre', 'ASC')
-        ->paginate(2);
+        ->paginate(10);
 
         return view('livewire.alumno-index', compact('alumnos'));
     }
