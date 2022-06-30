@@ -51,6 +51,7 @@
         </div>
         <div id="myTabContent">
 
+
             <div class="hidden p-1 rounded-lg" id="profile" role="tabpanel" aria-labelledby="dashboard-tab">
 
                 <div class="bg-white rounded overflow-hidden shadow mb-4">
@@ -60,7 +61,8 @@
                         <div class="mb-4">
                             <label for="">Cedula</label>
                             <input type="text" name="cedula" id="cedula"  class="w-full rounded border-gray-400 text-right enviar" value="{{number_format($alumno->cedula, 0, ".", ".")}}"
-                            onkeyup="punto_decimal(this)" onchange="punto_decimal(this)">
+                            onkeyup="punto_decimal(this)" onchange="punto_decimal(this)" readonly>
+
                         </div>
 
                         <div class="mb-4">
@@ -190,13 +192,7 @@
 
                     </div>
 
-                    <div class="mb-4 pl-4">
-                        <button type="submit"
-                        class="inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded
-                        shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700
-                        active:shadow-lg transition duration-150 ease-in-out"
-                         value="">Guardar</button>
-                    </div>
+
 
                 </div>
             </div>
@@ -535,6 +531,14 @@
                 </div>
             </div>
 
+        </div>
+
+        <div class="mb-4 pl-4">
+            <button type="submit"
+            class="inline-block px-6 py-2.5 bg-blue-700 text-white font-medium text-xs leading-tight uppercase rounded
+            shadow-md hover:bg-blue-600 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-700
+            active:shadow-lg transition duration-150 ease-in-out"
+             value="">Guardar</button>
         </div>
 
     </div>
