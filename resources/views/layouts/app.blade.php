@@ -169,6 +169,20 @@
                         </li>
 
                     @endcan
+
+                    <li>
+                        <a href="{{ route('anulacion.index') }}">
+                            <i class='bx bx-stats'></i>
+                            <span class="link_name">Anulación</span>
+                        </a>
+                        <ul class="sub-menu blank">
+                            <li>
+                                <a class="link_name" href="{{ route('anulacion.index') }}">Anulación</a>
+                            </li>
+                        </ul>
+
+                    </li>
+
                     @can('rol.index')
                         <li>
                             <a href="{{ route('rol.index') }}">
@@ -267,6 +281,8 @@
         @stack('modals')
 
         @livewireScripts
+
+        @stack('js')
         <script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>

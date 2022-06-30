@@ -8,6 +8,7 @@ use App\Http\Controllers\InicioController;
 use App\Http\Controllers\LimpiarController;
 use App\Http\Controllers\MatriculaController;
 use App\Http\Controllers\AlergiaController;
+use App\Http\Controllers\AnulacionController;
 use App\Http\Controllers\LugarnacimientoController;
 use App\Http\Controllers\SeguroController;
 use App\Http\Controllers\EnfermedadController;
@@ -94,6 +95,8 @@ Route::middleware([
     Route::get('/pdf/alumno_cuota_meses/grado/{grado}/turno/{turno}', [PDFController::class, 'grado_cuota_meses'])->name('pdf.grado_cuota_meses');
     Route::get('/pdf/alumno_cuota_meses/alumno/{alumno}', [PDFController::class, 'alumno_cuota_meses'])->name('pdf.alumno_cuota_meses');
     Route::get('/pdf/alumno/ficha/{alumno}', [PDFController::class, 'ficha'])->name('pdf.ficha');
+
+    Route::get('/anulaciones', [AnulacionController::class, 'index'])->name('anulacion.index');
 
     //Tablas Secundarias
     // Route::get('/secundaria/alergia', [AlergiaController::class, 'index'])->name('alergia.index');
