@@ -104,6 +104,10 @@ class CobroController extends Controller
             'recibo_id' => 1,
             'usuario_alta' => auth()->user()->id,
             'usuario_modificacion' => auth()->user()->id,
+            'alumno_id' => $alumno->id,
+            'grado_id' => $alumno->grado->id,
+            'turno_id' => $alumno->turno->id,
+            'ciclo_id' => $alumno->ciclo->id,
         ]);
 
         for ($i=0; $i < count($id_concepto); $i++) {
@@ -297,6 +301,10 @@ class CobroController extends Controller
             'recibo_id' => 1,
             'usuario_alta' => auth()->user()->id,
             'usuario_modificacion' => auth()->user()->id,
+            'alumno_id' => $alumno->id,
+            'grado_id' => $alumno->grado->id,
+            'turno_id' => $alumno->turno->id,
+            'ciclo_id' => $alumno->ciclo->id,
         ]);
 
         for ($i=0; $i < count($id_concepto); $i++) {
