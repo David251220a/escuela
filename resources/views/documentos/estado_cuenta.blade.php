@@ -186,7 +186,7 @@
                                 $total = $total + $item->monto_cuota_cobrado + $item->monto_multa_cobrado;
                                 $cobrar = $cobrar + $item->monto_cuota_cobrar;
                                 $cobrado = $cobrado + $item->monto_cuota_cobrado;
-                                $saldo = $item->monto_cuota_cobrar - $item->monto_cuota_cobrado;
+                                $saldo =  $saldo + $item->monto_cuota_cobrar - $item->monto_cuota_cobrado;
                                 $multa = $multa + $item->monto_multa_cobrado;
                             @endphp
                         </tr>

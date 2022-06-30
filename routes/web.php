@@ -97,6 +97,7 @@ Route::middleware([
     Route::get('/pdf/alumno/ficha/{alumno}', [PDFController::class, 'ficha'])->name('pdf.ficha');
 
     Route::get('/anulaciones', [AnulacionController::class, 'index'])->name('anulacion.index');
+    Route::get('/anulaciones/{alumno}', [AnulacionController::class, 'show'])->name('anulacion.show');
 
     //Tablas Secundarias
     // Route::get('/secundaria/alergia', [AlergiaController::class, 'index'])->name('alergia.index');

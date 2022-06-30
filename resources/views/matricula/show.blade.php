@@ -100,11 +100,13 @@
                                             @if ($item->monto_cuota_cobrado < $item->monto_cuota_cobrar)
                                                 @php
                                                     $aplica_multa = 0;
+                                                    $pinta_multa = 0;
                                                     $dias_gracia = $paramentro_general->cantidad_dias_gracia;
                                                     $fecha_limite = date('Y-m-d', strtotime($item->fecha_vencimiento."+ " .$dias_gracia."days"));
                                                     $fecha_vencimiento = date('Y-m-d', strtotime($item->fecha_vencimiento));
                                                     $fecha_actual = date('Y-m-d', strtotime(\Carbon\Carbon::now()));
                                                     if($fecha_limite < $fecha_actual){
+                                                        $pinta_multa = 1;
                                                         if($item->monto_multa_cobrar == 0){
                                                             $aplica_multa = 1;
                                                         }
@@ -112,26 +114,26 @@
                                                 @endphp
 
                                                 <tr>
-                                                    <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-center font-semibold {{ ($aplica_multa == 1 ? 'text-red-600' : '') }}">
+                                                    <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-center font-semibold {{ ($pinta_multa == 1 ? 'text-red-600' : '') }}">
                                                         {{ number_format($item->cuota, 0, ".", ".") }}
                                                     </td>
-                                                    <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-center font-semibold {{ ($aplica_multa == 1 ? 'text-red-600' : '') }}">
+                                                    <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-center font-semibold {{ ($pinta_multa == 1 ? 'text-red-600' : '') }}">
                                                         <input type="date" name="fecha_vencimiento[{{$cont}}]" id="fecha_vencimiento[{{$cont}}]"
                                                         value="{{ $item->fecha_vencimiento }}" class=" text-center border-gray-100 font-semibold" readonly>
                                                         <input type="hidden" name="fecha_limite[{{$cont}}]" id="fecha_limite[{{$cont}}]" value="">
                                                     </td>
-                                                    <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-center font-semibold {{ ($aplica_multa == 1 ? 'text-red-600' : '') }}">
+                                                    <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-center font-semibold {{ ($pinta_multa == 1 ? 'text-red-600' : '') }}">
                                                         {{ number_format($item->monto_cuota_cobrar, 0, ".", ".") }}
                                                         <input type="hidden" name="cuota_cobrar[{{$cont}}]" id="cuota_cobrar[{{$cont}}]"
                                                         value="{{$item->monto_cuota_cobrar}}">
                                                     </td>
-                                                    <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-center font-semibold {{ ($aplica_multa == 1 ? 'text-red-600' : '') }}">
+                                                    <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-center font-semibold {{ ($pinta_multa == 1 ? 'text-red-600' : '') }}">
                                                         {{ number_format($item->saldo, 0, ".", ".") }}
                                                         <input type="hidden" name="cuota_saldo[{{$cont}}]" id="cuota_saldo[{{$cont}}]"
                                                         value="{{ number_format($item->saldo, 0, ".", ".") }}"
                                                         class="border border-gray-100 rounded w-full text-center" readonly>
                                                     </td>
-                                                    <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-center font-semibold {{ ($aplica_multa == 1 ? 'text-red-600' : '') }}">
+                                                    <td class="px-6 whitespace-nowrap text-sm text-gray-500 text-center font-semibold {{ ($pinta_multa == 1 ? 'text-red-600' : '') }}">
                                                         {{ number_format($item->monto_cuota_cobrado, 0, ".", ".") }}
                                                         <input type="hidden" name="cuota_cobrado[{{$cont}}]" id="cuota_cobrado[{{$cont}}]"
                                                         value="{{$item->monto_cuota_cobrado}}">

@@ -35,7 +35,7 @@
                                 <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Grado</th>
                                 <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Turno</th>
                                 <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Estado</th>
-                                {{-- <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-right"></th> --}}
+                                <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-right"></th>
                             </tr>
                         </thead>
 
@@ -50,9 +50,16 @@
                                     <td class="px-6 whitespace-nowrap text-sm text-black font-semibold text-center">{{ $item->grado->nombre }}</td>
                                     <td class="px-6 whitespace-nowrap text-sm text-black font-semibold text-center">{{ $item->turno->nombre }}</td>
                                     <td class="px-6 whitespace-nowrap text-sm text-black font-semibold text-center">
-                                        <a wire:click="$emit('cambio_activo', {{$item->id}})"
+                                        <a wire:click="$emit('cambio_activo_alumno', {{$item->id}})"
                                         class="{{ ($item->estado->id == 1 ? 'text-green-600' : 'text-red-600') }} font-bold text-sm text-center">
                                             {{ $item->estado->nombre }}
+                                        </a>
+                                    </td>
+
+                                    <td>
+                                        <a href="{{ route('anulacion.show', $item) }}" class="whitespace-nowrap text-2xl mr-2 tip">
+                                            <i class='bx bx-search-alt-2'></i>
+                                            <span>Ingresos</span>
                                         </a>
                                     </td>
 
@@ -81,7 +88,7 @@
 
     @push('js')
         <script>
-            Livewire.on('cambio_activo', alumno_id => {
+            Livewire.on('cambio_activo_alumno', alumno_id => {
 
                 Swal.fire({
                     title: 'Cambio de Estado Alumno',
@@ -101,12 +108,6 @@
                             'Se ha deshabilitado con exito el alumno!.',
                             'success'
                         )
-
-                    }else {
-                    Swal.fire({
-                        title: 'Operation Cancelled!',
-                        icon: 'success'
-                    })
                     }
                 })
             });
