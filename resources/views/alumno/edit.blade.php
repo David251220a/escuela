@@ -182,12 +182,12 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="">Turno</label>
-                            <select name="turno" id="turno" class="w-full rounded border-gray-400 enviar">
-                                @foreach ($turno as $item)
-                                    <option {{($alumno->turno_id == $item->id ? 'selected' : '')}} value="{{ $item->id }}">{{ $item->nombre }}</option>
+                            <label for="">Nacionalidad</label>
+                            {{-- <select name="nacionalidad" id="nacionalidad" class="w-full rounded border-gray-400 enviar">
+                                @foreach ($nacionalidad as $item)
+                                    <option {{($nacionalidad->nacionalidad_id == $item->id ? 'selected' : '')}} value="{{ $item->id }}">{{ $item->nombre }}</option>
                                 @endforeach
-                            </select>
+                            </select> --}}
                         </div>
 
                     </div>

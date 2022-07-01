@@ -103,5 +103,12 @@ class Permisos extends Seeder
         $permission = Permission::create(['name' => 'enfermedad.store', 'descripcion' => 'Guardar Seguro']);
         $permission = Permission::create(['name' => 'enfermedad.delete', 'descripcion' => 'Elimnar Seguro']);
 
+        $permission = Permission::create(['name' => 'nacionalidad.index', 'descripcion' => 'Ver Listado de Nacionalidad']);
+        $permission = Permission::create(['name' => 'nacionalidad.edit', 'descripcion' => 'Editar Nacionalidad']);
+        $permission = Permission::create(['name' => 'nacionalidad.show', 'descripcion' => 'Ver Nacionalidad']);
+        $permission = Permission::create(['name' => 'nacionalidad.update', 'descripcion' => 'Actualizar Nacionalidad']);
+        $permission = Permission::create(['name' => 'nacionalidad.store', 'descripcion' => 'Guardar Nacionalidad']);
+        $permission = Permission::create(['name' => 'nacionalidad.delete', 'descripcion' => 'Elimnar Nacionalidad']);
+
     }
 }

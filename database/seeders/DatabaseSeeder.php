@@ -49,6 +49,7 @@ class DatabaseSeeder extends Seeder
             Ingreso_Estado::class,
             Enfermedad::class,
             Pais::class,
+            Nacionalidad::class,
         ]);
 
         DB::table('paramentro_general')->insert([
