@@ -1,5 +1,14 @@
 <x-app-layout>
 
+
+
+
+
+
+
+
+
+
     <div class="mb-6">
         <a class="text-sm px-4 py-2 mb-4 border rounded  text-white font-bold" style="border-color: blue; background : rgb(7, 101, 189);"
          href="{{ route('nacionalidad.create') }}">AGREGAR NACIONALIDAD</a>
@@ -8,7 +17,7 @@
     {{-- @livewire('alergia-index') --}}
     <div class="mt-4">
 
-        <h2 class="font-bold text-gray-500 text-2xl mb-4">LISTADO DE TODAS LAS NACIONALIDADES</h2>
+        <h2 class="font-bold text-gray-500 text-2xl mb-2 text-center">LISTADO DE TODAS LAS NACIONALIDADES</h2>
 
 
         {{-- <div class="mt-4 mb-4">

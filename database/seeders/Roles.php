@@ -132,6 +132,7 @@ class Roles extends Seeder
         $permission = Permission::create(['name' => 'tablasecundaria', 'descripcion' => 'Ver Tabla Secundaria'])->syncRoles($admin);
 
         $permission = Permission::create(['name' => 'nacionalidad.index', 'descripcion' => 'Ver Listado de Nacionalidad']);
+        $permission = Permission::create(['name' => 'nacionalidad.create', 'descripcion' => 'Crear Nacionalidad']);
         $permission = Permission::create(['name' => 'nacionalidad.edit', 'descripcion' => 'Editar Nacionalidad']);
         $permission = Permission::create(['name' => 'nacionalidad.show', 'descripcion' => 'Ver Nacionalidad']);
         $permission = Permission::create(['name' => 'nacionalidad.update', 'descripcion' => 'Actualizar Nacionalidad']);
