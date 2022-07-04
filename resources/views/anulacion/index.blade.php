@@ -2,6 +2,7 @@
 
     <div class="mb-4">
         @livewire('anulacion-index')
+
     </div>
 
     <br>

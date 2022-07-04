@@ -64,6 +64,7 @@ function cal_total_pagar(input){
         }
         cuota_seleccionada.value = 1;
     }else{
+        // console.log(total_cobrar);
         input.value = 0;
         if(total_cobrar == 0){
             total_cobrar = 0;
@@ -74,6 +75,7 @@ function cal_total_pagar(input){
         total_cobrar = total_cobrar.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
         total_cobrar = total_cobrar.split('').reverse().join('').replace(/^[\.]/,'');
         document.getElementById('total_cobrar').value = total_cobrar;
+        document.getElementById('total_pagar').value = total_cobrar;
         if(aplica_multa == 1){
             cant_cuotas = cant_cuotas - 1;
         }

@@ -206,7 +206,7 @@ class MatriculaController extends Controller
         $matricula_cobrar = str_replace('.', '', $request->matricula_cobrar);
         $monto_matricula = str_replace('.', '', $request->monto_matricula);
         $aplica_multa = $request->aplica_multa;
-
+        $alumno = $matricula->alumnos;
         if($matricula_cobrar > 0){
 
             if($matricula_cobrar > $monto_matricula){
@@ -228,6 +228,11 @@ class MatriculaController extends Controller
                 'recibo_id' => 1,
                 'usuario_alta' => auth()->user()->id,
                 'usuario_modificacion' => auth()->user()->id,
+                'alumno_id' => $alumno->id,
+                'grado_id' => $matricula->grado_id,
+                'turno_id' => $matricula->turno_id,
+                'ciclo_id' => $matricula->ciclo_id,
+
             ]);
 
             $cobro->cobro_matricula()->create([
@@ -256,7 +261,6 @@ class MatriculaController extends Controller
                 ->withErrors('Debe seleccionar una cuota!!.');
             }
 
-            $alumno = $matricula->alumnos;
             $cobro = Cobro::create([
                 'caja_id' => 1,
                 'sede_id' => 1,
@@ -271,9 +275,9 @@ class MatriculaController extends Controller
                 'usuario_alta' => auth()->user()->id,
                 'usuario_modificacion' => auth()->user()->id,
                 'alumno_id' => $alumno->id,
-                'grado_id' => $alumno->grado->id,
-                'turno_id' => $alumno->turno->id,
-                'ciclo_id' => $alumno->ciclo->id,
+                'grado_id' => $matricula->grado_id,
+                'turno_id' => $matricula->turno_id,
+                'ciclo_id' => $matricula->ciclo_id,
             ]);
 
             for ($i=0; $i < count($cuota_selecionada); $i++) {

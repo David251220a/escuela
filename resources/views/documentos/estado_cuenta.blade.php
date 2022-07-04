@@ -174,7 +174,16 @@
                             <td>COBRO CUOTA</td>
                             <td>{{ Str::upper(\Carbon\Carbon::parse($item->fecha_vencimiento)->translatedFormat('F')) }}</td>
                             <td>
-                                {{ (empty($item->cobro_cuota->cobros->fecha_cobro) ? '' : date('d/m/Y', strtotime($item->cobro_cuota->cobros->fecha_cobro ))) }}
+                                @foreach ($cobro_matricula_cuota as $cobro_cuota)
+                                    @if ($cobro_cuota->matricula_cuota_id == $item->id)
+                                        @if ($cobro_cuota->cobros->estado_id == 1)
+                                            {{ date('d/m/Y', strtotime($cobro_cuota->cobros->fecha_cobro )) }}
+                                        @endif
+                                    @endif
+
+
+                                @endforeach
+
                             </td>
                             <td style="text-align: right">{{number_format($item->monto_cuota_cobrar, 0, ".", ".")}}</td>
                             <td style="text-align: right">{{number_format($item->monto_cuota_cobrado, 0, ".", ".")}}</td>

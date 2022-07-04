@@ -232,8 +232,10 @@ class CobroController extends Controller
     {
         $alumno = Alumno::find($id);
         $cobros = CobroIngreso::where('cobro_id', $id2)
+        ->where('estado_id', 1)
         ->get();
         $cobros_detalle = CobroIngreso::where('padre_ingreso_id', $id2)
+        ->where('estado_id', 1)
         ->get();
         $tipo_cobro = TipoCobro::all();
         return view('cobro.cobro_pendiente_detalle', compact('alumno', 'cobros', 'cobros_detalle', 'tipo_cobro', 'id', 'id2'));

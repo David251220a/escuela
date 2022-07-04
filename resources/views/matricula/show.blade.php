@@ -178,7 +178,9 @@
                 @if ((!empty($matricula->cobro_matricula)))
                     @php
                         foreach($matricula->cobro_matricula as $item){
-                            $total_cobrado_matricula = $total_cobrado_matricula + $item->monto_cobrado_factura;
+                            if ($item->estado_id == 1) {
+                                $total_cobrado_matricula = $total_cobrado_matricula + $item->monto_cobrado_factura;
+                            }
                         }
                         $saldo = $matricula->monto_matricula - $total_cobrado_matricula;
                         if($saldo > 0){
@@ -291,39 +293,44 @@
                                 <tbody class="bg-white divide-y divide-gray-200">
 
                                     @foreach ($matricula->cobro_matricula as $item)
-                                        <tr>
-                                            @php
-                                                $saldo = $saldo - $item->monto_cobrado_factura;
-                                                $total_matricula_1 = $total_matricula_1 + $item->monto_cobrado_factura;
-                                            @endphp
-                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-left">
-                                                COBRO MATRICULA
-                                            </td>
-                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-center">
-                                            </td>
-                                            <td></td>
-                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-center">
-                                                {{ date('d/m/Y', strtotime($item->cobros->fecha_cobro)) }}
-                                            </td>
-                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-right">
-                                                {{ number_format($matricula->monto_matricula, 0, ".", ".") }}
-                                            </td>
-                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-right">
-                                                {{ number_format($item->monto_cobrado_factura, 0, ".", ".") }}
-                                            </td>
-                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-right">
-                                                {{ number_format($saldo, 0, ".", ".") }}
-                                            </td>
-                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-right">
-                                                0
-                                            </td>
-                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-right">
-                                                {{ number_format($item->monto_cobrado_factura, 0, ".", ".") }}
-                                            </td>
-                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-center">
-                                                <a href="{{ route('pdf.imprimir_cobro_matricula', ['id'=>$item->id]) }}" target="__blank"><i class='bx bxs-printer'></i></a>
-                                            </td>
-                                        </tr>
+
+                                        @if ($item->estado_id == 1)
+                                            <tr>
+                                                @php
+                                                    $saldo = $saldo - $item->monto_cobrado_factura;
+                                                    $total_matricula_1 = $total_matricula_1 + $item->monto_cobrado_factura;
+                                                @endphp
+
+                                                <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-left">
+                                                    COBRO MATRICULA
+                                                </td>
+                                                <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-center">
+                                                </td>
+                                                <td></td>
+                                                <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-center">
+                                                    {{ date('d/m/Y', strtotime($item->cobros->fecha_cobro)) }}
+                                                </td>
+                                                <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-right">
+                                                    {{ number_format($matricula->monto_matricula, 0, ".", ".") }}
+                                                </td>
+                                                <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-right">
+                                                    {{ number_format($item->monto_cobrado_factura, 0, ".", ".") }}
+                                                </td>
+                                                <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-right">
+                                                    {{ number_format($saldo, 0, ".", ".") }}
+                                                </td>
+                                                <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-right">
+                                                    0
+                                                </td>
+                                                <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-right">
+                                                    {{ number_format($item->monto_cobrado_factura, 0, ".", ".") }}
+                                                </td>
+                                                <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-center">
+                                                    <a href="{{ route('pdf.imprimir_cobro_matricula', ['id'=>$item->id]) }}" target="__blank"><i class='bx bxs-printer'></i></a>
+                                                </td>
+                                            </tr>
+                                        @endif
+
                                     @endforeach
 
                                     <tr>
@@ -336,41 +343,45 @@
                                         @php
                                             $total_cuota_1 = $total_cuota_1 + $item->monto_cobrado_cuota;
                                         @endphp
-                                        <tr>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-left">
-                                                COBRO DE CUOTA
-                                            </td>
-                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-center">
-                                                {{ date('d-m-Y', strtotime($item->matricula_cuota->fecha_vencimiento)) }}
-                                            </td>
-                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-left">
-                                                {{Str::upper(\Carbon\Carbon::parse($item->matricula_cuota->fecha_vencimiento)->translatedFormat('F'))}}
-                                            </td>
-                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-center">
-                                                {{ date('d/m/Y', strtotime($item->cobros->fecha_cobro)) }}
-                                            </td>
-                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-right">
-                                                {{ number_format($item->matricula_cuota->monto_cuota_cobrar, 0, ".", ".") }}
-                                            </td>
-                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-right">
-                                                {{ number_format($item->monto_cobrado_cuota, 0, ".", ".") }}
-                                            </td>
-                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-right">
-                                                {{ number_format($item->monto_saldo_cuota, 0, ".", ".") }}
-                                            </td>
-                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-right">
-                                                {{ number_format($item->monto_multa_a_cobrado, 0, ".", ".") }}
-                                                @php
-                                                    $multa = $multa + $item->monto_multa_a_cobrado;
-                                                @endphp
-                                            </td>
-                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-right">
-                                                {{ number_format($item->monto_multa_a_cobrado + $item->monto_cobrado_cuota, 0, ".", ".") }}
-                                            </td>
-                                            <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-center">
-                                                <a href="{{ route('imprimir_cobro_cuota', ['id'=>$item->id]) }}" target="__blank"><i class='bx bxs-printer'></i></a>
-                                            </td>
-                                        </tr>
+
+                                        @if ($item->estado_id == 1)
+
+                                            <tr>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-left">
+                                                    COBRO DE CUOTA
+                                                </td>
+                                                <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-center">
+                                                    {{ date('d-m-Y', strtotime($item->matricula_cuota->fecha_vencimiento)) }}
+                                                </td>
+                                                <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-left">
+                                                    {{Str::upper(\Carbon\Carbon::parse($item->matricula_cuota->fecha_vencimiento)->translatedFormat('F'))}}
+                                                </td>
+                                                <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-center">
+                                                    {{ date('d/m/Y', strtotime($item->cobros->fecha_cobro)) }}
+                                                </td>
+                                                <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-right">
+                                                    {{ number_format($item->matricula_cuota->monto_cuota_cobrar, 0, ".", ".") }}
+                                                </td>
+                                                <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-right">
+                                                    {{ number_format($item->monto_cobrado_cuota, 0, ".", ".") }}
+                                                </td>
+                                                <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-right">
+                                                    {{ number_format($item->monto_saldo_cuota, 0, ".", ".") }}
+                                                </td>
+                                                <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-right">
+                                                    {{ number_format($item->monto_multa_a_cobrado, 0, ".", ".") }}
+                                                    @php
+                                                        $multa = $multa + $item->monto_multa_a_cobrado;
+                                                    @endphp
+                                                </td>
+                                                <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-right">
+                                                    {{ number_format($item->monto_multa_a_cobrado + $item->monto_cobrado_cuota, 0, ".", ".") }}
+                                                </td>
+                                                <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-500 text-center">
+                                                    <a href="{{ route('imprimir_cobro_cuota', ['id'=>$item->id]) }}" target="__blank"><i class='bx bxs-printer'></i></a>
+                                                </td>
+                                            </tr>
+                                        @endif
 
                                     @endforeach
 

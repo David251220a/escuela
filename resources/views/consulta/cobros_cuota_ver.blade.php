@@ -56,31 +56,34 @@
                         <tbody class="bg-white divide-y divide-gray-200">
 
                             @foreach ($alumno->matricula[0]->cobro_matricula_cuota as $item)
-                                <tr>
-                                    <td class="px-6 whitespace-nowrap text-xl text-gray-500 text-center">
-                                        {{ number_format($item->matricula_cuota->cuota, 0, ".", ".") }}
-                                    </td>
-                                    <td class="px-6 whitespace-nowrap text-xl text-gray-500 text-center">
-                                        {{ date('d-m-Y', strtotime($item->matricula_cuota->fecha_vencimiento)) }}
-                                    </td>
-                                    <td class="px-6 whitespace-nowrap text-xl text-gray-500 text-center">
-                                        {{ number_format($item->monto_total_cuota, 0, ".", ".") }}
-                                    </td>
-                                    <td class="px-6 whitespace-nowrap text-xl text-gray-500 text-center">
-                                        {{ number_format($item->monto_cobrado_cuota, 0, ".", ".") }}
-                                    </td>
-                                    <td class="px-6 whitespace-nowrap text-xl text-gray-500 text-center">
-                                        {{ number_format($item->monto_saldo_cuota, 0, ".", ".") }}
-                                    </td>
-                                    <td class="px-6 whitespace-nowrap text-xl text-gray-500 text-center">
-                                        {{ $item->cobros->forma_pago->nombre }}
-                                    </td>
-                                    @php
-                                        $total_saldo =  $total_saldo + $item->monto_saldo_cuota;
-                                        $total_cobrar = $total_cobrar + $item->monto_total_cuota;
-                                        $total_cobrado = $total_cobrado + $item->monto_cobrado_cuota;
-                                    @endphp
-                                </tr>
+                                @if ($item->estado_id == 1)
+                                    <tr>
+                                        <td class="px-6 whitespace-nowrap text-xl text-gray-500 text-center">
+                                            {{ number_format($item->matricula_cuota->cuota, 0, ".", ".") }}
+                                        </td>
+                                        <td class="px-6 whitespace-nowrap text-xl text-gray-500 text-center">
+                                            {{ date('d-m-Y', strtotime($item->matricula_cuota->fecha_vencimiento)) }}
+                                        </td>
+                                        <td class="px-6 whitespace-nowrap text-xl text-gray-500 text-center">
+                                            {{ number_format($item->monto_total_cuota, 0, ".", ".") }}
+                                        </td>
+                                        <td class="px-6 whitespace-nowrap text-xl text-gray-500 text-center">
+                                            {{ number_format($item->monto_cobrado_cuota, 0, ".", ".") }}
+                                        </td>
+                                        <td class="px-6 whitespace-nowrap text-xl text-gray-500 text-center">
+                                            {{ number_format($item->monto_saldo_cuota, 0, ".", ".") }}
+                                        </td>
+                                        <td class="px-6 whitespace-nowrap text-xl text-gray-500 text-center">
+                                            {{ $item->cobros->forma_pago->nombre }}
+                                        </td>
+                                        @php
+                                            $total_saldo =  $total_saldo + $item->monto_saldo_cuota;
+                                            $total_cobrar = $total_cobrar + $item->monto_total_cuota;
+                                            $total_cobrado = $total_cobrado + $item->monto_cobrado_cuota;
+                                        @endphp
+                                    </tr>
+                                @endif
+
                             @endforeach
 
                         </tbody>

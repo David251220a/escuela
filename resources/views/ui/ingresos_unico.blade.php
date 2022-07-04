@@ -32,13 +32,14 @@
                                         @php
                                             $tiene = 1;
                                             $monto_total = $monto_total + $cobro->monto_cobrado_factura;
+                                            $fecha_de_cobro = date('d/m/Y', strtotime($cobro->fecha_cobro));
                                         @endphp
 
                                     @endif
 
                                 @endforeach
 
-                                <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-center">{{ date('d/m/Y', strtotime($cobro->fecha_cobro)) }}</td>
+                                <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-center"> {{ (empty($fecha_de_cobro) ? '' : $fecha_de_cobro ) }} </td>
                                 <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-left">
                                     {{ $titulo }}
                                 </td>
