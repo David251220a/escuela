@@ -50,17 +50,22 @@
                                     <td class="px-6 whitespace-nowrap text-sm text-black font-semibold text-center">{{ $item->grado->nombre }}</td>
                                     <td class="px-6 whitespace-nowrap text-sm text-black font-semibold text-center">{{ $item->turno->nombre }}</td>
                                     <td class="px-6 whitespace-nowrap text-sm text-black font-semibold text-center">
-                                        <a wire:click="$emit('cambio_activo_alumno', {{$item->id}})"
-                                        class="{{ ($item->estado->id == 1 ? 'text-green-600' : 'text-red-600') }} font-bold text-sm text-center">
-                                            {{ $item->estado->nombre }}
-                                        </a>
+                                        @can('alumno.delete')
+                                            <a wire:click="$emit('cambio_activo_alumno', {{$item->id}})"
+                                            class="{{ ($item->estado->id == 1 ? 'text-green-600' : 'text-red-600') }} font-bold text-sm text-center">
+                                                {{ $item->estado->nombre }}
+                                            </a>
+                                        @endcan
                                     </td>
 
                                     <td>
-                                        <a href="{{ route('anulacion.show', $item) }}" class="whitespace-nowrap text-2xl mr-2 tip">
-                                            <i class='bx bx-search-alt-2'></i>
-                                            <span>Ingresos</span>
-                                        </a>
+                                        @can('anulacion.show')
+                                            <a href="{{ route('anulacion.show', $item) }}" class="whitespace-nowrap text-2xl mr-2 tip">
+                                                <i class='bx bx-search-alt-2'></i>
+                                                <span>Ingresos</span>
+                                            </a>
+                                        @endcan
+
                                     </td>
 
                                 </tr>

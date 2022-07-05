@@ -110,6 +110,8 @@ Route::middleware([
     'grupo_usuario' => 'rol' ]])->names('rol');
 
     Route::resource('/usuarios', UsuarioController::class)->names('usuario');
+    Route::get('/cambio/password', [UsuarioController::class, 'pass'])->name('usuario.pass');
+    Route::post('/cambio/password', [UsuarioController::class, 'pass_store'])->name('usuario.pass_store');
     Route::get('/account', [UsuarioController::class, 'resetear_pass'])->name('resetear_pass');
 
     Route::resource('/alergias', AlergiaController::class)->names('alergia');

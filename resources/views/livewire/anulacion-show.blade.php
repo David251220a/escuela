@@ -82,10 +82,13 @@
                                                 <i class='bx bx-notepad' ></i>
                                                 <span>Detalles</span>
                                             </a> --}}
-                                            <a wire:click="$emit('anular', {{$item->id}})" class="whitespace-nowrap text-2xl mr-2 tip-left">
-                                                <i class='bx bx-block'></i>
-                                                <span>Anular Cobro</span>
-                                            </a>
+                                            @can('anulacion.delete')
+                                                <a wire:click="$emit('anular', {{$item->id}})" class="whitespace-nowrap text-2xl mr-2 tip-left">
+                                                    <i class='bx bx-block'></i>
+                                                    <span>Anular Cobro</span>
+                                                </a>
+                                            @endcan
+
                                         </td>
 
                                     </tr>

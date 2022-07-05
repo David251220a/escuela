@@ -135,14 +135,15 @@ class Roles extends Seeder
 
         $permission = Permission::create(['name' => 'nacionalidad.index', 'descripcion' => 'Nacionalidad Ver Listado'])->syncRoles($admin);
         $permission = Permission::create(['name' => 'nacionalidad.create', 'descripcion' => 'Nacionalidad Crear'])->syncRoles($admin);
-        $permission = Permission::create(['name' => 'nacionalidad.edit', 'descripcion' => 'Editar Nacionalidad'])->syncRoles($admin);
-        $permission = Permission::create(['name' => 'nacionalidad.show', 'descripcion' => 'Ver Nacionalidad'])->syncRoles($admin);
-        $permission = Permission::create(['name' => 'nacionalidad.update', 'descripcion' => 'Actualizar Nacionalidad'])->syncRoles($admin);
-        $permission = Permission::create(['name' => 'nacionalidad.store', 'descripcion' => 'Guardar Nacionalidad'])->syncRoles($admin);
-        $permission = Permission::create(['name' => 'nacionalidad.delete', 'descripcion' => 'Elimnar Nacionalidad'])->syncRoles($admin);
+        $permission = Permission::create(['name' => 'nacionalidad.edit', 'descripcion' => 'Nacionalidad Editar'])->syncRoles($admin);
+        $permission = Permission::create(['name' => 'nacionalidad.show', 'descripcion' => 'Nacionalidad Ver'])->syncRoles($admin);
+        $permission = Permission::create(['name' => 'nacionalidad.update', 'descripcion' => 'Nacionalidad Actualizar'])->syncRoles($admin);
+        $permission = Permission::create(['name' => 'nacionalidad.store', 'descripcion' => 'Nacionalidad Guardar'])->syncRoles($admin);
+        $permission = Permission::create(['name' => 'nacionalidad.delete', 'descripcion' => 'Nacionalidad Elimnar'])->syncRoles($admin);
 
         $permission = Permission::create(['name' => 'anulacion.index', 'descripcion' => 'Anulacion Ver Listado'])->syncRoles($admin);
         $permission = Permission::create(['name' => 'anulacion.show', 'descripcion' => 'Anulacion Ver Detalles-Alumno'])->syncRoles($admin);
+        $permission = Permission::create(['name' => 'anulacion.delete', 'descripcion' => 'Anulacion: Anular Cobro'])->syncRoles($admin);
 
     }
 }

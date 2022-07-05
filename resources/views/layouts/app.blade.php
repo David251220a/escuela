@@ -177,18 +177,20 @@
 
                     @endcan
 
-                    <li>
-                        <a href="{{ route('anulacion.index') }}">
-                            <i class='bx bx-stats'></i>
-                            <span class="link_name">Anulación</span>
-                        </a>
-                        <ul class="sub-menu blank">
-                            <li>
-                                <a class="link_name" href="{{ route('anulacion.index') }}">Anulación</a>
-                            </li>
-                        </ul>
+                    @can('anulacion.index')
+                        <li>
+                            <a href="{{ route('anulacion.index') }}">
+                                <i class='bx bx-stats'></i>
+                                <span class="link_name">Anulación</span>
+                            </a>
+                            <ul class="sub-menu blank">
+                                <li>
+                                    <a class="link_name" href="{{ route('anulacion.index') }}">Anulación</a>
+                                </li>
+                            </ul>
 
-                    </li>
+                        </li>
+                    @endcan
 
                     @can('rol.index')
                         <li>
@@ -219,6 +221,19 @@
 
                         </li>
                     @endcan
+
+                    <li>
+                        <a href="{{ route('usuario.pass') }}">
+                            <i class='bx bx-reset'></i>
+                            <span class="link_name">Password</span>
+                        </a>
+                        <ul class="sub-menu blank">
+                            <li>
+                                <a class="link_name" href="{{ route('usuario.pass') }}">Password</a>
+                            </li>
+                        </ul>
+
+                    </li>
 
                     <li>
                         <div class="profile-details">

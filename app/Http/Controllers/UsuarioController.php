@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
 class UsuarioController extends Controller
@@ -77,5 +78,29 @@ class UsuarioController extends Controller
         $usuario->password = bcrypt($password);
         $usuario->update();
         return redirect()->back()->with(['message' => 'Contraseña reseteada a: ' . $password])->withInput();
+    }
+
+    public function pass()
+    {
+        return view('usuario.show');
+    }
+
+    public function pass_store(Request $request)
+    {
+        $request->validate([
+            'anterior' => 'required',
+            'nuevo' => 'required'
+        ]);
+
+        if (Hash::check($request->input('anterior'),  auth()->user()->password)) {
+            auth()->user()->update([
+                'password' => bcrypt($request->nuevo),
+            ]);
+        }else{
+            return redirect()->route('usuario.pass')->withInput()
+            ->withErrors('La constraseña anterior no concuerda.');
+        }
+
+        return redirect()->route('usuario.pass')->with('message', 'Contraseña cambiado con exito.');
     }
 }
