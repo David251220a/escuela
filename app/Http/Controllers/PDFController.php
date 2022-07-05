@@ -62,7 +62,7 @@ class PDFController extends Controller
         ->where('ciclo_id', $aux_ciclo->id)
         ->orderBy('apellido', 'ASC')
         ->orderBy('nombre', 'ASC')
-        ->paginate(10);
+        ->get();
 
         $grado = Grado::find($search_grado);
         $turno = Turno::find($search_turno);
