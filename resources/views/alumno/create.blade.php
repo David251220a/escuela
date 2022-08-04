@@ -1,6 +1,6 @@
 <x-app-layout>
 
-    <h2 class="text-xl text-gray-500 font-semibold mb-2">Agregare Alumno</h2>
+    <h2 class="text-xl text-gray-500 font-semibold mb-2">Agregar Alumno</h2>
 
     <form action="{{ route('alumno.store') }}" method="POST" enctype="multipart/form-data" novalidate onsubmit="return checkSubmit();">
 
