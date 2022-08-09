@@ -152,16 +152,10 @@
                         </tbody>
                         <tfoot class="">
                             <tr>
-                                <td colspan="6" class="text-xl font-semibold">TOTAL A COBRAR</td>
-                                <td class="text-xl text-right text-bold font-semibold">{{ number_format($total_cobrar, 0, ".", ".") }}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="6" class="text-xl font-semibold">TOTAL A COBRADO</td>
-                                <td class="text-xl text-right text-bold font-semibold">{{ number_format($total_cobrado, 0, ".", ".") }}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="6" class="text-xl font-semibold">SALDO</td>
-                                <td class="text-xl text-right text-bold font-semibold">{{ number_format($total_cobrar - $total_cobrado, 0, ".", ".") }}</td>
+                                <td colspan="4" class="px-6 whitespace-nowrap text-lg font-bold text-bold">TOTALES</td>
+                                <td class="px-6 whitespace-nowrap text-xl text-right text-bold font-bold">{{ number_format($total_cobrar, 0, ".", ".") }}</td>
+                                <td class="px-6 whitespace-nowrap text-xl text-right text-bold font-bold">{{ number_format($total_cobrado, 0, ".", ".") }}</td>
+                                <td class="px-6 whitespace-nowrap text-xl text-right text-bold font-bold">{{ number_format($total_cobrar - $total_cobrado, 0, ".", ".") }}</td>
                             </tr>
                         </tfoot>
 

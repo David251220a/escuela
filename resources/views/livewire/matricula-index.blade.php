@@ -35,7 +35,7 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{{ $item->ciclo->año }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
                                         <a
-                                        href="#"
+                                        wire:click="$emit('anular', {{$item->id}})"
                                         class= "text-green-500 font-bold"
                                         >  {{ $item->estado->nombre }}</a>
                                     </td>
@@ -62,5 +62,53 @@
     </div>
 
 
+    @push('js')
+
+        <script>
+
+            window.addEventListener('load', function() {
+                window.livewire.on('exito', msj => {
+                    Swal.fire(
+                        'Anular Matricula',
+                        'Se ha anulado con exito la matricula!.',
+                        'success'
+                    )
+                });
+
+                window.livewire.on('fallo', msj => {
+                    Swal.fire(
+                        'Anular Matricula',
+                        'No se ha podido anular la matricula!.',
+                        'warning'
+                    )
+                });
+            });
+
+            Livewire.on('anular', matricula_id => {
+
+                Swal.fire({
+                    title: 'Anular Matricula',
+                    text: 'Desea anular matricula?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        Livewire.emitTo('matricula-index', 'anular_matricula', matricula_id);
+
+                        // Swal.fire(
+                        //     'Anular Matricula',
+                        //     'Se ha anulado con exito la matricula!.',
+                        //     'success'
+                        // )
+                    }
+                })
+            });
+        </script>
+
+    @endpush
 
 </div>

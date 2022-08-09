@@ -47,13 +47,14 @@
             }
 
             .content body{
-                font-size: 13px;
+                font-size: 12px;
                 font-weight: lighter;
             }
 
             .content td{
                 padding: 3px;
                 line-height: 15px;
+                font-size: 12.5px;
                 border: 1px solid black;
                 border-collapse: collapse;
             }
@@ -131,7 +132,6 @@
                                         $pintar = ($cobro->monto_cuota_cobrado == $cobro->monto_cuota_cobrar ? 0 : 1);
                                         $total_cobrado = $total_cobrado + $cobro->monto_cuota_cobrado;
                                         $total_cobrar = $total_cobrar + $cobro->monto_cuota_cobrar;
-                                        $saldo = $saldo + $cobro->saldo;
                                     @endphp
                                     <td style="text-align: center; {{ ($pintar == 1 ? 'background: rgb(211, 84, 84)' : '') }}">
                                         {{Str::upper(\Carbon\Carbon::parse($cobro->fecha_vencimiento)->translatedFormat('F'))}}
@@ -159,26 +159,15 @@
                         </tr>
                     @endforeach
                 </tbody>
-            </table>
 
-            <br>
-
-            <table class="content">
-
-                <thead>
+                <tfoot>
                     <tr>
-                        <td style="font-size: 16px" width="80%">TOTAL A COBRAR</td>
-                        <td style="font-size: 16px; text-align: right">{{number_format($total_cobrar, 0, ".", ".")}}</td>
+                        <td style="font-size: 16px; padding-top: 5px;padding-left: 3px; padding-bottom: 5px; font-weight: bold" colspan="4">TOTALES</td>
+                        <td style="font-size: 16px; text-align: right ; font-weight: bold">{{number_format($total_cobrar, 0, ".", ".")}}</td>
+                        <td style="font-size: 16px; text-align: right ; font-weight: bold">{{number_format($total_cobrado, 0, ".", ".")}}</td>
+                        <td style="font-size: 16px; text-align: right ; font-weight: bold">{{number_format($total_cobrar - $total_cobrado, 0, ".", ".")}}</td>
                     </tr>
-                    <tr>
-                        <td style="font-size: 16px" width="80%">TOTAL COBRADO</td>
-                        <td style="font-size: 16px; text-align: right">{{number_format($total_cobrado, 0, ".", ".")}}</td>
-                    </tr>
-                    <tr>
-                        <td style="font-size: 16px" width="80%">SALDO</td>
-                        <td style="font-size: 16px; text-align: right">{{number_format($total_cobrar - $total_cobrado, 0, ".", ".")}}</td>
-                    </tr>
-                </thead>
+                </tfoot>
             </table>
 
         @endif

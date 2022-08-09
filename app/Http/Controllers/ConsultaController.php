@@ -405,7 +405,7 @@ class ConsultaController extends Controller
         ->where('matricula.grado_id', $search_grado)
         ->where('cobro.tipo_cobro_id', '<=', $search_cobro)
         ->where('cobro.tipo_cobro_id', '>=', $search_cobro_hasta)
-        ->paginate(10);
+        ->paginate(5);
 
         $cobros_aux = CobroMatriculaCuota::join('matricula', 'cobro_matricula_cuota.matricula_id', '=', 'matricula.id')
         ->join('cobro', 'cobro_matricula_cuota.cobro_id', '=', 'cobro.id')
@@ -427,8 +427,8 @@ class ConsultaController extends Controller
         ->where('matricula.grado_id', $search_grado)
         ->where('cobro.tipo_cobro_id', '<=', $search_cobro)
         ->where('cobro.tipo_cobro_id', '>=', $search_cobro_hasta)
-        ->orderBy('cobro.fecha_cobro', 'DESC')
-        ->paginate(10);
+        // ->orderBy('cobro.fecha_cobro', 'DESC')
+        ->paginate(1);
 
         $cobro_matricula_aux = CobroMatricula::join('matricula', 'cobro_matricula.matricula_id', '=', 'matricula.id')
         ->join('cobro', 'cobro_matricula.cobro_id', '=', 'cobro.id')
@@ -440,7 +440,6 @@ class ConsultaController extends Controller
         ->where('cobro.tipo_cobro_id', '>=', $search_cobro_hasta)
         ->orderBy('cobro.fecha_cobro', 'DESC')
         ->get();
-
 
         return view('consulta.cobros_cuota', compact(
         'grado'
@@ -560,10 +559,11 @@ class ConsultaController extends Controller
 
         $date = Carbon::now();
         $ciclo = Ciclo::where('nombre', date("Y",strtotime($date)))->first();
+
         $alumnos = Alumno::where('grado_id', $search_grado)
         ->where('turno_id', $search_turno)
         ->where('ciclo_id', $ciclo->id)
-        ->where('estado_id',)
+        ->where('estado_id', 1)
         ->orderBy('apellido', 'ASC')
         ->orderBy('nombre', 'ASC')
         ->get();
@@ -573,8 +573,6 @@ class ConsultaController extends Controller
         ->where('grado_id', $search_grado)
         ->where('turno_id', $search_turno)
         ->get();
-
-        // dd($alumnos[0]->matricula[0]->cuotas);
 
         return view('consulta.alumno_cuota_meses', compact('ver'
         , 'grado'

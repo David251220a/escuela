@@ -382,6 +382,7 @@ class PDFController extends Controller
         $alumno = Alumno::where('grado_id', $search_grado)
         ->where('turno_id', $search_turno)
         ->where('ciclo_id', $aux_ciclo->id)
+        ->where('estado_id', 1)
         ->orderBy('apellido', 'ASC')
         ->orderBy('nombre', 'ASC')
         ->get();
@@ -390,6 +391,7 @@ class PDFController extends Controller
         ->select('matricula_cuotas.*', 'matricula.ciclo_id', 'matricula.alumno_id')
         ->where(DB::raw('MONTH(matricula_cuotas.fecha_vencimiento)'), $search_mes)
         ->where('matricula.ciclo_id', $aux_ciclo->id)
+        ->where('matricula_cuotas.estado_id', 1)
         ->get();
 
         $PDF = PDF::loadView('documentos.consulta_grado_cuota_mes', compact('cobros', 'alumno', 'grado', 'turno'));

@@ -78,10 +78,6 @@
                                             @livewire('anulacion-detalle', ['cobro' => $item], key($item->id))
                                         </td>
                                         <td width="5%" class="px-6 whitespace-nowrap text-sm text-black font-semibold text-right">
-                                            {{-- <a href="{{ route('anulacion.show', $item) }}" class="whitespace-nowrap text-2xl mr-2 tip">
-                                                <i class='bx bx-notepad' ></i>
-                                                <span>Detalles</span>
-                                            </a> --}}
                                             @can('anulacion.delete')
                                                 <a wire:click="$emit('anular', {{$item->id}})" class="whitespace-nowrap text-2xl mr-2 tip-left">
                                                     <i class='bx bx-block'></i>

@@ -118,7 +118,6 @@
                                             foreach($matriculas as $matricula){
                                                 if($matricula->alumno_id == $item->id){
                                                     $tiene_datos = 1;
-                                                    // $posicion = $loop->iteration - 1;
                                                     break;
                                                 }
                                                 $posicion = $posicion + 1;
@@ -145,7 +144,7 @@
                                                         }
                                                     }
                                                 @endphp
-                                                <td class="px-6 py-3 text-xs text-bold font-semibold uppercase tracking-wider text-right">{{$monto_cuota}}</td>
+                                                <td class="px-6 py-3 text-xs text-bold font-semibold uppercase tracking-wider text-right {{ ($monto_cuota > 0 ?: 'text-red-500') }}">{{$monto_cuota}}</td>
                                             @endfor
                                             <td class="px-6 py-3 text-xs text-bold font-semibold uppercase tracking-wider text-right">{{ number_format($total, 0, ".", ".")}}</td>
                                         @endif

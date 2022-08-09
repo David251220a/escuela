@@ -31,6 +31,7 @@
     </div>
 
     <div id="lista_grado" style="{{($ver == 1 ? 'display: block' : 'display: none' )}}">
+
         <form action="{{ route('consulta.cobros_cuota') }}" method="GET">
 
             <div class="mb-4 border-b border-gray-200">
@@ -110,22 +111,15 @@
 
         </form>
 
-        @php
-            $total_ingreso = 0;
-            foreach ($cobros_aux as $item) {
-
-                $total_ingreso = $total_ingreso + $item->monto_cobrado_cuota;
-            }
-        @endphp
-
-        @php
-            $total_ingreso_aux = 0;
-            foreach ($cobro_matricula_aux as $item) {
-                $total_ingreso_aux = $total_ingreso_aux + $item->monto_cobrado_factura;
-            }
-        @endphp
-
         @if ($busqueda == 1)
+
+            @php
+                $total_ingreso = 0;
+                foreach ($cobros_aux as $item) {
+
+                    $total_ingreso = $total_ingreso + $item->monto_cobrado_cuota;
+                }
+            @endphp
 
             <div class="flex flex-col mb-4">
                 <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -189,6 +183,12 @@
             </div>
 
         @else
+            @php
+                $total_ingreso_aux = 0;
+                foreach ($cobro_matricula_aux as $aa) {
+                    $total_ingreso_aux = $total_ingreso_aux + $aa->monto_cobrado_factura;
+                }
+            @endphp
             <div class="flex flex-col mb-4">
                 <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -230,6 +230,7 @@
                                                 {{ number_format($item->monto_cobrado_factura, 0, ".", ".") }}
                                             </td>
                                         </tr>
+
                                     @endforeach
 
                                 </tbody>
@@ -242,7 +243,8 @@
             </div>
 
             <div class="mb-4">
-                {{$cobro_matricula->appends(['desde_fecha' => $search_desde_fecha, 'hasta_fecha' => $search_hasta_fecha, 'checkeado' => $ver , 'grado'=>$search_grado, 'turno'=>$search_turno])->links()}}
+                {{-- {{$cobro_matricula->appends(['desde_fecha' => $search_desde_fecha, 'hasta_fecha' => $search_hasta_fecha, 'checkeado' => $ver , 'grado'=>$search_grado, 'turno'=>$search_turno])->links()}}
+                {{$cobro_matricula->links() }} --}}
             </div>
 
             <div class="md:grid grid-cols-4 gap-4 px-4 py-6 mb-4">
@@ -254,6 +256,8 @@
         @endif
 
     </div>
+
+    <a href="{{route('dashboard')}}" class="px-4 py-3 bg-red-600 text-white font-bold rounded">Cancelar</a>
 
     <script>
         function ver(){
@@ -282,7 +286,5 @@
             }
         });
     </script>
-
-<a href="{{route('dashboard')}}"" class="px-4 py-3 bg-red-600 text-white font-bold rounded">Cancelar</a>
 
 </x-app-layout>

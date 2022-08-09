@@ -22,5 +22,9 @@ class MatriculaEstado extends Seeder
         DB::table('matricula_estado')->insert([
             'nombre' => 'CANCELADO CON EXITO',
         ]);
+
+        DB::table('matricula_estado')->insert([
+            'nombre' => 'ANULADO',
+        ]);
     }
 }
