@@ -75,8 +75,11 @@ class UsuarioController extends Controller
     public function resetear_pass(User $usuario)
     {
         $password = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 10);
-        $usuario->password = bcrypt($password);
-        $usuario->update();
+        // $usuario->password = bcrypt($password);
+        $usuario->update([
+            'password' => bcrypt($password),
+        ]);
+
         return redirect()->back()->with(['message' => 'Contraseña reseteada a: ' . $password])->withInput();
     }
 

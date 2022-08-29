@@ -145,5 +145,13 @@ class Roles extends Seeder
         $permission = Permission::create(['name' => 'anulacion.show', 'descripcion' => 'Anulacion Ver Detalles-Alumno'])->syncRoles($admin);
         $permission = Permission::create(['name' => 'anulacion.delete', 'descripcion' => 'Anulacion: Anular Cobro'])->syncRoles($admin);
 
+        $permission = Permission::create(['name' => 'parametro_general.index', 'descripcion' => 'Paramentro General: Listado'])->syncRoles($admin);
+        $permission = Permission::create(['name' => 'parametro_general.store', 'descripcion' => 'Paramentro General: Actualizar'])->syncRoles($admin);
+
+        $permission = Permission::create(['name' => 'ciclo.index', 'descripcion' => 'Ciclo: Listado'])->syncRoles($admin);
+        $permission = Permission::create(['name' => 'ciclo.create', 'descripcion' => 'Ciclo: Crear'])->syncRoles($admin);
+        $permission = Permission::create(['name' => 'ciclo.edit', 'descripcion' => 'Ciclo: Editar'])->syncRoles($admin);
+        $permission = Permission::create(['name' => 'ciclo.update', 'descripcion' => 'Ciclo: Actualizar'])->syncRoles($admin);
+
     }
 }

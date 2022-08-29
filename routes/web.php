@@ -9,6 +9,7 @@ use App\Http\Controllers\LimpiarController;
 use App\Http\Controllers\MatriculaController;
 use App\Http\Controllers\AlergiaController;
 use App\Http\Controllers\AnulacionController;
+use App\Http\Controllers\CicloController;
 use App\Http\Controllers\LugarnacimientoController;
 use App\Http\Controllers\SeguroController;
 use App\Http\Controllers\EnfermedadController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\PaisController;
 use App\Http\Controllers\NacionalidadController;
 use App\Http\Controllers\GrupoUsuarioController;
 use App\Http\Controllers\PadresController;
+use App\Http\Controllers\ParametroController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
@@ -112,7 +114,7 @@ Route::middleware([
     Route::resource('/usuarios', UsuarioController::class)->names('usuario');
     Route::get('/cambio/password', [UsuarioController::class, 'pass'])->name('usuario.pass');
     Route::post('/cambio/password', [UsuarioController::class, 'pass_store'])->name('usuario.pass_store');
-    Route::get('/account', [UsuarioController::class, 'resetear_pass'])->name('resetear_pass');
+    Route::get('/account/{usuario}', [UsuarioController::class, 'resetear_pass'])->name('resetear_pass');
 
     Route::resource('/alergias', AlergiaController::class)->names('alergia');
     Route::resource('/lugarnacimiento', LugarNacimientoController::class)->names('lugarnacimiento');
@@ -120,5 +122,9 @@ Route::middleware([
     Route::resource('/enfermedad', EnfermedadController::class)->names('enfermedad');
     Route::resource('/pais', PaisController::class, ['parameters' => [
         'pai' => 'pais' ]])->names('pais');
+
+    Route::get('/paramentro-general', [ParametroController::class, 'index'])->name('parametro_general.index');
+    Route::post('/paramentro-general', [ParametroController::class, 'store'])->name('parametro_general.store');
+    Route::resource('/ciclo', CicloController::class)->names('ciclo');
     Route::resource('/nacionalidad', NacionalidadController::class)->names('nacionalidad');
 });

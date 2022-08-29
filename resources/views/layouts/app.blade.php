@@ -172,6 +172,18 @@
                                         <a class="" href="{{ route('nacionalidad.index') }}">Nacionalidad</a>
                                     </li>
                                 @endcan
+
+                                @can('parametro_general.index')
+                                    <li>
+                                        <a class="" href="{{ route('parametro_general.index') }}">Parametro G.</a>
+                                    </li>
+                                @endcan
+
+                                @can('ciclo.index')
+                                    <li>
+                                        <a class="" href="{{ route('ciclo.index') }}">Ciclo</a>
+                                    </li>
+                                @endcan
                             </ul>
                         </li>
 
