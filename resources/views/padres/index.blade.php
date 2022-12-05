@@ -1,21 +1,21 @@
 <x-app-layout>
 
     @if ($titulo == 'Madre')
-    {{-- @can('madre.create') --}}
-        <div class="mb-4">
-            <a class="text-sm px-4 py-2 mb-4 border rounded  text-white font-bold" style="border-color: blue; background : rgb(7, 101, 189);"
-            onclick="crear_madre()">Agregar {{$titulo}}</a>
-        </div>
-    {{-- @endcan --}}
+        @can('madre.create')
+            <div class="mb-4">
+                <a class="text-sm px-4 py-2 mb-4 border rounded  text-white font-bold" style="border-color: blue; background : rgb(7, 101, 189);"
+                onclick="crear_madre()">Agregar {{$titulo}}</a>
+            </div>
+        @endcan
     @endif
 
     @if ($titulo == 'Padre')
-    {{-- @can('madre.create') --}}
-        <div class="mb-4">
-            <a class="text-sm px-4 py-2 mb-4 border rounded  text-white font-bold" style="border-color: blue; background : rgb(7, 101, 189);"
-            onclick="crear_padre()">Agregar {{$titulo}}</a>
-        </div>
-    {{-- @endcan --}}
+        @can('madre.create')
+            <div class="mb-4">
+                <a class="text-sm px-4 py-2 mb-4 border rounded  text-white font-bold" style="border-color: blue; background : rgb(7, 101, 189);"
+                onclick="crear_padre()">Agregar {{$titulo}}</a>
+            </div>
+        @endcan
     @endif
 
     <div class="mb-4">

@@ -33,9 +33,9 @@
                                     <td class="px-6 py-1 whitespace-nowrap text-lg text-gray-500 text-center">{{ $item->telefono_wapp }}</td>
                                     <td class="px-6 py-1 whitespace-nowrap text-lg text-gray-500 text-center">{{ $item->telefono_laboral }}</td>
                                     <td class="px-6 py-1 whitespace-nowrap text-lg text-gray-500 text-right">
-                                        {{-- @can('madres.show') --}}
+                                        @can('padre.show')
                                             <a onclick="todos({{$item->id}})" class="whitespace-nowrap text-lg mr-2"><i class='bx bx-edit-alt'></i></a>
-                                        {{-- @endcan --}}
+                                        @endcan
                                     </td>
                                 </tr>
                             @endforeach

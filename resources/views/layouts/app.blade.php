@@ -185,14 +185,18 @@
                                     </li>
                                 @endcan
 
-                                {{-- @can('ciclo.index') --}}
+                                @can('madre.index')
                                     <li>
                                         <a class="" href="{{ route('madres.index') }}">Madres</a>
                                     </li>
-                                {{-- @endcan --}}
+                                @endcan
+
+                                @can('padre.index')
                                     <li>
                                         <a class="" href="{{ route('padres.index') }}">Padres</a>
                                     </li>
+                                @endcan
+
                             </ul>
                         </li>
 

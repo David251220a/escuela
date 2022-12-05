@@ -33,9 +33,9 @@
                                     <td class="px-6 py-1 whitespace-nowrap text-lg text-gray-500 text-center">{{ $item->telefono_wapp }}</td>
                                     <td class="px-6 py-1 whitespace-nowrap text-lg text-gray-500 text-center">{{ $item->telefono_laboral }}</td>
                                     <td class="px-6 py-1 whitespace-nowrap text-lg text-gray-500 text-right">
-                                        {{-- @can('madres.show') --}}
+                                        @can('madre.edit')
                                             <a onclick="todos({{$item->id}})" class="whitespace-nowrap text-lg mr-2"><i class='bx bx-edit-alt'></i></a>
-                                        {{-- @endcan --}}
+                                        @endcan
                                     </td>
                                 </tr>
                             @endforeach
@@ -55,11 +55,11 @@
     @push('js')
 
         <script>
-            Livewire.on('ver_editar', function() {    
+            Livewire.on('ver_editar', function() {
                 var titulo = 'Editar Madre';
                 var pregunta = 'Desea editar los datos de la madre?';
                 var titulo2 = 'Datos de la Madre';
-                var siguiente = document.getElementById('editar_madre').innerHTML;    
+                var siguiente = document.getElementById('editar_madre').innerHTML;
                 Swal.fire({
                     title: titulo,
                     text: pregunta,
@@ -108,7 +108,7 @@
                                         edit_telef_laboral : edit_telef_laboral,
                                     })
                                     .then(respuesta => {
-                                        if(respuesta.data.ok == 1){            
+                                        if(respuesta.data.ok == 1){
                                             Swal.fire(
                                                 titulo2,
                                                 respuesta.data.mensaje,
@@ -131,8 +131,8 @@
 
                         })
                     }
-                })    
-            });           
+                })
+            });
         </script>
 
     @endpush
