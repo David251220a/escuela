@@ -184,6 +184,15 @@
                                         <a class="" href="{{ route('ciclo.index') }}">Ciclo</a>
                                     </li>
                                 @endcan
+
+                                {{-- @can('ciclo.index') --}}
+                                    <li>
+                                        <a class="" href="{{ route('madres.index') }}">Madres</a>
+                                    </li>
+                                {{-- @endcan --}}
+                                    <li>
+                                        <a class="" href="{{ route('padres.index') }}">Padres</a>
+                                    </li>
                             </ul>
                         </li>
 

@@ -16,6 +16,8 @@ use App\Http\Controllers\EnfermedadController;
 use App\Http\Controllers\PaisController;
 use App\Http\Controllers\NacionalidadController;
 use App\Http\Controllers\GrupoUsuarioController;
+use App\Http\Controllers\MadreController;
+use App\Http\Controllers\PadreController;
 use App\Http\Controllers\PadresController;
 use App\Http\Controllers\ParametroController;
 use App\Http\Controllers\PDFController;
@@ -127,4 +129,6 @@ Route::middleware([
     Route::post('/paramentro-general', [ParametroController::class, 'store'])->name('parametro_general.store');
     Route::resource('/ciclo', CicloController::class)->names('ciclo');
     Route::resource('/nacionalidad', NacionalidadController::class)->names('nacionalidad');
+    Route::get('/madres', [MadreController::class, 'index'])->name('madres.index');
+    Route::get('/padres', [PadreController::class, 'index'])->name('padres.index');
 });
