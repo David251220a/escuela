@@ -177,7 +177,6 @@ function llamar_livewire(padre_id){
     Livewire.emit('editar', padre_id);
 }
 
-
 function crear_padre(){
     var siguiente = document.getElementById('padre_formulario').innerHTML;
     Swal.fire({
@@ -215,14 +214,12 @@ function crear_padre(){
                 })
                 .then(respuesta => {
                     if(respuesta.data.ok == 1){
-                        document.getElementById('id_padre').value = respuesta.data.id;
-                        document.getElementById('cedula_padre').value = respuesta.data.cedula;
-                        document.getElementById('nombre_padre').value = respuesta.data.nombre +' '+respuesta.data.apellido;
                         Swal.fire(
                             'Datos del Padre',
                             respuesta.data.mensaje,
                             'success'
                         )
+                        Livewire.emit('render');
                     }else{
                         Swal.fire({
                             icon: 'error',
@@ -238,4 +235,60 @@ function crear_padre(){
             }
 
         })
+}
+
+function crear_encargado(){
+
+    var siguiente = document.getElementById('encargado_formulario').innerHTML;
+    Swal.fire({
+        title: '<u>Datos del Encargado</u>',
+        html:
+        siguiente,
+        width: 800,
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Guardar',
+
+        }).then(resultado => {
+            if (resultado.value) {
+                var cedula_madre = Swal.getPopup().querySelector('#cedula_encargado_aux').value;
+                var nombre_madre = Swal.getPopup().querySelector('#encargado_nombre_aux').value;
+                var parentezo = Swal.getPopup().querySelector('#encargado_parentezco').value;
+                var telefono = Swal.getPopup().querySelector('#telefono_encargado_aux').value;
+                var observacion_encargado = Swal.getPopup().querySelector('#observacion_encargado').value;
+
+                axios.post('/encargado_crear',  {
+                    cedula_madre : cedula_madre,
+                    nombre_madre : nombre_madre,
+                    parentezo : parentezo,
+                    telefono : telefono,
+                    observacion_encargado : observacion_encargado,
+                })
+                .then(respuesta => {
+                    if(respuesta.data.ok == 1){
+                        Swal.fire(
+                            'Datos del Encargado',
+                            respuesta.data.mensaje,
+                            'success'
+                        )
+                        Livewire.emit('render');
+                    }else{
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: respuesta.data.mensaje,
+                        })
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+            }
+
+    })
+}
+
+function encargado_livewire(encargado_id){
+    Livewire.emit('editar', encargado_id);
 }

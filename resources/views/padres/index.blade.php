@@ -10,7 +10,7 @@
     @endif
 
     @if ($titulo == 'Padre')
-        @can('madre.create')
+        @can('padre.create')
             <div class="mb-4">
                 <a class="text-sm px-4 py-2 mb-4 border rounded  text-white font-bold" style="border-color: blue; background : rgb(7, 101, 189);"
                 onclick="crear_padre()">Agregar {{$titulo}}</a>

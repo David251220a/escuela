@@ -33,7 +33,7 @@
                                     <td class="px-6 py-1 whitespace-nowrap text-lg text-gray-500 text-center">{{ $item->telefono_wapp }}</td>
                                     <td class="px-6 py-1 whitespace-nowrap text-lg text-gray-500 text-center">{{ $item->telefono_laboral }}</td>
                                     <td class="px-6 py-1 whitespace-nowrap text-lg text-gray-500 text-right">
-                                        @can('padre.show')
+                                        @can('padre.edit')
                                             <a onclick="todos({{$item->id}})" class="whitespace-nowrap text-lg mr-2"><i class='bx bx-edit-alt'></i></a>
                                         @endcan
                                     </td>
@@ -58,7 +58,7 @@
             Livewire.on('ver_editar', function() {
                 var titulo = 'Editar Padre';
                 var pregunta = 'Desea editar los datos del Padre?';
-                var titulo2 = 'Datos de la Madre';
+                var titulo2 = 'Datos del Padre';
                 var siguiente = document.getElementById('editar_madre').innerHTML;
                 Swal.fire({
                     title: titulo,

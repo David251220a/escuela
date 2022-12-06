@@ -216,7 +216,7 @@ class CobroController extends Controller
         ->select('cobro_ingreso.cobro_id', DB::raw('SUM(cobro_ingreso.monto_total_factura) as monto_total_factura')
         , 'cobro.fecha_cobro', 'cobro_ingreso.ingreso_estado_id')
         ->where('cobro_ingreso.alumno_id', $id)
-        ->where('cobro_ingreso.ciclo_id', $ciclo->id)
+        // ->where('cobro_ingreso.ciclo_id', $ciclo->id)
         ->where('cobro_ingreso.ingreso_estado_id', 1)
         ->where('cobro_ingreso.estado_id', 1)
         ->where('cobro_ingreso.padre_ingreso_id', 0)

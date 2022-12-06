@@ -197,6 +197,12 @@
                                     </li>
                                 @endcan
 
+                                @can('padre.index')
+                                    <li>
+                                        <a class="" href="{{ route('encargado.index') }}">Encargados</a>
+                                    </li>
+                                @endcan
+
                             </ul>
                         </li>
 

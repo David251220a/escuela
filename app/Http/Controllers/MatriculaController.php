@@ -393,7 +393,7 @@ class MatriculaController extends Controller
         $fecha = Carbon::now();
         $fecha = date('Y', strtotime($fecha));
 
-        $ciclo = Ciclo::where('año', $fecha)
+        $ciclo = Ciclo::where('estado_id', 1)
         ->first();
 
         $matricula = Matricula::where('alumno_id', $id)

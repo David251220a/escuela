@@ -10,6 +10,7 @@ use App\Http\Controllers\MatriculaController;
 use App\Http\Controllers\AlergiaController;
 use App\Http\Controllers\AnulacionController;
 use App\Http\Controllers\CicloController;
+use App\Http\Controllers\EncargadoController;
 use App\Http\Controllers\LugarnacimientoController;
 use App\Http\Controllers\SeguroController;
 use App\Http\Controllers\EnfermedadController;
@@ -131,4 +132,5 @@ Route::middleware([
     Route::resource('/nacionalidad', NacionalidadController::class)->names('nacionalidad');
     Route::get('/madres', [MadreController::class, 'index'])->name('madres.index');
     Route::get('/padres', [PadreController::class, 'index'])->name('padres.index');
+    Route::get('/encargado', [EncargadoController::class, 'index'])->name('encargado.index');
 });
