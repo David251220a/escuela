@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer('alumno_id')->default(0);
             $table->integer('ciclo_id')->default(0);
+            $table->string('descripcion', 250)->nullable();
             $table->string('pdf', 250);
             $table->integer('leido')->default(0);
             $table->timestamps();

@@ -18,7 +18,7 @@ class InicioController extends Controller
 
     public function index(){
 
-        return view('dashboard', compact('data'));
+        return view('dashboard');
     }
 
     public function estado_cuenta()

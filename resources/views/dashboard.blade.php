@@ -12,4 +12,8 @@
 
     </div>
 
+    @can('user.alumno')
+        @livewire('alumno.documentos-descargas')
+    @endcan
+
 </x-app-layout>
