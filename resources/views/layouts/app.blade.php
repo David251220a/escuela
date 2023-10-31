@@ -38,6 +38,32 @@
 
                 <ul class="nav-links">
 
+                    <li>
+                        <a href="{{ route('dashboard') }}">
+                            <i class='bx bx-id-card'></i>
+                            <span class="link_name">Inicio</span>
+                        </a>
+                        <ul class="sub-menu blank">
+                            <li>
+                                <a class="link_name" href="{{ route('dashboard') }}">Inicio</a>
+                            </li>
+                        </ul>
+
+                    </li>
+
+                    <li>
+                        <a href="{{ route('home.cuentas') }}">
+                            <i class='bx bx-id-card'></i>
+                            <span class="link_name">Estado Cuenta</span>
+                        </a>
+                        <ul class="sub-menu blank">
+                            <li>
+                                <a class="link_name" href="{{ route('home.cuentas') }}">Inicio</a>
+                            </li>
+                        </ul>
+
+                    </li>
+
                     @can('alumno.index')
                         <li>
                             <a href="{{ route('alumno.index') }}">

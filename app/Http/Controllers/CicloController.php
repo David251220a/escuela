@@ -127,34 +127,34 @@ class CicloController extends Controller
         $fecha_inicio = date('d/m/Y', strtotime($request->fecha_inicio));
         $fecha_fin = date('d/m/Y', strtotime($request->fecha_fin));
         $año_inicio = date('Y', strtotime($fecha_inicio));
-        $año_fin = date('Y', strtotime($fecha_fin));
+        $año_fin = date('Y', strtotime($request->fecha_fin));
 
         if($año_inicio != $año_fin){
-            return redirect()->route('ciclo.create')
+            return redirect()->back()
             ->withInput()
             ->withErrors('La fecha Inicial y Final no pertenecen al mismo año!!!.');
         }
 
         if($request->anio != $año_fin){
-            return redirect()->route('ciclo.create')
+            return redirect()->back()
             ->withInput()
             ->withErrors('El año ingresado no pertenece al año establecido en la fecha de inicio y fin!!!!.');
         }
 
         if($año_maximo < $año_inicio){
-            return redirect()->route('ciclo.create')
+            return redirect()->back()
             ->withInput()
             ->withErrors('El año maximo establecido es de: ' .$año_maximo);
         }
 
         if($año_mimino > $año_inicio){
-            return redirect()->route('ciclo.create')
+            return redirect()->back()
             ->withInput()
             ->withErrors('El año minimo establecido es de: ' .$año_mimino);
         }
 
         if($fecha_inicio > $fecha_fin){
-            return redirect()->route('ciclo.create')
+            return redirect()->back()
             ->withInput()
             ->withErrors('La Fecha Inicial no debe ser mayor a la Fecha Final!!.');
         }

@@ -48,13 +48,21 @@ Route::get('/link', function () {
 });
 
 Route::get('/inicio', [DashboardController::class, 'index'])->name('inicio');
+Route::get('/', [DashboardController::class, 'www'])->name('home');
+Route::get('/nosotros', [DashboardController::class, 'nosotros'])->name('nosotros');
+Route::get('/cursos', [DashboardController::class, 'cursos'])->name('cursos');
+Route::get('/contacto', [DashboardController::class, 'contacto'])->name('contacto');
+Route::get('/new', [DashboardController::class, 'new'])->name('new');
+Route::get('/new/{slug}', [DashboardController::class, 'new_detalle'])->name('new_detalle');
+
 
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified'
 ])->group(function () {
-    Route::get('/', [InicioController::class, 'index'])->name('dashboard');
+    Route::get('/panel-principal', [InicioController::class, 'index'])->name('dashboard');
+    Route::get('/cuentas', [InicioController::class, 'estado_cuenta'])->name('home.cuentas');
     Route::get('/matriculas/cobros/{id}', [MatriculaController::class, 'cobros'])->name('matricula.cobro');
     Route::resource('/alumnos', AlumnoController::class)->names('alumno');
     Route::resource('/matriculas', MatriculaController::class)->names('matricula');
